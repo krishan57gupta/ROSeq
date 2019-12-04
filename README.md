@@ -6,6 +6,28 @@ Krishan Gupta
 
 date: 2/12/2019
 
+Desktop Installation
+===============
+
+The developer version of the R package can be installed with the following R commands:
+
+``` r
+library(devtools)
+install_github("krishan57gupta/ROSeq")
+```
+
+Vignette tutorial
+------------------
+This vignette uses a small data set of simulated data to demonstrate a standard pipeline. This vignette can be used as a tutorial as well.
+
+Setting up directories
+----------------------
+
+``` r
+library(ROSeq)
+```
+
+
 ## Introduction
 
 ROSeq - A rank based approach to modeling gene expression with filtered
