@@ -19,9 +19,9 @@ TMMnormalization <- function(countTable){
 }
 
 ## ----data, message=FALSE,warning = FALSE,include=TRUE, cache=FALSE------------
-n_samples=10
-n_genes=100
-n_de_genes=50
+n_samples=8
+n_genes=80
+n_de_genes=40
 mydata <- generateSyntheticData(dataset = "mydata", n.vars = n_genes, samples.per.cond = n_samples, n.diffexp = n_de_genes)
 samples=list()
 samples$count=mydata@count.matrix
