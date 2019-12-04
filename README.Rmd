@@ -1,0 +1,70 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+
+ROSeq - A rank based approach to modeling gene expression
+Author: Krishan Gupta
+
+date: 2/12/2019
+
+## Introduction
+
+ROSeq - A rank based approach to modeling gene expression with filtered and normalized read count matrix. Takes in the complete filtered and normalized read count matrix, the location of the two sub-populations and the number of cores to be used.
+
+## Example
+
+Libraries need to be loaded before running.
+
+
+```{r setup}
+library(ROSeq)
+library(compcodeR)
+library(edgeR)
+```
+
+```{r functions, message=FALSE,warning = FALSE,include=TRUE, cache=FALSE}
+TMMnormalization <- function(countTable){
+  nf=calcNormFactors(countTable ,method= "TMM")
+  nf= colSums(countTable)*nf
+  scalingFactors = nf/mean(nf)
+  countTableTMM <- t(t(countTable)/scalingFactors)
+  return(countTableTMM)
+}
+```
+
+```{r data, message=FALSE,warning = FALSE,include=TRUE, cache=FALSE}
+n_samples=10
+n_genes=100
+n_de_genes=50
+mydata <- generateSyntheticData(dataset = "mydata", n.vars = n_genes, samples.per.cond = n_samples, n.diffexp = n_de_genes)
+samples=list()
+samples$count=mydata@count.matrix
+samples$group=mydata@sample.annotations$condition
+head(samples$count)
+```
+
+```{r preprocesing, message=FALSE,warning = FALSE,include=TRUE, cache=FALSE}
+gkeep <- apply(samples$count,1,function(x) sum(x>0)>5)
+samples$count=samples$count[gkeep,]
+samples$count=TMMnormalization(samples$count)
+```
+
+```{r main, message=FALSE,warning = FALSE, include=TRUE, cache=FALSE}
+output=ROSeq(countData=samples$count, condition = samples$group, numCores=1)
+```
+
+```{r output, message=FALSE,warning = FALSE,include=TRUE, cache=FALSE}
+output
+```

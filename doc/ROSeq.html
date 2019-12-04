@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+<title>ROSeq</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#header {
+text-align: center;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">ROSeq</h1>
+
+
+
+<p>ROSeq - A rank based approach to modeling gene expression Author: Krishan Gupta</p>
+<p>date: 2/12/2019</p>
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>ROSeq - A rank based approach to modeling gene expression with filtered and normalized read count matrix. Takes in the complete filtered and normalized read count matrix, the location of the two sub-populations and the number of cores to be used.</p>
+</div>
+<div id="example" class="section level2">
+<h2>Example</h2>
+<p>Libraries need to be loaded before running.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(ROSeq)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">library</span>(compcodeR)</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co">#&gt; Loading required package: sm</span></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">#&gt; Warning in fun(libname, pkgname): couldn't connect to display &quot;:0&quot;</span></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">#&gt; Package 'sm', version 2.2-5.6: type help(sm) for summary information</span></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="kw">library</span>(edgeR)</a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">#&gt; Loading required package: limma</span></a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">TMMnormalization &lt;-<span class="st"> </span><span class="cf">function</span>(countTable){</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">  nf=<span class="kw">calcNormFactors</span>(countTable ,<span class="dt">method=</span> <span class="st">&quot;TMM&quot;</span>)</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3">  nf=<span class="st"> </span><span class="kw">colSums</span>(countTable)<span class="op">*</span>nf</a>
+<a class="sourceLine" id="cb2-4" data-line-number="4">  scalingFactors =<span class="st"> </span>nf<span class="op">/</span><span class="kw">mean</span>(nf)</a>
+<a class="sourceLine" id="cb2-5" data-line-number="5">  countTableTMM &lt;-<span class="st"> </span><span class="kw">t</span>(<span class="kw">t</span>(countTable)<span class="op">/</span>scalingFactors)</a>
+<a class="sourceLine" id="cb2-6" data-line-number="6">  <span class="kw">return</span>(countTableTMM)</a>
+<a class="sourceLine" id="cb2-7" data-line-number="7">}</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">n_samples=<span class="dv">10</span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">n_genes=<span class="dv">100</span></a>
+<a class="sourceLine" id="cb3-3" data-line-number="3">n_de_genes=<span class="dv">50</span></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4">mydata &lt;-<span class="st"> </span><span class="kw">generateSyntheticData</span>(<span class="dt">dataset =</span> <span class="st">&quot;mydata&quot;</span>, <span class="dt">n.vars =</span> n_genes, <span class="dt">samples.per.cond =</span> n_samples, <span class="dt">n.diffexp =</span> n_de_genes)</a>
+<a class="sourceLine" id="cb3-5" data-line-number="5">samples=<span class="kw">list</span>()</a>
+<a class="sourceLine" id="cb3-6" data-line-number="6">samples<span class="op">$</span>count=mydata<span class="op">@</span>count.matrix</a>
+<a class="sourceLine" id="cb3-7" data-line-number="7">samples<span class="op">$</span>group=mydata<span class="op">@</span>sample.annotations<span class="op">$</span>condition</a>
+<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="kw">head</span>(samples<span class="op">$</span>count)</a>
+<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt;    sample1 sample2 sample3 sample4 sample5 sample6 sample7 sample8 sample9</span></a>
+<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt; g1      37    5521     102    1164    3648    8296    1243    7488    2769</span></a>
+<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">#&gt; g2   31086   17072   22004   23316   19889   29445   22718   12683   15449</span></a>
+<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">#&gt; g3    6062    8298    6822    2965    7239    6694    6784    4995    5217</span></a>
+<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="co">#&gt; g4   10731   15036   37033   17497   32623    8174   11970   10358   10658</span></a>
+<a class="sourceLine" id="cb3-14" data-line-number="14"><span class="co">#&gt; g5       0       0       0     149       0     637    9497       0    4912</span></a>
+<a class="sourceLine" id="cb3-15" data-line-number="15"><span class="co">#&gt; g6    5896   39382   18569   13672   40346   31267   23344   53605   26484</span></a>
+<a class="sourceLine" id="cb3-16" data-line-number="16"><span class="co">#&gt;    sample10 sample11 sample12 sample13 sample14 sample15 sample16 sample17</span></a>
+<a class="sourceLine" id="cb3-17" data-line-number="17"><span class="co">#&gt; g1     4067     3573     1040     5124      534     5606      306     2218</span></a>
+<a class="sourceLine" id="cb3-18" data-line-number="18"><span class="co">#&gt; g2    20612    22754    30827    11804    13055    23450     8652    21025</span></a>
+<a class="sourceLine" id="cb3-19" data-line-number="19"><span class="co">#&gt; g3     5104     6884     4308     5543     7840    12896     4537     4151</span></a>
+<a class="sourceLine" id="cb3-20" data-line-number="20"><span class="co">#&gt; g4     9960    17447    20814    18971    49695    12735    25348    44347</span></a>
+<a class="sourceLine" id="cb3-21" data-line-number="21"><span class="co">#&gt; g5        0        0      102        0        0        2        0      897</span></a>
+<a class="sourceLine" id="cb3-22" data-line-number="22"><span class="co">#&gt; g6    18722    38672    28164    48391    38468    74238    25081    12484</span></a>
+<a class="sourceLine" id="cb3-23" data-line-number="23"><span class="co">#&gt;    sample18 sample19 sample20</span></a>
+<a class="sourceLine" id="cb3-24" data-line-number="24"><span class="co">#&gt; g1     4123     1710     1763</span></a>
+<a class="sourceLine" id="cb3-25" data-line-number="25"><span class="co">#&gt; g2    30205    16659    17019</span></a>
+<a class="sourceLine" id="cb3-26" data-line-number="26"><span class="co">#&gt; g3     8412     2623     8124</span></a>
+<a class="sourceLine" id="cb3-27" data-line-number="27"><span class="co">#&gt; g4    17388    11805    46487</span></a>
+<a class="sourceLine" id="cb3-28" data-line-number="28"><span class="co">#&gt; g5        0        0        0</span></a>
+<a class="sourceLine" id="cb3-29" data-line-number="29"><span class="co">#&gt; g6    52981    26227    48279</span></a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">gkeep &lt;-<span class="st"> </span><span class="kw">apply</span>(samples<span class="op">$</span>count,<span class="dv">1</span>,<span class="cf">function</span>(x) <span class="kw">sum</span>(x<span class="op">&gt;</span><span class="dv">0</span>)<span class="op">&gt;</span><span class="dv">5</span>)</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">samples<span class="op">$</span>count=samples<span class="op">$</span>count[gkeep,]</a>
+<a class="sourceLine" id="cb4-3" data-line-number="3">samples<span class="op">$</span>count=<span class="kw">TMMnormalization</span>(samples<span class="op">$</span>count)</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">output=<span class="kw">ROSeq</span>(<span class="dt">countData=</span>samples<span class="op">$</span>count, <span class="dt">condition =</span> samples<span class="op">$</span>group, <span class="dt">numCores=</span><span class="dv">1</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">output</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co">#&gt;             pVals         pAdj</span></a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="co">#&gt; g1   1.000000e+00 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co">#&gt; g2   8.305709e-01 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="co">#&gt; g3   1.000000e+00 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#&gt; g4   2.076129e-01 9.754800e-01</span></a>
+<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co">#&gt; g5   3.008198e-03 6.016396e-02</span></a>
+<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">#&gt; g6   7.479758e-01 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt; g7   1.000000e+00 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">#&gt; g8   2.076129e-01 9.754800e-01</span></a>
+<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">#&gt; g9   2.379531e-03 5.948827e-02</span></a>
+<a class="sourceLine" id="cb6-12" data-line-number="12"><span class="co">#&gt; g10  1.000000e+00 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-13" data-line-number="13"><span class="co">#&gt; g11  8.305709e-01 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-14" data-line-number="14"><span class="co">#&gt; g12  8.305709e-01 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-15" data-line-number="15"><span class="co">#&gt; g13  5.843986e-02 7.304983e-01</span></a>
+<a class="sourceLine" id="cb6-16" data-line-number="16"><span class="co">#&gt; g14  4.316162e-01 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-17" data-line-number="17"><span class="co">#&gt; g15  1.338080e-02 2.230133e-01</span></a>
+<a class="sourceLine" id="cb6-18" data-line-number="18"><span class="co">#&gt; g16  1.000000e+00 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-19" data-line-number="19"><span class="co">#&gt; g17  4.992173e-01 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-20" data-line-number="20"><span class="co">#&gt; g18  7.479758e-01 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-21" data-line-number="21"><span class="co">#&gt; g19  8.305709e-01 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-22" data-line-number="22"><span class="co">#&gt; g20  4.316162e-01 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-23" data-line-number="23"><span class="co">#&gt; g21  1.000000e+00 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-24" data-line-number="24"><span class="co">#&gt; g22  1.000000e+00 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-25" data-line-number="25"><span class="co">#&gt; g23  1.000000e+00 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-26" data-line-number="26"><span class="co">#&gt; g24  7.479758e-01 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-27" data-line-number="27"><span class="co">#&gt; g25  4.316162e-01 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-28" data-line-number="28"><span class="co">#&gt; g26  3.804410e-01 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-29" data-line-number="29"><span class="co">#&gt; g27  3.804410e-01 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-30" data-line-number="30"><span class="co">#&gt; g28  2.031778e-01 9.754800e-01</span></a>
+<a class="sourceLine" id="cb6-31" data-line-number="31"><span class="co">#&gt; g29  2.076129e-01 9.754800e-01</span></a>
+<a class="sourceLine" id="cb6-32" data-line-number="32"><span class="co">#&gt; g30  3.524978e-05 1.174993e-03</span></a>
+<a class="sourceLine" id="cb6-33" data-line-number="33"><span class="co">#&gt; g31  7.479758e-01 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-34" data-line-number="34"><span class="co">#&gt; g32  2.031778e-01 9.754800e-01</span></a>
+<a class="sourceLine" id="cb6-35" data-line-number="35"><span class="co">#&gt; g33  2.031778e-01 9.754800e-01</span></a>
+<a class="sourceLine" id="cb6-36" data-line-number="36"><span class="co">#&gt; g34  2.341152e-01 9.754800e-01</span></a>
+<a class="sourceLine" id="cb6-37" data-line-number="37"><span class="co">#&gt; g35  2.031778e-01 9.754800e-01</span></a>
+<a class="sourceLine" id="cb6-38" data-line-number="38"><span class="co">#&gt; g36  4.316162e-01 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-39" data-line-number="39"><span class="co">#&gt; g37  1.000000e+00 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-40" data-line-number="40"><span class="co">#&gt; g38  1.000000e+00 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-41" data-line-number="41"><span class="co">#&gt; g39  4.674446e-01 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-42" data-line-number="42"><span class="co">#&gt; g40  6.810704e-01 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-43" data-line-number="43"><span class="co">#&gt; g41  9.144010e-02 9.144010e-01</span></a>
+<a class="sourceLine" id="cb6-44" data-line-number="44"><span class="co">#&gt; g42  1.000000e+00 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-45" data-line-number="45"><span class="co">#&gt; g43  7.479758e-01 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-46" data-line-number="46"><span class="co">#&gt; g44  7.479758e-01 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-47" data-line-number="47"><span class="co">#&gt; g45  1.000000e+00 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-48" data-line-number="48"><span class="co">#&gt; g46  1.000000e+00 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-49" data-line-number="49"><span class="co">#&gt; g47  1.000000e+00 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-50" data-line-number="50"><span class="co">#&gt; g48  7.479758e-01 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-51" data-line-number="51"><span class="co">#&gt; g49  7.479758e-01 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-52" data-line-number="52"><span class="co">#&gt; g50  1.000000e+00 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-53" data-line-number="53"><span class="co">#&gt; g51  1.000000e+00 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-54" data-line-number="54"><span class="co">#&gt; g52  1.000000e+00 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-55" data-line-number="55"><span class="co">#&gt; g53  1.000000e+00 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-56" data-line-number="56"><span class="co">#&gt; g54  5.117139e-07 2.558569e-05</span></a>
+<a class="sourceLine" id="cb6-57" data-line-number="57"><span class="co">#&gt; g55  2.341152e-01 9.754800e-01</span></a>
+<a class="sourceLine" id="cb6-58" data-line-number="58"><span class="co">#&gt; g56  1.000000e+00 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-59" data-line-number="59"><span class="co">#&gt; g57  1.000000e+00 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-60" data-line-number="60"><span class="co">#&gt; g58  1.000000e+00 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-61" data-line-number="61"><span class="co">#&gt; g59  8.305709e-01 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-62" data-line-number="62"><span class="co">#&gt; g60  1.000000e+00 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-63" data-line-number="63"><span class="co">#&gt; g61  8.305709e-01 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-64" data-line-number="64"><span class="co">#&gt; g62  2.031778e-01 9.754800e-01</span></a>
+<a class="sourceLine" id="cb6-65" data-line-number="65"><span class="co">#&gt; g63  2.341152e-01 9.754800e-01</span></a>
+<a class="sourceLine" id="cb6-66" data-line-number="66"><span class="co">#&gt; g64  1.000000e+00 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-67" data-line-number="67"><span class="co">#&gt; g65  5.843986e-02 7.304983e-01</span></a>
+<a class="sourceLine" id="cb6-68" data-line-number="68"><span class="co">#&gt; g66  2.031778e-01 9.754800e-01</span></a>
+<a class="sourceLine" id="cb6-69" data-line-number="69"><span class="co">#&gt; g67  7.479758e-01 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-70" data-line-number="70"><span class="co">#&gt; g68  8.305709e-01 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-71" data-line-number="71"><span class="co">#&gt; g69  1.000000e+00 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-72" data-line-number="72"><span class="co">#&gt; g70  8.305709e-01 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-73" data-line-number="73"><span class="co">#&gt; g71  2.076129e-01 9.754800e-01</span></a>
+<a class="sourceLine" id="cb6-74" data-line-number="74"><span class="co">#&gt; g72  4.316162e-01 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-75" data-line-number="75"><span class="co">#&gt; g73  1.000000e+00 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-76" data-line-number="76"><span class="co">#&gt; g74  1.000000e+00 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-77" data-line-number="77"><span class="co">#&gt; g75  1.000000e+00 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-78" data-line-number="78"><span class="co">#&gt; g76  1.000000e+00 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-79" data-line-number="79"><span class="co">#&gt; g77  1.000000e+00 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-80" data-line-number="80"><span class="co">#&gt; g78  7.479758e-01 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-81" data-line-number="81"><span class="co">#&gt; g79  1.000000e+00 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-82" data-line-number="82"><span class="co">#&gt; g80  1.000000e+00 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-83" data-line-number="83"><span class="co">#&gt; g81  7.479758e-01 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-84" data-line-number="84"><span class="co">#&gt; g82  8.255709e-02 9.144010e-01</span></a>
+<a class="sourceLine" id="cb6-85" data-line-number="85"><span class="co">#&gt; g83  7.479758e-01 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-86" data-line-number="86"><span class="co">#&gt; g84  1.000000e+00 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-87" data-line-number="87"><span class="co">#&gt; g85  1.000000e+00 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-88" data-line-number="88"><span class="co">#&gt; g86  1.000000e+00 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-89" data-line-number="89"><span class="co">#&gt; g87  2.031778e-01 9.754800e-01</span></a>
+<a class="sourceLine" id="cb6-90" data-line-number="90"><span class="co">#&gt; g88  1.000000e+00 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-91" data-line-number="91"><span class="co">#&gt; g89  5.117139e-07 2.558569e-05</span></a>
+<a class="sourceLine" id="cb6-92" data-line-number="92"><span class="co">#&gt; g90  1.000000e+00 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-93" data-line-number="93"><span class="co">#&gt; g91  7.479758e-01 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-94" data-line-number="94"><span class="co">#&gt; g92  4.316162e-01 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-95" data-line-number="95"><span class="co">#&gt; g93  4.316162e-01 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-96" data-line-number="96"><span class="co">#&gt; g94  4.316162e-01 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-97" data-line-number="97"><span class="co">#&gt; g95  1.000000e+00 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-98" data-line-number="98"><span class="co">#&gt; g96  1.000000e+00 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-99" data-line-number="99"><span class="co">#&gt; g97  7.479758e-01 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-100" data-line-number="100"><span class="co">#&gt; g98  4.316162e-01 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-101" data-line-number="101"><span class="co">#&gt; g99  1.000000e+00 1.000000e+00</span></a>
+<a class="sourceLine" id="cb6-102" data-line-number="102"><span class="co">#&gt; g100 1.000000e+00 1.000000e+00</span></a></code></pre></div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
