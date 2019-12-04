@@ -62,7 +62,7 @@ samples$count=TMMnormalization(samples$count)
 ```
 
 ```{r main, message=FALSE,warning = FALSE, include=TRUE, cache=FALSE}
-output=ROSeq(countData=samples$count, condition = samples$group, numCores=1)
+output=ROSeq(countData=samples$count, condition = samples$group, numCores=4)
 ```
 
 ```{r output, message=FALSE,warning = FALSE,include=TRUE, cache=FALSE}
