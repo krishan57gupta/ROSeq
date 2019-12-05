@@ -1,8 +1,8 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-ROSeq - A rank based approach to modeling gene expression Author:
-Krishan Gupta
+ROSeq - A rank based approach to modeling gene expression 
+Author: Krishan Gupta
 
 date: 2/12/2019
 
