@@ -29,6 +29,7 @@ samples$group=mydata@sample.annotations$condition
 head(samples$count)
 
 ## ----preprocesing, message=FALSE,warning = FALSE,include=TRUE, cache=FALSE----
+samples$count=apply(samples$count,2,function(x) as.numeric(x))
 gkeep <- apply(samples$count,1,function(x) sum(x>0)>5)
 samples$count=samples$count[gkeep,]
 samples$count=TMMnormalization(samples$count)
