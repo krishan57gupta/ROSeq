@@ -23,6 +23,17 @@ date: 2/12/2019
 
 ROSeq - A rank based approach to modeling gene expression with filtered and normalized read count matrix. Takes in the complete filtered and normalized read count matrix, the location of the two sub-populations and the number of cores to be used.
 
+## Installation
+
+The developer version of the R package can be installed with the following R commands:
+
+library(devtools)
+install_github("krishan57gupta/ROSeq")
+
+## Vignette tutorial
+
+This vignette uses a small simulated data, to demonstrate a standard pipeline. This vignette can be used as a tutorial as well.
+
 ## Example
 
 Libraries need to be loaded before running.
@@ -45,9 +56,9 @@ TMMnormalization <- function(countTable){
 ```
 
 ```{r data, message=FALSE,warning = FALSE,include=TRUE, cache=FALSE}
-n_samples=10
-n_genes=100
-n_de_genes=50
+n_samples=8
+n_genes=80
+n_de_genes=40
 mydata <- generateSyntheticData(dataset = "mydata", n.vars = n_genes, samples.per.cond = n_samples, n.diffexp = n_de_genes)
 samples=list()
 samples$count=mydata@count.matrix
@@ -56,6 +67,7 @@ head(samples$count)
 ```
 
 ```{r preprocesing, message=FALSE,warning = FALSE,include=TRUE, cache=FALSE}
+samples$count=apply(samples$count,2,function(x) as.numeric(x))
 gkeep <- apply(samples$count,1,function(x) sum(x>0)>5)
 samples$count=samples$count[gkeep,]
 samples$count=TMMnormalization(samples$count)
