@@ -9,6 +9,7 @@
 ##' rownames(countData)<-paste("G",c(1:100),sep="_")
 ##' colnames(countData)<-paste("S",c(1:10),sep="_")
 ##' condition=c(1,1,1,1,1,2,2,2,2,2)
+##' countData=apply(countData,2,function(x) as.numeric(x))
 ##' gkeep <- apply(countData,1,function(x) sum(x>0)>5)
 ##' countData=countData[gkeep,]
 ##' TMMnormalization <- function(countTable){
@@ -25,6 +26,10 @@
 ##' @export ROSeq
 ROSeq<-function(countData, condition, numCores){
   nbits=10
+  temp_data=apply(countData, 2, function(x) as.numeric(x))
+  colnames(temp_data)=colnames(countData)
+  rownames(temp_data)=rownames(countData)
+  countData=temp_data
   labels=unique(condition)
   cOne=colnames(countData)[which(condition %in% labels[1])]
   cTwo=colnames(countData)[which(condition %in% labels[2])]
