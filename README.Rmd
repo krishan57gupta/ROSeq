@@ -14,10 +14,9 @@ knitr::opts_chunk$set(
 ```
 
 
-ROSeq - A rank based approach to modeling gene expression
-Author: Krishan Gupta
+# ROSeq - A rank based approach to modeling gene expression
 
-date: 2/12/2019
+Author: Krishan Gupta
 
 ## Introduction
 
@@ -27,7 +26,6 @@ ROSeq - A rank based approach to modeling gene expression with filtered and norm
 
 The developer version of the R package can be installed with the following R commands:
 
-library(devtools)
 install_github("krishan57gupta/ROSeq")
 
 ## Vignette tutorial
