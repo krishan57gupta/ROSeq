@@ -19,3 +19,16 @@ pValues A vector containing FDR adjusted p significance values
 \description{
 Takes in the complete filtered and normalized read count matrix, the location of the two sub-populations and the number of cores to be used
 }
+\examples{
+countData=matrix(sample(c(1:100),1000,replace = TRUE),nrow=100,ncol=10)
+rownames(countData)<-paste("G",c(1:100),sep="_")
+colnames(countData)<-paste("S",c(1:10),sep="_")
+condition=c(1,1,1,1,1,2,2,2,2,2)
+countData=apply(countData,2,function(x) as.numeric(x))
+g_keep <- apply(countData,1,function(x) sum(x>0)>5)
+countData=edgeR::cpm(countData) # optioanl, can be used other normalization
+library(ROSeq)
+output=ROSeq(countData=countData, condition = condition, numCores=1)
+print(output)
+
+}

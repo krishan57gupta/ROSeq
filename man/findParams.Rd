@@ -17,5 +17,7 @@ findParams(ds, geneStats, nbits)
 results A vector containing 5 values (a, b, A, number of bins, R2)
 }
 \description{
-Takes in as input the read count data corresponding to one sub-population and the typical gene statistics. Then it splits the entire range into equally sized bins of size \eqn{k * \sigma}, where k is a scalar with a default value of 0.05, and \eqn{\sigma} is the standard deviation of the pulled expression estimates across the cell-groups. Each of these bins corresponds to a rank. Therefore, for each group, cell frequency for each bin maps to a rank.  These frequencies are normalized group-wise by dividing by the total cell count within a concerned group.
+Takes in as input the read count data corresponding to one sub-population and the typical gene statistics. 
+Then it splits the entire range into equally sized bins of size \eqn{k * \sigma}, where k is a scalar with a default value of 0.05, and \eqn{\sigma} is the standard deviation of the pulled expression estimates across the cell-groups. 
+Each of these bins corresponds to a rank. Therefore, for each group, cell frequency for each bin maps to a rank.  These frequencies are normalized group-wise by dividing by the total cell count within a concerned group.
 }
