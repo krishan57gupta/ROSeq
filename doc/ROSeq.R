@@ -9,15 +9,6 @@ library(ROSeq)
 library(compcodeR)
 library(edgeR)
 
-## ----functions, message=FALSE,warning = FALSE,include=TRUE, cache=FALSE-------
-TMMnormalization <- function(countTable){
-  nf=calcNormFactors(countTable ,method= "TMM")
-  nf= colSums(countTable)*nf
-  scalingFactors = nf/mean(nf)
-  countTableTMM <- t(t(countTable)/scalingFactors)
-  return(countTableTMM)
-}
-
 ## ----data, message=FALSE,warning = FALSE,include=TRUE, cache=FALSE------------
 n_samples=8
 n_genes=80
@@ -32,7 +23,7 @@ head(samples$count)
 samples$count=apply(samples$count,2,function(x) as.numeric(x))
 gkeep <- apply(samples$count,1,function(x) sum(x>0)>5)
 samples$count=samples$count[gkeep,]
-samples$count=TMMnormalization(samples$count)
+samples$count=edgeR::cpm(samples$count)
 
 ## ----main, message=FALSE,warning = FALSE, include=TRUE, cache=FALSE-----------
 output=ROSeq(countData=samples$count, condition = samples$group, numCores=1)
