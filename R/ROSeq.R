@@ -1,5 +1,4 @@
 ##' @title ROSeq - A rank based approach to modeling gene expression with filtered and normalized read count matrix
-##'
 ##' @description Takes in the complete filtered and normalized read count matrix, the location of the two sub-populations and the number of cores to be used
 ##' @param countData The normalised and filtered, read count matrix, with row names as genes name/ID and column names as sample id/name
 ##' @param condition Labels for the two sub-populations
@@ -10,21 +9,15 @@
 ##' colnames(countData)<-paste("S",c(1:10),sep="_")
 ##' condition=c(1,1,1,1,1,2,2,2,2,2)
 ##' countData=apply(countData,2,function(x) as.numeric(x))
-##' gkeep <- apply(countData,1,function(x) sum(x>0)>5)
-##' countData=countData[gkeep,]
-##' TMMnormalization <- function(countTable){
-##' nf=calcNormFactors(countTable ,method= "TMM")
-##' nf= colSums(countTable)*nf
-##' scalingFactors = nf/mean(nf)
-##' countTableTMM <- t(t(countTable)/scalingFactors)
-##' return(countTableTMM)
-##' countData=TMMnormalization(countData) # optioanl, can be used other normalization
+##' g_keep <- apply(countData,1,function(x) sum(x>0)>5)
+##' countData=edgeR::cpm(countData) # optioanl, can be used other normalization
 ##' library(ROSeq)
 ##' output=ROSeq(countData=countData, condition = condition, numCores=1)
 ##' print(output)
 ##'
 ##' @export ROSeq
-ROSeq<-function(countData, condition, numCores){
+ROSeq<-function(countData, condition, numCores)
+  {
   nbits=10
   temp_data=apply(countData, 2, function(x) as.numeric(x))
   colnames(temp_data)=colnames(countData)
@@ -35,6 +28,13 @@ ROSeq<-function(countData, condition, numCores){
   cTwo=colnames(countData)[which(condition %in% labels[2])]
   scgroups=c(cOne,cTwo)
   geneIndex<-1:nrow(countData)
+  # results=list()
+  # for(gene in geneIndex)
+  # {
+  #   print(gene)
+  #   results[[gene]]<-initiateAnalysis(gene=gene, scdata=countData, scgroups=scgroups, classOne=cOne, classTwo=cTwo, nbits)
+  #   print(results[[gene]])
+  # }
   results <- pbmcapply::pbmclapply(geneIndex, initiateAnalysis, scdata=countData, scgroups=scgroups, classOne=cOne, classTwo=cTwo, mc.cores=numCores, nbits)
   pVals<-unlist(lapply(results,function(x) x[[12]]))
   pAdj<-stats::p.adjust(pVals, method = "fdr")
@@ -53,8 +53,8 @@ ROSeq<-function(countData, condition, numCores){
 ##' @param classTwo The location of thesecond sub-population, for example, sample names as given as columns names
 ##' @param nbits number of bits for mpfr function
 ##' @return combinedResults A vector containing 12 values (gr1: a, g1: b, gr1: A, gr1: number of bins, gr1: R2, gr2: a, gr2: b, gr2: A, gr2: number of bins, gr2: R2, T, p)
-initiateAnalysis<-function(gene, scdata, scgroups, classOne, classTwo, nbits){
-
+initiateAnalysis<-function(gene, scdata, scgroups, classOne, classTwo, nbits)
+  {
   sp<-scdata[gene, ]
   spOne<-scdata[gene, which(scgroups%in%classOne)]
   spTwo<-scdata[gene, which(scgroups%in%classTwo)]
@@ -77,11 +77,19 @@ initiateAnalysis<-function(gene, scdata, scgroups, classOne, classTwo, nbits){
 ##' @param spTwo The (normalized and filtered) read count data corresponding to the second sub-population
 ##' @param nbits number of bits for mpfr function
 ##' @return geneStats A vector containing 7 values corresponding to the gene data (maximum, minimum, mean, standard deviation, upper multiple of standard deviation, lower multiple of standard deviation and log2(fold change))
-getDataStatistics<-function(sp, spOne, spTwo, nbits){
+getDataStatistics<-function(sp, spOne, spTwo, nbits)
+  {
   maxds<-max(sp)
   minds<-min(sp)
   meands<-mean(sp)
   stdds<-stats::sd(sp)
+  if(sum(sp>0)==0)
+  {
+    maxds<-1
+    minds<-0
+    meands<-.5
+    stdds<-.1
+  }
   ceilds<-ceiling((maxds-meands)/stdds)
   floords<-floor((minds-meands)/stdds)
   log2FC<-abs(log2(mean(spOne)/mean(spTwo)))
@@ -91,12 +99,15 @@ getDataStatistics<-function(sp, spOne, spTwo, nbits){
 
 ##' @title Finds the optimal values of parameters a and b that model the probability distribution of ranks, by Maximising the Log-Likelihood
 ##'
-##' @description Takes in as input the read count data corresponding to one sub-population and the typical gene statistics. Then it splits the entire range into equally sized bins of size \eqn{k * \sigma}, where k is a scalar with a default value of 0.05, and \eqn{\sigma} is the standard deviation of the pulled expression estimates across the cell-groups. Each of these bins corresponds to a rank. Therefore, for each group, cell frequency for each bin maps to a rank.  These frequencies are normalized group-wise by dividing by the total cell count within a concerned group.
+##' @description Takes in as input the read count data corresponding to one sub-population and the typical gene statistics. 
+##' Then it splits the entire range into equally sized bins of size \eqn{k * \sigma}, where k is a scalar with a default value of 0.05, and \eqn{\sigma} is the standard deviation of the pulled expression estimates across the cell-groups. 
+##' Each of these bins corresponds to a rank. Therefore, for each group, cell frequency for each bin maps to a rank.  These frequencies are normalized group-wise by dividing by the total cell count within a concerned group.
 ##' @param ds The (normalized and filtered) read count data corresponding to a sub-population
 ##' @param nbits number of bits for mpfr function
 ##' @param geneStats A vector containing 7 values corresponding to the gene data (maximum, minimum, mean, standard deviation, upper multiple of standard deviation, lower multiple of standard deviation and log_{2}(fold change))
 ##' @return results A vector containing 5 values (a, b, A, number of bins, R2)
-findParams<-function(ds, geneStats, nbits){
+findParams<-function(ds, geneStats, nbits)
+  {
   #########################################################################################################################################
   ############################################### most  imporetant factor if set very smaller then no error ###############################
   ################################################### as it set tradeoff between optimize value a,b and rank, as a,b in power of rank #####
@@ -178,7 +189,8 @@ minimizeNLL<-function(coefficients, r, readCount, nbits){
 ##' @param nbits number of bits for mpfr function
 ##' @return T  The Wald test statistic for testing the null hypothesis
 ##' @seealso \code{\link{getI}}, \code{\link{findParams}}
-computeDEG<-function(results_1, results_2, nbits){
+computeDEG<-function(results_1, results_2, nbits)
+  {
   I_1<-getI(results_1, nbits)
   I_2<-getI(results_2, nbits)
   I_1<-as.numeric(I_1)
@@ -203,7 +215,8 @@ computeDEG<-function(results_1, results_2, nbits){
 ##' @param results A vector containing 5 values (a, b, A, number of bins, R2)
 ##' @param nbits number of bits for mpfr function
 ##' @return I  The Fisher Information Matrix
-getI<-function(results, nbits){
+getI<-function(results, nbits)
+  {
   rank<-1:results[4]
   coefficients<-c(results[1], results[2])
   u1<-getu1(coefficients, rank, nbits)
@@ -229,7 +242,8 @@ getI<-function(results, nbits){
 ##' @param nbits number of bits for mpfr function
 ##' @param r the rank vector
 ##' @return u1
-getu1<-function(coefficients, r, nbits){
+getu1<-function(coefficients, r, nbits)
+  {
   a<-coefficients[1]
   b<-coefficients[2]
   N<-length(r)
@@ -246,7 +260,8 @@ getu1<-function(coefficients, r, nbits){
 ##' @param nbits number of bits for mpfr function
 ##' @param r the rank vector
 ##' @return v
-getv<-function( coefficients, r, nbits){
+getv<-function( coefficients, r, nbits)
+  {
   a<-coefficients[1]
   b<-coefficients[2]
   N<-length(r)
@@ -262,7 +277,8 @@ getv<-function( coefficients, r, nbits){
 ##' @param nbits number of bits for mpfr function
 ##' @param r the rank vector
 ##' @return u2
-getu2<-function(coefficients, r, nbits){
+getu2<-function(coefficients, r, nbits)
+  {
   a<-coefficients[1]
   b<-coefficients[2]
   N<-length(r)
@@ -279,7 +295,8 @@ getu2<-function(coefficients, r, nbits){
 ##' @param nbits number of bits for mpfr function
 ##' @param r the rank vector
 ##' @return du1da
-getdu1da<-function(coefficients, r, nbits){
+getdu1da<-function(coefficients, r, nbits)
+  {
 
   a<-coefficients[1]
   b<-coefficients[2]
@@ -297,7 +314,8 @@ getdu1da<-function(coefficients, r, nbits){
 ##' @param nbits number of bits for mpfr function
 ##' @param r the rank vector
 ##' @return du1db
-getdu1db<-function(coefficients, r, nbits){
+getdu1db<-function(coefficients, r, nbits)
+  {
   a<-coefficients[1]
   b<-coefficients[2]
   N<-length(r)
@@ -315,7 +333,8 @@ getdu1db<-function(coefficients, r, nbits){
 ##' @param nbits number of bits for mpfr function
 ##' @param r the rank vector
 ##' @return du2da
-getdu2da<-function(coefficients, r, nbits){
+getdu2da<-function(coefficients, r, nbits)
+  {
   a<-coefficients[1]
   b<-coefficients[2]
   N<-length(r)
@@ -333,7 +352,8 @@ getdu2da<-function(coefficients, r, nbits){
 ##' @param nbits number of bits for mpfr function
 ##' @param r the rank vector
 ##' @return du2db
-getdu2db<-function( coefficients, r, nbits){
+getdu2db<-function( coefficients, r, nbits)
+  {
   a<-coefficients[1]
   b<-coefficients[2]
   N<-length(r)
@@ -350,7 +370,8 @@ getdu2db<-function( coefficients, r, nbits){
 ##' @param nbits number of bits for mpfr function
 ##' @param r the rank vector
 ##' @return dvda
-getdvda<-function(coefficients, r, nbits){
+getdvda<-function(coefficients, r, nbits)
+  {
   a<-coefficients[1]
   b<-coefficients[2]
   N<-length(r)
@@ -367,7 +388,8 @@ getdvda<-function(coefficients, r, nbits){
 ##' @param nbits number of bits for mpfr function
 ##' @param r the rank vector
 ##' @return dvdb
-getdvdb<-function( coefficients, r, nbits){
+getdvdb<-function( coefficients, r, nbits)
+  {
   a<-coefficients[1]
   b<-coefficients[2]
   N<-length(r)
@@ -386,7 +408,8 @@ getdvdb<-function( coefficients, r, nbits){
 ##' @param du1da First derivative of u1 with respect to parameter a
 ##' @param dvda First derivative of v with respect to parameter a
 ##' @return d2logAda2
-getd2logAda2<-function(u1, v, du1da, dvda, nbits){
+getd2logAda2<-function(u1, v, du1da, dvda, nbits)
+  {
   num1<-v*du1da
   num2<-u1*dvda
   den1<-v^2
@@ -402,7 +425,8 @@ getd2logAda2<-function(u1, v, du1da, dvda, nbits){
 ##' @param dvda First derivative of v with respect to a
 ##' @param nbits number of bits for mpfr function
 ##' @return d2logAdadb
-getd2logAdadb<-function( u2, v, du2da, dvda, nbits){
+getd2logAdadb<-function( u2, v, du2da, dvda, nbits)
+  {
 
   num1<-v*du2da
   num2<-u2*dvda
@@ -419,7 +443,8 @@ getd2logAdadb<-function( u2, v, du2da, dvda, nbits){
 ##' @param nbits number of bits for mpfr function
 ##' @param dvdb First derivative of v with respect to
 ##' @return d2logAdb2
-getd2logAdb2<-function( u2, v, du2db, dvdb, nbits){
+getd2logAdb2<-function( u2, v, du2db, dvdb, nbits)
+  {
   num1<-v*du2db
   num2<-u2*dvdb
   den1<-v^2
@@ -435,7 +460,8 @@ getd2logAdb2<-function( u2, v, du2db, dvdb, nbits){
 ##' @param nbits number of bits for mpfr function
 ##' @param dvdb First derivative of v with respect to b
 ##' @return d2logAdbda
-getd2logAdbda<-function( u1, v, du1db, dvdb, nbits){
+getd2logAdbda<-function( u1, v, du1db, dvdb, nbits)
+  {
 
   num1<-v*du1db
   num2<-u1*dvdb
@@ -443,3 +469,4 @@ getd2logAdbda<-function( u1, v, du1db, dvdb, nbits){
   d2logAdbda<-(num1-num2)/den1
   return(d2logAdbda)
 }
+
