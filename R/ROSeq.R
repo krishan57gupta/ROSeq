@@ -29,9 +29,10 @@ ROSeq<-function(countData, condition, numCores)
   scgroups=c(cOne,cTwo)
   geneIndex<-1:nrow(countData)
   # results=list()
-  # for(gene in geneIndex)
+  # for(gene in 1:length(geneIndex))
   # {
   #   print(gene)
+  #   print(length(geneIndex))
   #   results[[gene]]<-initiateAnalysis(gene=gene, scdata=countData, scgroups=scgroups, classOne=cOne, classTwo=cTwo, nbits)
   #   print(results[[gene]])
   # }
@@ -83,16 +84,21 @@ getDataStatistics<-function(sp, spOne, spTwo, nbits)
   minds<-min(sp)
   meands<-mean(sp)
   stdds<-stats::sd(sp)
-  if(sum(sp>0)==0)
-  {
-    maxds<-1
-    minds<-0
-    meands<-.5
-    stdds<-.1
-  }
+  if(meands==0)
+    meands=.5
+  if(stdds==0)
+    stdds=.1
+  if(maxds==0)
+    maxds=1
+  mean1=mean(spOne)
+  mean2=mean(spTwo)
+  if(mean1==0)
+    mean1=1
+  if(mean2==0)
+    mean2=1
   ceilds<-ceiling((maxds-meands)/stdds)
   floords<-floor((minds-meands)/stdds)
-  log2FC<-abs(log2(mean(spOne)/mean(spTwo)))
+  log2FC<-abs(log2(mean1/mean2))
   geneStats<-c(maxds, minds, meands, stdds, ceilds, floords, log2FC)
   return (geneStats)
 }
