@@ -4,7 +4,7 @@
 \alias{getd2logAdadb}
 \title{Finds the double derivative of A with with respect to a and b. This first derivative is evaluated at the optimal (a_hat, b_hat).}
 \usage{
-getd2logAdadb(u2, v, du2da, dvda, nbits)
+getd2logAdadb(u2, v, du2da, dvda)
 }
 \arguments{
 \item{u2}{u2}
@@ -14,8 +14,6 @@ getd2logAdadb(u2, v, du2da, dvda, nbits)
 \item{du2da}{First derivative of u2 with respect to a}
 
 \item{dvda}{First derivative of v with respect to a}
-
-\item{nbits}{number of bits for mpfr function}
 }
 \value{
 d2logAdadb
