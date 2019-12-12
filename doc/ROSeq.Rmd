@@ -26,7 +26,9 @@ ROSeq - A rank based approach to modeling gene expression with filtered and norm
 
 The developer version of the R package can be installed with the following R commands:
 
-install_github("krishan57gupta/ROSeq")
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install('ROSeq')
 
 ## Vignette tutorial
 
