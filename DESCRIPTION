@@ -20,6 +20,7 @@ Imports:
     edgeR,
     compcodeR
 Suggests: 
-    knitr, 
-    rmarkdown
+    knitr,
+    rmarkdown,
+    testthat
 VignetteBuilder: knitr
