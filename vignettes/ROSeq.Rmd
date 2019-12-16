@@ -2,15 +2,15 @@
 title: "ROSeq"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{ROSeq}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+    %\VignetteIndexEntry{ROSeq}
+    %\VignetteEngine{knitr::rmarkdown}
+    %\VignetteEncoding{UTF-8}
 ---
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
+    collapse = TRUE,
+    comment = "#>"
 )
 ```
 
@@ -26,7 +26,9 @@ ROSeq - A rank based approach to modeling gene expression with filtered and norm
 
 The developer version of the R package can be installed with the following R commands:
 
-install_github("krishan57gupta/ROSeq")
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install('ROSeq')
 
 ## Vignette tutorial
 
@@ -44,9 +46,9 @@ library(edgeR)
 ```
 
 ```{r data, message=FALSE,warning = FALSE,include=TRUE, cache=FALSE}
-n_samples<-8
-n_genes<-80
-n_de_genes<-40
+n_samples<-100
+n_genes<-1000
+n_de_genes<-100
 mydata <- generateSyntheticData(dataset = "mydata", n.vars = n_genes, samples.per.cond = n_samples, n.diffexp = n_de_genes)
 samples<-list()
 samples$count<-mydata@count.matrix
