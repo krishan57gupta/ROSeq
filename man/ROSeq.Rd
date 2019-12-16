@@ -4,14 +4,14 @@
 \alias{ROSeq}
 \title{ROSeq - A rank based approach to modeling gene expression with filtered and normalized read count matrix}
 \usage{
-ROSeq(countData, condition, nbits = 10, numCores)
+ROSeq(countData, condition, nbits = 0, numCores)
 }
 \arguments{
 \item{countData}{The normalised and filtered, read count matrix, with row names as genes name/ID and column names as sample id/name}
 
 \item{condition}{Labels for the two sub-populations}
 
-\item{nbits}{optional default 10 as more accuracy with little slow (calculation on big number, Rmpfr library used), <= 0 means no Rmpfr library used for calculation}
+\item{nbits}{optional, 10 as more accuracy with little slow (calculation on big number, Rmpfr library used), default is 0, means no Rmpfr library used for calculation}
 
 \item{numCores}{The number of cores to be used}
 }
@@ -30,7 +30,7 @@ countData<-apply(countData,2,function(x) as.numeric(x))
 g_keep <- apply(countData,1,function(x) sum(x>0)>5)
 countData<-edgeR::cpm(countData) # optioanl, can be used other normalization
 library(ROSeq)
-output<-ROSeq(countData=countData, condition = condition, nbits=10, numCores=1)
+output<-ROSeq(countData=countData, condition = condition, nbits=0, numCores=1)
 output
 
 }
