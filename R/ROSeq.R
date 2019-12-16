@@ -2,7 +2,7 @@
 ##' @description Takes in the complete filtered and normalized read count matrix, the location of the two sub-populations and the number of cores to be used
 ##' @param countData The normalised and filtered, read count matrix, with row names as genes name/ID and column names as sample id/name
 ##' @param condition Labels for the two sub-populations
-##' @param nbits optional default 10 as more accuracy with little slow (calculation on big number, Rmpfr library used), <= 0 means no Rmpfr library used for calculation
+##' @param nbits optional, 10 as more accuracy with little slow (calculation on big number, Rmpfr library used), default is 0, means no Rmpfr library used for calculation
 ##' @param numCores The number of cores to be used
 ##' @return pValues A vector containing FDR adjusted p significance values
 ##' @examples countData<-matrix(sample(c(1:100),1000,replace = TRUE),nrow=100,ncol=10)
@@ -13,11 +13,11 @@
 ##' g_keep <- apply(countData,1,function(x) sum(x>0)>5)
 ##' countData<-edgeR::cpm(countData) # optioanl, can be used other normalization
 ##' library(ROSeq)
-##' output<-ROSeq(countData=countData, condition = condition, nbits=10, numCores=1)
+##' output<-ROSeq(countData=countData, condition = condition, nbits=0, numCores=1)
 ##' output
 ##'
 ##' @export ROSeq
-ROSeq<-function(countData, condition, nbits=10, numCores)
+ROSeq<-function(countData, condition, nbits=0, numCores)
 {
   temp_data<-apply(countData, 2, function(x) as.numeric(x))
   colnames(temp_data)<-colnames(countData)
@@ -145,8 +145,8 @@ findParams<-function(ds, geneStats, nbits)
     model<-stats::optim(par = c(0.25, 3), minimizeNLL, r=rank, readCount=normalized_read_count_sorted, nbits=nbits, method = "L-BFGS-B", lower=c(-50,-50), upper=c(50,50))
   }
   if (is.na(model$value)){
-    message("null found or high value")
-    message(model)
+    print("null found or high value")
+    print(model)
     a<-NA
     b<-NA
   }else{
@@ -165,8 +165,8 @@ findParams<-function(ds, geneStats, nbits)
   }
   if(sum(is.na(f))>0)
   {
-    message("finding very high or low value")
-    message(f[1:10])
+    print("finding very high or low value")
+    print(f[1:10])
   }
   SS_res<-sum((normalized_read_count_sorted-f)^2)
   SS_tot<-sum((normalized_read_count_sorted-mean(normalized_read_count_sorted))^2)
@@ -201,7 +201,7 @@ minimizeNLL<-function(coefficients, r, readCount, nbits){
     NLL<-a*sum(readCount*log(r)) - b*sum(readCount*log(N+1-r)) - sumReadCount*log(A)
   }
   NLL<-as.numeric(NLL)
-  # message(NLL)
+  # print(NLL)
   return (NLL)
 }
 
@@ -252,9 +252,9 @@ getI<-function(results, nbits)
   dvda<-getdvda(coefficients, rank, nbits)
   dvdb<-getdvdb(coefficients, rank, nbits)
   d2logAda2<-getd2logAda2( u1, v, du1da, dvda)
-  d2logAdb2<-getd2logAda2( u2, v, du2db, dvdb)
-  d2logAdbda<-getd2logAda2( u1, v, du1db, dvdb)
-  d2logAdadb<-getd2logAda2( u2, v, du2da, dvda)
+  d2logAdb2<-getd2logAdb2( u2, v, du2db, dvdb)
+  d2logAdbda<-getd2logAdbda( u1, v, du1db, dvdb)
+  d2logAdadb<-getd2logAdadb( u2, v, du2da, dvda)
   I<-c(-d2logAda2, -d2logAdadb, -d2logAdbda, -d2logAdb2)
   return(I)
 }
@@ -519,5 +519,55 @@ getd2logAda2<-function(u1, v, du1da, dvda)
   den1<-v^2
   d2logAda2<-(num1-num2)/den1
   return(d2logAda2)
+}
+
+##' @title Finds the double derivative of A with with respect to a and b. This first derivative is evaluated at the optimal (a_hat, b_hat).
+##' @description u1, v and u2 constitute the equations required for evaluating the first and second order derivatives of A with respect to parameters a and b
+##' @param u2 u2
+##' @param v v
+##' @param du2da First derivative of u2 with respect to a
+##' @param dvda First derivative of v with respect to a
+##' @return d2logAdadb
+getd2logAdadb<-function( u2, v, du2da, dvda)
+{
+  
+  num1<-v*du2da
+  num2<-u2*dvda
+  den1<-v^2
+  d2logAdadb<-(num1-num2)/den1
+  return(d2logAdadb)
+}
+
+##' @title Finds the double derivative of A with with respect to b. This first derivative is evaluated at the optimal (a_hat, b_hat).
+##' @description u1, v and u2 constitute the equations required for evaluating the first and second order derivatives of A with respect to parameters a and b
+##' @param u2 u2
+##' @param v v
+##' @param du2db First derivative of u2 with respect to b
+##' @param dvdb First derivative of v with respect to
+##' @return d2logAdb2
+getd2logAdb2<-function( u2, v, du2db, dvdb)
+{
+  num1<-v*du2db
+  num2<-u2*dvdb
+  den1<-v^2
+  d2logAdb2<-(num1-num2)/den1
+  return(d2logAdb2)
+}
+
+##' @title Finds the double derivative of A with with respect to a and b. This first derivative is evaluated at the optimal (a_hat, b_hat).
+##' @description u1, v and u2 constitute the equations required for evaluating the first and second order derivatives of A with respect to parameters a and b
+##' @param u1 u1
+##' @param v v
+##' @param du1db First derivative of u1 with respect to b
+##' @param dvdb First derivative of v with respect to b
+##' @return d2logAdbda
+getd2logAdbda<-function( u1, v, du1db, dvdb)
+{
+  
+  num1<-v*du1db
+  num2<-u1*dvdb
+  den1<-v^2
+  d2logAdbda<-(num1-num2)/den1
+  return(d2logAdbda)
 }
 
