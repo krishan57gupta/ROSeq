@@ -26,7 +26,7 @@ samples$count<-samples$count[gkeep,]
 samples$count<-edgeR::cpm(samples$count)
 
 ## ----main, message=FALSE,warning = FALSE, include=TRUE, cache=FALSE-----------
-output<-ROSeq(countData=samples$count, condition = samples$group, nbits=10, numCores=1)
+output<-ROSeq(countData=samples$count, condition = samples$group, nbits=0, numCores=1)
 
 ## ----output, message=FALSE,warning = FALSE,include=TRUE, cache=FALSE----------
 output

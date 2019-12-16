@@ -338,106 +338,106 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <a class="sourceLine" id="cb2-7" data-line-number="7">samples<span class="op">$</span>group&lt;-mydata<span class="op">@</span>sample.annotations<span class="op">$</span>condition</a>
 <a class="sourceLine" id="cb2-8" data-line-number="8"><span class="kw">head</span>(samples<span class="op">$</span>count)</a>
 <a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt;    sample1 sample2 sample3 sample4 sample5 sample6 sample7 sample8 sample9</span></a>
-<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt; g1  149163  222439  235103  116300  195911  141050  143540  282627  220365</span></a>
-<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co">#&gt; g2    2351    3406       0     515      30     245     209     528    1080</span></a>
-<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">#&gt; g3    9701    9513    4480   12095    4552    7697    5812   33241   50429</span></a>
-<a class="sourceLine" id="cb2-13" data-line-number="13"><span class="co">#&gt; g4  848197 2083677 2465318 1694623 2509330 3284261 3706753 1293107 3872152</span></a>
-<a class="sourceLine" id="cb2-14" data-line-number="14"><span class="co">#&gt; g5   13315    7020    2203    3204    5012   10224    8609    8665   14111</span></a>
-<a class="sourceLine" id="cb2-15" data-line-number="15"><span class="co">#&gt; g6     833    1129     374    1745    1873    2544    2011    1586    2262</span></a>
+<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt; g1  194870  307713  222723  243425  354119  389441  439670  230068  296079</span></a>
+<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co">#&gt; g2 1300714 1932986  123121  680688 1325840  929841  273559 1007649  548982</span></a>
+<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">#&gt; g3    6726    9904    6964    7261   10110    4231   11661    5470    5304</span></a>
+<a class="sourceLine" id="cb2-13" data-line-number="13"><span class="co">#&gt; g4    2288    1232     627    1930    2136    3406    3735    2167    2054</span></a>
+<a class="sourceLine" id="cb2-14" data-line-number="14"><span class="co">#&gt; g5    5679    4527    3853    6346    4409    7607    5877    7341    5009</span></a>
+<a class="sourceLine" id="cb2-15" data-line-number="15"><span class="co">#&gt; g6       0     611     385    4333    2143       5     337     521       8</span></a>
 <a class="sourceLine" id="cb2-16" data-line-number="16"><span class="co">#&gt;    sample10 sample11 sample12 sample13 sample14 sample15 sample16</span></a>
-<a class="sourceLine" id="cb2-17" data-line-number="17"><span class="co">#&gt; g1    98274   140060   204013   138543   230540   164299   213381</span></a>
-<a class="sourceLine" id="cb2-18" data-line-number="18"><span class="co">#&gt; g2     2763     1371       12      311        3     9392     3207</span></a>
-<a class="sourceLine" id="cb2-19" data-line-number="19"><span class="co">#&gt; g3    16475    36859    40663    19184    12882     7187    39580</span></a>
-<a class="sourceLine" id="cb2-20" data-line-number="20"><span class="co">#&gt; g4   980954  3636378   553592  3324136  1230086  1985783  3075622</span></a>
-<a class="sourceLine" id="cb2-21" data-line-number="21"><span class="co">#&gt; g5     6221    12895    16672    24633    28932    25974    19491</span></a>
-<a class="sourceLine" id="cb2-22" data-line-number="22"><span class="co">#&gt; g6     1347     2436      624     1854    12206     3980     2011</span></a></code></pre></div>
+<a class="sourceLine" id="cb2-17" data-line-number="17"><span class="co">#&gt; g1   538530   612950   288924   609016   464783   306507   355300</span></a>
+<a class="sourceLine" id="cb2-18" data-line-number="18"><span class="co">#&gt; g2  1685071   358760   636283   848068   506517   184406  1446081</span></a>
+<a class="sourceLine" id="cb2-19" data-line-number="19"><span class="co">#&gt; g3     1922     2148     5351     4515    18554     6830     3670</span></a>
+<a class="sourceLine" id="cb2-20" data-line-number="20"><span class="co">#&gt; g4     2653     1196     1831     2190     1805     1600      726</span></a>
+<a class="sourceLine" id="cb2-21" data-line-number="21"><span class="co">#&gt; g5     9146     8028     5037     7699    11693     3463     4831</span></a>
+<a class="sourceLine" id="cb2-22" data-line-number="22"><span class="co">#&gt; g6        1      120      579     4428       83        1      298</span></a></code></pre></div>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">samples<span class="op">$</span>count&lt;-<span class="kw">apply</span>(samples<span class="op">$</span>count,<span class="dv">2</span>,<span class="cf">function</span>(x) <span class="kw">as.numeric</span>(x))</a>
 <a class="sourceLine" id="cb3-2" data-line-number="2">gkeep &lt;-<span class="st"> </span><span class="kw">apply</span>(samples<span class="op">$</span>count,<span class="dv">1</span>,<span class="cf">function</span>(x) <span class="kw">sum</span>(x<span class="op">&gt;</span><span class="dv">0</span>)<span class="op">&gt;</span><span class="dv">5</span>)</a>
 <a class="sourceLine" id="cb3-3" data-line-number="3">samples<span class="op">$</span>count&lt;-samples<span class="op">$</span>count[gkeep,]</a>
 <a class="sourceLine" id="cb3-4" data-line-number="4">samples<span class="op">$</span>count&lt;-edgeR<span class="op">::</span><span class="kw">cpm</span>(samples<span class="op">$</span>count)</a></code></pre></div>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">output&lt;-<span class="kw">ROSeq</span>(<span class="dt">countData=</span>samples<span class="op">$</span>count, <span class="dt">condition =</span> samples<span class="op">$</span>group, <span class="dt">nbits=</span><span class="dv">10</span>, <span class="dt">numCores=</span><span class="dv">1</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">output&lt;-<span class="kw">ROSeq</span>(<span class="dt">countData=</span>samples<span class="op">$</span>count, <span class="dt">condition =</span> samples<span class="op">$</span>group, <span class="dt">nbits=</span><span class="dv">0</span>, <span class="dt">numCores=</span><span class="dv">1</span>)</a></code></pre></div>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">output</a>
 <a class="sourceLine" id="cb5-2" data-line-number="2"><span class="co">#&gt;              pVals         pAdj</span></a>
-<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="co">#&gt;  [1,] 8.810070e-01 1.000000e+00</span></a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="co">#&gt;  [1,] 7.540960e-04 4.640590e-03</span></a>
 <a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co">#&gt;  [2,] 1.000000e+00 1.000000e+00</span></a>
 <a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt;  [3,] 1.000000e+00 1.000000e+00</span></a>
-<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt;  [4,] 1.000000e+00 1.000000e+00</span></a>
-<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt;  [5,] 1.109624e-02 7.397496e-02</span></a>
-<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">#&gt;  [6,] 4.824637e-01 1.000000e+00</span></a>
+<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt;  [4,] 4.637550e-02 9.512922e-02</span></a>
+<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt;  [5,] 1.000000e+00 1.000000e+00</span></a>
+<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">#&gt;  [6,] 9.552087e-02 1.819445e-01</span></a>
 <a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt;  [7,] 1.000000e+00 1.000000e+00</span></a>
-<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co">#&gt;  [8,] 1.000000e+00 1.000000e+00</span></a>
+<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co">#&gt;  [8,] 2.988297e-02 8.537992e-02</span></a>
 <a class="sourceLine" id="cb5-11" data-line-number="11"><span class="co">#&gt;  [9,] 1.000000e+00 1.000000e+00</span></a>
-<a class="sourceLine" id="cb5-12" data-line-number="12"><span class="co">#&gt; [10,] 1.219633e-12 9.757060e-11</span></a>
-<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="co">#&gt; [11,] 8.970041e-01 1.000000e+00</span></a>
-<a class="sourceLine" id="cb5-14" data-line-number="14"><span class="co">#&gt; [12,] 8.810070e-01 1.000000e+00</span></a>
+<a class="sourceLine" id="cb5-12" data-line-number="12"><span class="co">#&gt; [10,] 5.455286e-05 1.091057e-03</span></a>
+<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="co">#&gt; [11,] 1.000000e+00 1.000000e+00</span></a>
+<a class="sourceLine" id="cb5-14" data-line-number="14"><span class="co">#&gt; [12,] 2.988297e-02 8.537992e-02</span></a>
 <a class="sourceLine" id="cb5-15" data-line-number="15"><span class="co">#&gt; [13,] 1.000000e+00 1.000000e+00</span></a>
-<a class="sourceLine" id="cb5-16" data-line-number="16"><span class="co">#&gt; [14,] 8.810070e-01 1.000000e+00</span></a>
-<a class="sourceLine" id="cb5-17" data-line-number="17"><span class="co">#&gt; [15,] 8.810070e-01 1.000000e+00</span></a>
-<a class="sourceLine" id="cb5-18" data-line-number="18"><span class="co">#&gt; [16,] 8.810070e-01 1.000000e+00</span></a>
-<a class="sourceLine" id="cb5-19" data-line-number="19"><span class="co">#&gt; [17,] 5.853661e-04 7.871449e-03</span></a>
-<a class="sourceLine" id="cb5-20" data-line-number="20"><span class="co">#&gt; [18,] 5.853661e-04 7.871449e-03</span></a>
-<a class="sourceLine" id="cb5-21" data-line-number="21"><span class="co">#&gt; [19,] 7.836796e-02 3.483020e-01</span></a>
-<a class="sourceLine" id="cb5-22" data-line-number="22"><span class="co">#&gt; [20,] 8.810070e-01 1.000000e+00</span></a>
-<a class="sourceLine" id="cb5-23" data-line-number="23"><span class="co">#&gt; [21,] 8.810070e-01 1.000000e+00</span></a>
+<a class="sourceLine" id="cb5-16" data-line-number="16"><span class="co">#&gt; [14,] 1.000000e+00 1.000000e+00</span></a>
+<a class="sourceLine" id="cb5-17" data-line-number="17"><span class="co">#&gt; [15,] 2.988297e-02 8.537992e-02</span></a>
+<a class="sourceLine" id="cb5-18" data-line-number="18"><span class="co">#&gt; [16,] 4.637550e-02 9.512922e-02</span></a>
+<a class="sourceLine" id="cb5-19" data-line-number="19"><span class="co">#&gt; [17,] 1.000000e+00 1.000000e+00</span></a>
+<a class="sourceLine" id="cb5-20" data-line-number="20"><span class="co">#&gt; [18,] 4.637550e-02 9.512922e-02</span></a>
+<a class="sourceLine" id="cb5-21" data-line-number="21"><span class="co">#&gt; [19,] 5.232222e-14 4.185777e-12</span></a>
+<a class="sourceLine" id="cb5-22" data-line-number="22"><span class="co">#&gt; [20,] 2.988297e-02 8.537992e-02</span></a>
+<a class="sourceLine" id="cb5-23" data-line-number="23"><span class="co">#&gt; [21,] 1.000000e+00 1.000000e+00</span></a>
 <a class="sourceLine" id="cb5-24" data-line-number="24"><span class="co">#&gt; [22,] 1.000000e+00 1.000000e+00</span></a>
-<a class="sourceLine" id="cb5-25" data-line-number="25"><span class="co">#&gt; [23,] 1.000000e+00 1.000000e+00</span></a>
-<a class="sourceLine" id="cb5-26" data-line-number="26"><span class="co">#&gt; [24,] 2.245272e-02 1.381706e-01</span></a>
-<a class="sourceLine" id="cb5-27" data-line-number="27"><span class="co">#&gt; [25,] 8.810070e-01 1.000000e+00</span></a>
-<a class="sourceLine" id="cb5-28" data-line-number="28"><span class="co">#&gt; [26,] 1.109624e-02 7.397496e-02</span></a>
-<a class="sourceLine" id="cb5-29" data-line-number="29"><span class="co">#&gt; [27,] 1.000000e+00 1.000000e+00</span></a>
+<a class="sourceLine" id="cb5-25" data-line-number="25"><span class="co">#&gt; [23,] 2.988297e-02 8.537992e-02</span></a>
+<a class="sourceLine" id="cb5-26" data-line-number="26"><span class="co">#&gt; [24,] 2.803249e-01 4.909932e-01</span></a>
+<a class="sourceLine" id="cb5-27" data-line-number="27"><span class="co">#&gt; [25,] 1.000000e+00 1.000000e+00</span></a>
+<a class="sourceLine" id="cb5-28" data-line-number="28"><span class="co">#&gt; [26,] 2.988297e-02 8.537992e-02</span></a>
+<a class="sourceLine" id="cb5-29" data-line-number="29"><span class="co">#&gt; [27,] 4.637550e-02 9.512922e-02</span></a>
 <a class="sourceLine" id="cb5-30" data-line-number="30"><span class="co">#&gt; [28,] 1.000000e+00 1.000000e+00</span></a>
-<a class="sourceLine" id="cb5-31" data-line-number="31"><span class="co">#&gt; [29,] 1.000000e+00 1.000000e+00</span></a>
-<a class="sourceLine" id="cb5-32" data-line-number="32"><span class="co">#&gt; [30,] 1.000000e+00 1.000000e+00</span></a>
-<a class="sourceLine" id="cb5-33" data-line-number="33"><span class="co">#&gt; [31,] 3.612172e-01 1.000000e+00</span></a>
-<a class="sourceLine" id="cb5-34" data-line-number="34"><span class="co">#&gt; [32,] 7.836796e-02 3.483020e-01</span></a>
-<a class="sourceLine" id="cb5-35" data-line-number="35"><span class="co">#&gt; [33,] 1.000000e+00 1.000000e+00</span></a>
-<a class="sourceLine" id="cb5-36" data-line-number="36"><span class="co">#&gt; [34,] 8.810070e-01 1.000000e+00</span></a>
-<a class="sourceLine" id="cb5-37" data-line-number="37"><span class="co">#&gt; [35,] 8.810070e-01 1.000000e+00</span></a>
-<a class="sourceLine" id="cb5-38" data-line-number="38"><span class="co">#&gt; [36,] 8.810070e-01 1.000000e+00</span></a>
-<a class="sourceLine" id="cb5-39" data-line-number="39"><span class="co">#&gt; [37,] 1.000000e+00 1.000000e+00</span></a>
-<a class="sourceLine" id="cb5-40" data-line-number="40"><span class="co">#&gt; [38,] 8.810070e-01 1.000000e+00</span></a>
-<a class="sourceLine" id="cb5-41" data-line-number="41"><span class="co">#&gt; [39,] 4.824637e-01 1.000000e+00</span></a>
-<a class="sourceLine" id="cb5-42" data-line-number="42"><span class="co">#&gt; [40,] 1.109624e-02 7.397496e-02</span></a>
-<a class="sourceLine" id="cb5-43" data-line-number="43"><span class="co">#&gt; [41,] 8.810070e-01 1.000000e+00</span></a>
-<a class="sourceLine" id="cb5-44" data-line-number="44"><span class="co">#&gt; [42,] 2.944461e-02 1.682549e-01</span></a>
-<a class="sourceLine" id="cb5-45" data-line-number="45"><span class="co">#&gt; [43,] 8.810070e-01 1.000000e+00</span></a>
-<a class="sourceLine" id="cb5-46" data-line-number="46"><span class="co">#&gt; [44,] 8.810070e-01 1.000000e+00</span></a>
-<a class="sourceLine" id="cb5-47" data-line-number="47"><span class="co">#&gt; [45,] 1.000000e+00 1.000000e+00</span></a>
-<a class="sourceLine" id="cb5-48" data-line-number="48"><span class="co">#&gt; [46,] 1.000000e+00 1.000000e+00</span></a>
-<a class="sourceLine" id="cb5-49" data-line-number="49"><span class="co">#&gt; [47,] 1.000000e+00 1.000000e+00</span></a>
-<a class="sourceLine" id="cb5-50" data-line-number="50"><span class="co">#&gt; [48,] 5.853661e-04 7.871449e-03</span></a>
+<a class="sourceLine" id="cb5-31" data-line-number="31"><span class="co">#&gt; [29,] 2.884585e-01 4.909932e-01</span></a>
+<a class="sourceLine" id="cb5-32" data-line-number="32"><span class="co">#&gt; [30,] 8.558477e-02 1.669947e-01</span></a>
+<a class="sourceLine" id="cb5-33" data-line-number="33"><span class="co">#&gt; [31,] 2.988297e-02 8.537992e-02</span></a>
+<a class="sourceLine" id="cb5-34" data-line-number="34"><span class="co">#&gt; [32,] 2.988297e-02 8.537992e-02</span></a>
+<a class="sourceLine" id="cb5-35" data-line-number="35"><span class="co">#&gt; [33,] 4.637550e-02 9.512922e-02</span></a>
+<a class="sourceLine" id="cb5-36" data-line-number="36"><span class="co">#&gt; [34,] 1.000000e+00 1.000000e+00</span></a>
+<a class="sourceLine" id="cb5-37" data-line-number="37"><span class="co">#&gt; [35,] 1.000000e+00 1.000000e+00</span></a>
+<a class="sourceLine" id="cb5-38" data-line-number="38"><span class="co">#&gt; [36,] 1.000000e+00 1.000000e+00</span></a>
+<a class="sourceLine" id="cb5-39" data-line-number="39"><span class="co">#&gt; [37,] 2.988297e-02 8.537992e-02</span></a>
+<a class="sourceLine" id="cb5-40" data-line-number="40"><span class="co">#&gt; [38,] 1.000000e+00 1.000000e+00</span></a>
+<a class="sourceLine" id="cb5-41" data-line-number="41"><span class="co">#&gt; [39,] 4.637550e-02 9.512922e-02</span></a>
+<a class="sourceLine" id="cb5-42" data-line-number="42"><span class="co">#&gt; [40,] 1.000000e+00 1.000000e+00</span></a>
+<a class="sourceLine" id="cb5-43" data-line-number="43"><span class="co">#&gt; [41,] 4.637550e-02 9.512922e-02</span></a>
+<a class="sourceLine" id="cb5-44" data-line-number="44"><span class="co">#&gt; [42,] 1.000000e+00 1.000000e+00</span></a>
+<a class="sourceLine" id="cb5-45" data-line-number="45"><span class="co">#&gt; [43,] 4.905368e-02 9.810735e-02</span></a>
+<a class="sourceLine" id="cb5-46" data-line-number="46"><span class="co">#&gt; [44,] 7.540960e-04 4.640590e-03</span></a>
+<a class="sourceLine" id="cb5-47" data-line-number="47"><span class="co">#&gt; [45,] 2.988297e-02 8.537992e-02</span></a>
+<a class="sourceLine" id="cb5-48" data-line-number="48"><span class="co">#&gt; [46,] 5.322735e-05 1.091057e-03</span></a>
+<a class="sourceLine" id="cb5-49" data-line-number="49"><span class="co">#&gt; [47,] 2.988297e-02 8.537992e-02</span></a>
+<a class="sourceLine" id="cb5-50" data-line-number="50"><span class="co">#&gt; [48,] 2.988297e-02 8.537992e-02</span></a>
 <a class="sourceLine" id="cb5-51" data-line-number="51"><span class="co">#&gt; [49,] 1.000000e+00 1.000000e+00</span></a>
-<a class="sourceLine" id="cb5-52" data-line-number="52"><span class="co">#&gt; [50,] 8.810070e-01 1.000000e+00</span></a>
-<a class="sourceLine" id="cb5-53" data-line-number="53"><span class="co">#&gt; [51,] 1.109624e-02 7.397496e-02</span></a>
-<a class="sourceLine" id="cb5-54" data-line-number="54"><span class="co">#&gt; [52,] 1.109624e-02 7.397496e-02</span></a>
-<a class="sourceLine" id="cb5-55" data-line-number="55"><span class="co">#&gt; [53,] 8.810070e-01 1.000000e+00</span></a>
-<a class="sourceLine" id="cb5-56" data-line-number="56"><span class="co">#&gt; [54,] 1.000000e+00 1.000000e+00</span></a>
-<a class="sourceLine" id="cb5-57" data-line-number="57"><span class="co">#&gt; [55,] 1.000000e+00 1.000000e+00</span></a>
-<a class="sourceLine" id="cb5-58" data-line-number="58"><span class="co">#&gt; [56,] 4.824637e-01 1.000000e+00</span></a>
-<a class="sourceLine" id="cb5-59" data-line-number="59"><span class="co">#&gt; [57,] 7.836796e-02 3.483020e-01</span></a>
-<a class="sourceLine" id="cb5-60" data-line-number="60"><span class="co">#&gt; [58,] 5.903587e-04 7.871449e-03</span></a>
-<a class="sourceLine" id="cb5-61" data-line-number="61"><span class="co">#&gt; [59,] 1.000000e+00 1.000000e+00</span></a>
+<a class="sourceLine" id="cb5-52" data-line-number="52"><span class="co">#&gt; [50,] 1.000000e+00 1.000000e+00</span></a>
+<a class="sourceLine" id="cb5-53" data-line-number="53"><span class="co">#&gt; [51,] 1.000000e+00 1.000000e+00</span></a>
+<a class="sourceLine" id="cb5-54" data-line-number="54"><span class="co">#&gt; [52,] 2.884585e-01 4.909932e-01</span></a>
+<a class="sourceLine" id="cb5-55" data-line-number="55"><span class="co">#&gt; [53,] 4.637550e-02 9.512922e-02</span></a>
+<a class="sourceLine" id="cb5-56" data-line-number="56"><span class="co">#&gt; [54,] 7.540960e-04 4.640590e-03</span></a>
+<a class="sourceLine" id="cb5-57" data-line-number="57"><span class="co">#&gt; [55,] 4.637550e-02 9.512922e-02</span></a>
+<a class="sourceLine" id="cb5-58" data-line-number="58"><span class="co">#&gt; [56,] 1.000000e+00 1.000000e+00</span></a>
+<a class="sourceLine" id="cb5-59" data-line-number="59"><span class="co">#&gt; [57,] 4.637550e-02 9.512922e-02</span></a>
+<a class="sourceLine" id="cb5-60" data-line-number="60"><span class="co">#&gt; [58,] 2.988297e-02 8.537992e-02</span></a>
+<a class="sourceLine" id="cb5-61" data-line-number="61"><span class="co">#&gt; [59,] 2.553986e-04 3.405315e-03</span></a>
 <a class="sourceLine" id="cb5-62" data-line-number="62"><span class="co">#&gt; [60,] 1.000000e+00 1.000000e+00</span></a>
-<a class="sourceLine" id="cb5-63" data-line-number="63"><span class="co">#&gt; [61,] 1.000000e+00 1.000000e+00</span></a>
-<a class="sourceLine" id="cb5-64" data-line-number="64"><span class="co">#&gt; [62,] 4.824637e-01 1.000000e+00</span></a>
+<a class="sourceLine" id="cb5-63" data-line-number="63"><span class="co">#&gt; [61,] 2.988297e-02 8.537992e-02</span></a>
+<a class="sourceLine" id="cb5-64" data-line-number="64"><span class="co">#&gt; [62,] 7.540960e-04 4.640590e-03</span></a>
 <a class="sourceLine" id="cb5-65" data-line-number="65"><span class="co">#&gt; [63,] 1.000000e+00 1.000000e+00</span></a>
-<a class="sourceLine" id="cb5-66" data-line-number="66"><span class="co">#&gt; [64,] 1.109624e-02 7.397496e-02</span></a>
+<a class="sourceLine" id="cb5-66" data-line-number="66"><span class="co">#&gt; [64,] 1.000000e+00 1.000000e+00</span></a>
 <a class="sourceLine" id="cb5-67" data-line-number="67"><span class="co">#&gt; [65,] 1.000000e+00 1.000000e+00</span></a>
-<a class="sourceLine" id="cb5-68" data-line-number="68"><span class="co">#&gt; [66,] 1.000000e+00 1.000000e+00</span></a>
-<a class="sourceLine" id="cb5-69" data-line-number="69"><span class="co">#&gt; [67,] 8.810070e-01 1.000000e+00</span></a>
+<a class="sourceLine" id="cb5-68" data-line-number="68"><span class="co">#&gt; [66,] 7.540960e-04 4.640590e-03</span></a>
+<a class="sourceLine" id="cb5-69" data-line-number="69"><span class="co">#&gt; [67,] 7.540960e-04 4.640590e-03</span></a>
 <a class="sourceLine" id="cb5-70" data-line-number="70"><span class="co">#&gt; [68,] 1.000000e+00 1.000000e+00</span></a>
-<a class="sourceLine" id="cb5-71" data-line-number="71"><span class="co">#&gt; [69,] 8.810070e-01 1.000000e+00</span></a>
-<a class="sourceLine" id="cb5-72" data-line-number="72"><span class="co">#&gt; [70,] 7.836796e-02 3.483020e-01</span></a>
-<a class="sourceLine" id="cb5-73" data-line-number="73"><span class="co">#&gt; [71,] 1.000000e+00 1.000000e+00</span></a>
+<a class="sourceLine" id="cb5-71" data-line-number="71"><span class="co">#&gt; [69,] 2.553986e-04 3.405315e-03</span></a>
+<a class="sourceLine" id="cb5-72" data-line-number="72"><span class="co">#&gt; [70,] 2.884585e-01 4.909932e-01</span></a>
+<a class="sourceLine" id="cb5-73" data-line-number="73"><span class="co">#&gt; [71,] 2.988297e-02 8.537992e-02</span></a>
 <a class="sourceLine" id="cb5-74" data-line-number="74"><span class="co">#&gt; [72,] 1.000000e+00 1.000000e+00</span></a>
-<a class="sourceLine" id="cb5-75" data-line-number="75"><span class="co">#&gt; [73,] 1.000000e+00 1.000000e+00</span></a>
+<a class="sourceLine" id="cb5-75" data-line-number="75"><span class="co">#&gt; [73,] 5.399796e-05 1.091057e-03</span></a>
 <a class="sourceLine" id="cb5-76" data-line-number="76"><span class="co">#&gt; [74,] 1.000000e+00 1.000000e+00</span></a>
-<a class="sourceLine" id="cb5-77" data-line-number="77"><span class="co">#&gt; [75,] 1.000000e+00 1.000000e+00</span></a>
-<a class="sourceLine" id="cb5-78" data-line-number="78"><span class="co">#&gt; [76,] 8.810070e-01 1.000000e+00</span></a>
-<a class="sourceLine" id="cb5-79" data-line-number="79"><span class="co">#&gt; [77,] 8.810070e-01 1.000000e+00</span></a>
-<a class="sourceLine" id="cb5-80" data-line-number="80"><span class="co">#&gt; [78,] 5.853661e-04 7.871449e-03</span></a>
-<a class="sourceLine" id="cb5-81" data-line-number="81"><span class="co">#&gt; [79,] 8.810070e-01 1.000000e+00</span></a>
-<a class="sourceLine" id="cb5-82" data-line-number="82"><span class="co">#&gt; [80,] 8.810070e-01 1.000000e+00</span></a></code></pre></div>
+<a class="sourceLine" id="cb5-77" data-line-number="77"><span class="co">#&gt; [75,] 2.803249e-01 4.909932e-01</span></a>
+<a class="sourceLine" id="cb5-78" data-line-number="78"><span class="co">#&gt; [76,] 1.000000e+00 1.000000e+00</span></a>
+<a class="sourceLine" id="cb5-79" data-line-number="79"><span class="co">#&gt; [77,] 1.000000e+00 1.000000e+00</span></a>
+<a class="sourceLine" id="cb5-80" data-line-number="80"><span class="co">#&gt; [78,] 1.000000e+00 1.000000e+00</span></a>
+<a class="sourceLine" id="cb5-81" data-line-number="81"><span class="co">#&gt; [79,] 4.637550e-02 9.512922e-02</span></a>
+<a class="sourceLine" id="cb5-82" data-line-number="82"><span class="co">#&gt; [80,] 7.540960e-04 4.640590e-03</span></a></code></pre></div>
 </div>
 </div>
 
