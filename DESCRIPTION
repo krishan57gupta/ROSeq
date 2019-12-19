@@ -1,7 +1,7 @@
 Package: ROSeq
 Type: Package
 Title: A Rank Based Approach to Modeling Gene Expression
-Version: 0.99.0
+Version: 0.99.1
 Authors@R: c(person("Krishan", "Gupta", email = "krishang@iiitd.ac.in", role = c("aut","cre")), person("Debarka", "Sengupta", email = "debarka@gmail.com", role = c("aut")))
 Description: ROSeq - A rank based approach to modeling gene expression with filtered and normalized read count matrix. Takes in the complete filtered and normalized read count matrix, the location of the two sub-populations and the number of cores to be used.
 URL: https://github.com/krishan57gupta/ROSeq
