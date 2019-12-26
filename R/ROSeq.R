@@ -2,7 +2,7 @@
 ##' @description Takes in the complete filtered and normalized read count matrix, the location of the two sub-populations and the number of cores to be used
 ##' @param countData The normalised and filtered, read count matrix, with row names as genes name/ID and column names as sample id/name
 ##' @param condition Labels for the two sub-populations
-##' @param nbits optional, 10 as more accuracy with little slow (calculation on big number, Rmpfr library used), default is 0, means no Rmpfr library used for calculation
+##' @param nbits optional, 10 as more accuracy with little slow (due to calculation on big number, Rmpfr library used), default is 0, means no Rmpfr library used for calculation
 ##' @param numCores The number of cores to be used
 ##' @return pValues A vector containing FDR adjusted p significance values
 ##' @examples countData<-matrix(sample(c(seq_len(100)),1000,replace = TRUE),nrow=100,ncol=10)
