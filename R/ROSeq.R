@@ -1,8 +1,8 @@
-##' @title ROSeq - A rank based approach to modeling gene expression with filtered and normalized read count matrix
+##' @title A rank based approach to modeling gene expression with filtered and normalized read count matrix
 ##' @description Takes in the complete filtered and normalized read count matrix, the location of the two sub-populations and the number of cores to be used
 ##' @param countData The normalised and filtered, read count matrix, with row names as genes name/ID and column names as sample id/name
 ##' @param condition Labels for the two sub-populations
-##' @param nbits optional, 10 as more accuracy with little slow (due to calculation on big number, Rmpfr library used), default is 0, means no Rmpfr library used for calculation
+##' @param nbits optional, 10 as more accuracy with little slow (calculation on big number, Rmpfr library used), default is 0, means no Rmpfr library used for calculation
 ##' @param numCores The number of cores to be used
 ##' @return pValues A vector containing FDR adjusted p significance values
 ##' @examples countData<-matrix(sample(c(seq_len(100)),1000,replace = TRUE),nrow=100,ncol=10)
@@ -38,8 +38,9 @@ ROSeq<-function(countData, condition, nbits=0, numCores)
     # }
     results <- pbmcapply::pbmclapply(geneIndex, initiateAnalysis, scdata=countData, scgroups=scgroups, classOne=cOne, classTwo=cTwo, mc.cores=numCores, nbits)
     pVals<-unlist(lapply(results,function(x) x[[12]]))
+    log2FC<-unlist(lapply(results,function(x) x[[13]]))
     pAdj<-stats::p.adjust(pVals, method = "fdr")
-    results<-cbind(pVals,pAdj)
+    results<-cbind("pVals"=pVals,"pAdj"=pAdj,"log2FC"=log2FC)
     rownames(results)<-rownames(countData)
     return(results)
 }
@@ -64,7 +65,7 @@ initiateAnalysis<-function(gene, scdata, scgroups, classOne, classTwo, nbits)
     results_groupTwo <-findParams(spTwo, geneStats, nbits)
     T<-tryCatch({computeDEG(results_groupOne, results_groupTwo, nbits)}, warning=function(w) {NA}, error=function(esp) {NA})
     pValues<-stats::pchisq(T, df=2, lower.tail=FALSE)
-    combinedResults<-c(results_groupOne[1], results_groupOne[2], results_groupOne[3], results_groupOne[4], results_groupOne[5], results_groupTwo[1], results_groupTwo[2], results_groupTwo[3], results_groupTwo[4], results_groupTwo[5], T, pValues)
+    combinedResults<-c(results_groupOne[1], results_groupOne[2], results_groupOne[3], results_groupOne[4], results_groupOne[5], results_groupTwo[1], results_groupTwo[2], results_groupTwo[3], results_groupTwo[4], results_groupTwo[5], T, pValues, geneStats[7])
     return(combinedResults)
 }
 
@@ -90,7 +91,14 @@ getDataStatistics<-function(sp, spOne, spTwo, nbits)
     }
     ceilds<-ceiling((maxds-meands)/stdds)
     floords<-floor((minds-meands)/stdds)
-    geneStats<-c(maxds, minds, meands, stdds, ceilds, floords)
+    f_m=mean(spOne)
+    s_m=mean(spTwo)
+    if(s_m==0)
+    {
+      s_m=0.0000001
+    }
+    log2FC<-log2(f_m/s_m)
+    geneStats<-c(maxds, minds, meands, stdds, ceilds, floords,log2FC)
     return (geneStats)
 }
 
