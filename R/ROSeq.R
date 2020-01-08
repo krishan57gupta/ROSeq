@@ -97,6 +97,10 @@ getDataStatistics<-function(sp, spOne, spTwo, nbits)
     {
       s_m=0.0000001
     }
+    if(f_m==0)
+    {
+      f_m=0.0000001
+    }
     log2FC<-log2(f_m/s_m)
     geneStats<-c(maxds, minds, meands, stdds, ceilds, floords,log2FC)
     return (geneStats)
