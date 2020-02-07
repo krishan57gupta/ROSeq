@@ -17,7 +17,7 @@ and the number of cores to be used.
 The developer version of the R package can be installed with the
 following R commands:
 
-install\_github(“krishan57gupta/ROSeq”)
+install\_github('krishan57gupta/ROSeq')
 
 ## Vignette tutorial
 
