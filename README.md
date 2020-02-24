@@ -18,11 +18,11 @@ The developer version of the R package can be installed with the
 following R commands:
 
 if (\!requireNamespace(“BiocManager”, quietly = TRUE))
-install.packages(“BiocManager”) BiocManager::install(‘ROSeq’)
+install.packages(“BiocManager”) BiocManager::install('ROSeq')
 
 or can be installed with the following R commands:
 
-library(devtools) install\_github(‘krishan57gupta/ROSeq’)
+library(devtools) install\_github('krishan57gupta/ROSeq')
 
 ## Vignette tutorial
 
