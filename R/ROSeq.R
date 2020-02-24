@@ -5,17 +5,18 @@
 ##' @param nbits optional, 10 as more accuracy with little slow (calculation on big number, Rmpfr library used), default is 0, means no Rmpfr library used for calculation
 ##' @param numCores The number of cores to be used
 ##' @return pValues A vector containing FDR adjusted p significance values
-##' @examples countData<-matrix(sample(c(seq_len(100)),1000,replace = TRUE),nrow=100,ncol=10)
-##' rownames(countData)<-paste("G",seq_len(100),sep="_")
-##' colnames(countData)<-paste("S",seq_len(10),sep="_")
-##' condition<-c(1,1,1,1,1,2,2,2,2,2)
-##' countData<-apply(countData,2,function(x) as.numeric(x))
-##' g_keep <- apply(countData,1,function(x) sum(x>0)>5)
-##' countData<-edgeR::cpm(countData) # optioanl, can be used other normalization
+##' @examples 
+##' countData<-list()
 ##' library(ROSeq)
-##' output<-ROSeq(countData=countData, condition = condition, nbits=0, numCores=1)
+##' countData$count<-ROSeq::L_Tung_single$NA19098_NA19101_count
+##' countData$group<-ROSeq::L_Tung_single$NA19098_NA19101_group
+##' head(countData$count)
+##' countData$count<-apply(countData$count,2,function(x) as.numeric(x))
+##' g_keep <- apply(countData$count,1,function(x) sum(x>0)>5)
+##' countData$count<-countData$count[g_keep,]
+##' countData$count<-edgeR::cpm(countData$count) # optioanl, can be used other normalization
+##' output<-ROSeq(countData=countData$count, condition = countData$group, nbits=0, numCores=1)
 ##' output
-##'
 ##' @export ROSeq
 ROSeq<-function(countData, condition, nbits=0, numCores)
 {
@@ -37,24 +38,10 @@ ROSeq<-function(countData, condition, nbits=0, numCores)
     #     print(results[[gene]])
     # }
     results <- pbmcapply::pbmclapply(geneIndex, initiateAnalysis, scdata=countData, scgroups=scgroups, classOne=cOne, classTwo=cTwo, mc.cores=numCores, nbits)
-    pVals<-unlist(lapply(results,function(x) x[12]))
-    log2FC<-unlist(lapply(results,function(x) x[13]))
-    others_info=matrix(0,nrow=length(pVals),ncol=11)
-    others_info[,1]<-unlist(lapply(results,function(x) x[1]))
-    others_info[,2]<-unlist(lapply(results,function(x) x[2]))
-    others_info[,3]<-unlist(lapply(results,function(x) x[3]))
-    others_info[,4]<-unlist(lapply(results,function(x) x[4]))
-    others_info[,5]<-unlist(lapply(results,function(x) x[5]))
-    others_info[,6]<-unlist(lapply(results,function(x) x[6]))
-    others_info[,7]<-unlist(lapply(results,function(x) x[7]))
-    others_info[,8]<-unlist(lapply(results,function(x) x[8]))
-    others_info[,9]<-unlist(lapply(results,function(x) x[9]))
-    others_info[,10]<-unlist(lapply(results,function(x) x[10]))
-    others_info[,11]<-unlist(lapply(results,function(x) x[11]))
+    pVals<-unlist(lapply(results,function(x) x[[12]]))
+    log2FC<-unlist(lapply(results,function(x) x[[13]]))
     pAdj<-stats::p.adjust(pVals, method = "fdr")
-    results<-cbind("pVals"=pVals,"pAdj"=pAdj,"log2FC"=log2FC,"Wald_T"=others_info[,11],
-                   "F_a"=others_info[,1],"F_b"=others_info[,2],"F_A"=others_info[,3],"F_n_bins"=others_info[,4],"F_R2"=others_info[,5],
-                   "S_a"=others_info[,6],"S_b"=others_info[,7],"S_A"=others_info[,8], "S_n_bins"=others_info[,9],"S_R2"=others_info[,10])
+    results<-cbind("pVals"=pVals,"pAdj"=pAdj,"log2FC"=log2FC)
     rownames(results)<-rownames(countData)
     return(results)
 }

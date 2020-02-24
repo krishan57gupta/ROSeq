@@ -22,15 +22,15 @@ pValues A vector containing FDR adjusted p significance values
 Takes in the complete filtered and normalized read count matrix, the location of the two sub-populations and the number of cores to be used
 }
 \examples{
-countData<-matrix(sample(c(seq_len(100)),1000,replace = TRUE),nrow=100,ncol=10)
-rownames(countData)<-paste("G",seq_len(100),sep="_")
-colnames(countData)<-paste("S",seq_len(10),sep="_")
-condition<-c(1,1,1,1,1,2,2,2,2,2)
-countData<-apply(countData,2,function(x) as.numeric(x))
-g_keep <- apply(countData,1,function(x) sum(x>0)>5)
-countData<-edgeR::cpm(countData) # optioanl, can be used other normalization
+countData<-list()
 library(ROSeq)
-output<-ROSeq(countData=countData, condition = condition, nbits=0, numCores=1)
+countData$count<-ROSeq::L_Tung_single$NA19098_NA19101_count
+countData$group<-ROSeq::L_Tung_single$NA19098_NA19101_group
+head(countData$count)
+countData$count<-apply(countData$count,2,function(x) as.numeric(x))
+g_keep <- apply(countData$count,1,function(x) sum(x>0)>5)
+countData$count<-countData$count[g_keep,]
+countData$count<-edgeR::cpm(countData$count) # optioanl, can be used other normalization
+output<-ROSeq(countData=countData$count, condition = countData$group, nbits=0, numCores=1)
 output
-
 }
