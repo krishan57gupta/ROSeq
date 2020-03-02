@@ -22,7 +22,8 @@ install.packages(“BiocManager”) BiocManager::install('ROSeq')
 
 or can be installed with the following R commands:
 
-library(devtools) install\_github('krishan57gupta/ROSeq')
+library(devtools) 
+install\_github('krishan57gupta/ROSeq')
 
 ## Vignette tutorial
 
