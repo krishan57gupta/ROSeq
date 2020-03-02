@@ -17,13 +17,15 @@ and the number of cores to be used.
 The developer version of the R package can be installed with the
 following R commands:
 
+``` r
 if (\!requireNamespace(“BiocManager”, quietly = TRUE))
 install.packages(“BiocManager”) BiocManager::install(‘ROSeq’)
-
+```
 or can be installed with the following R commands:
-
-library(devtools) install\_github(‘krishan57gupta/ROSeq’)
-
+``` r
+library(devtools) 
+install\_github(‘krishan57gupta/ROSeq’)
+```
 ## Vignette tutorial
 
 This vignette uses a tung dataset already inbuilt in same package, to
