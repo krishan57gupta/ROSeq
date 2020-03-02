@@ -30,9 +30,16 @@ if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
 BiocManager::install('ROSeq')
 
+or can be installed with the following R commands:
+
+library(devtools)
+install_github('krishan57gupta/ROSeq')
+
+
 ## Vignette tutorial
 
-This vignette uses a small simulated data, to demonstrate a standard pipeline. This vignette can be used as a tutorial as well.
+This vignette uses a tung dataset already inbuilt in same package, to demonstrate a standard pipeline. This vignette can be used as a tutorial as well.
+Ref: Tung, P.-Y.et al.Batch effects and the effective design of single-cell geneexpression studies.Scientific reports7, 39921 (2017)
 
 ## Example
 
@@ -46,13 +53,9 @@ library(edgeR)
 ```
 
 ```{r data, message=FALSE,warning = FALSE,include=TRUE, cache=FALSE}
-n_samples<-100
-n_genes<-1000
-n_de_genes<-100
-mydata <- generateSyntheticData(dataset = "mydata", n.vars = n_genes, samples.per.cond = n_samples, n.diffexp = n_de_genes)
 samples<-list()
-samples$count<-mydata@count.matrix
-samples$group<-mydata@sample.annotations$condition
+samples$count<-ROSeq::L_Tung_single$NA19098_NA19101_count
+samples$group<-ROSeq::L_Tung_single$NA19098_NA19101_group
 head(samples$count)
 ```
 
