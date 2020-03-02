@@ -18,14 +18,18 @@ The developer version of the R package can be installed with the
 following R commands:
 
 ``` r
-if (\!requireNamespace(“BiocManager”, quietly = TRUE))
-install.packages(“BiocManager”) BiocManager::install(‘ROSeq’)
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install('ROSeq')
 ```
+
 or can be installed with the following R commands:
+
 ``` r
-library(devtools) 
-install\_github(‘krishan57gupta/ROSeq’)
+library(devtools)
+install_github('krishan57gupta/ROSeq')
 ```
+
 ## Vignette tutorial
 
 This vignette uses a tung dataset already inbuilt in same package, to
@@ -50,7 +54,7 @@ library(edgeR)
 samples<-list()
 samples$count<-ROSeq::L_Tung_single$NA19098_NA19101_count
 samples$group<-ROSeq::L_Tung_single$NA19098_NA19101_group
-head(samples$count[1:5,1:5])
+samples$count[1:5,1:5]
 #>                 NA19098.r1.A01 NA19098.r1.A02 NA19098.r1.A03 NA19098.r1.A04
 #> ENSG00000237683              0              0              0              1
 #> ENSG00000187634              0              0              0              0
