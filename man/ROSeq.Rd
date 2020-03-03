@@ -30,7 +30,7 @@ head(countData$count)
 countData$count<-apply(countData$count,2,function(x) as.numeric(x))
 g_keep <- apply(countData$count,1,function(x) sum(x>0)>5)
 countData$count<-countData$count[g_keep,]
-countData$count<-edgeR::cpm(countData$count) # optioanl, can be used other normalization
+countData$count<-limma::voom(ROSeq::TMMnormalization(countData$count))
 output<-ROSeq(countData=countData$count, condition = countData$group, nbits=0, numCores=1)
 output
 }

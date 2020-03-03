@@ -18,7 +18,8 @@ Imports:
     pbmcapply, 
     Rmpfr,
     edgeR,
-    compcodeR
+    compcodeR,
+    limma
 Suggests: 
     knitr,
     rmarkdown,

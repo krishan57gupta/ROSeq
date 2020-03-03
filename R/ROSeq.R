@@ -14,7 +14,7 @@
 ##' countData$count<-apply(countData$count,2,function(x) as.numeric(x))
 ##' g_keep <- apply(countData$count,1,function(x) sum(x>0)>5)
 ##' countData$count<-countData$count[g_keep,]
-##' countData$count<-edgeR::cpm(countData$count) # optioanl, can be used other normalization
+##' countData$count<-limma::voom(ROSeq::TMMnormalization(countData$count))
 ##' output<-ROSeq(countData=countData$count, condition = countData$group, nbits=0, numCores=1)
 ##' output
 ##' @export ROSeq
@@ -558,4 +558,22 @@ getd2logAdbda<-function( u1, v, du1db, dvdb)
     den1<-v^2
     d2logAdbda<-(num1-num2)/den1
     return(d2logAdbda)
+}
+
+##' @title TMM Normalization.
+##' @description Trimmed Means of M values (TMM) normalization (on the basis of edgeR package)
+##' @param countTable The filtered, read count matrix, with row names as genes name/ID and column names as sample id/name
+##' @return countTableTMM
+##' @export TMMnormalization
+TMMnormalization <- function(countTable)
+{
+  cname=colnames(countTable)
+  rname=rownames(countTable)
+  nf=calcNormFactors(countTable ,method= "TMM")
+  nf= colSums(countTable)*nf
+  scalingFactors = nf/mean(nf)
+  countTableTMM <- t(t(countTable)/scalingFactors)
+  colnames(countTableTMM)=cname
+  rownames(countTableTMM)=rname
+  return(countTableTMM)
 }

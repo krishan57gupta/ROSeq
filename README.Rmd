@@ -48,6 +48,7 @@ Libraries need to be loaded before running.
 library(ROSeq)
 library(compcodeR)
 library(edgeR)
+library(limma)
 ```
 
 ```{r data, message=FALSE,warning = FALSE,include=TRUE, cache=FALSE}
@@ -61,7 +62,7 @@ samples$count[1:5,1:5]
 samples$count=apply(samples$count,2,function(x) as.numeric(x))
 gkeep <- apply(samples$count,1,function(x) sum(x>0)>5)
 samples$count<-samples$count[gkeep,]
-samples$count<-edgeR::cpm(samples$count)
+samples$count<-limma::voom(ROSeq::TMMnormalization(samples$count))
 ```
 
 ```{r main, message=FALSE,warning = FALSE, include=TRUE, cache=FALSE}

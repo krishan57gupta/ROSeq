@@ -48,6 +48,7 @@ library(compcodeR)
 #> Package 'sm', version 2.2-5.6: type help(sm) for summary information
 library(edgeR)
 #> Loading required package: limma
+library(limma)
 ```
 
 ``` r
@@ -73,7 +74,7 @@ samples$count[1:5,1:5]
 samples$count=apply(samples$count,2,function(x) as.numeric(x))
 gkeep <- apply(samples$count,1,function(x) sum(x>0)>5)
 samples$count<-samples$count[gkeep,]
-samples$count<-edgeR::cpm(samples$count)
+samples$count<-limma::voom(ROSeq::TMMnormalization(samples$count))
 ```
 
 ``` r
@@ -82,10 +83,10 @@ output<-ROSeq(countData=samples$count, condition = samples$group, nbits=0, numCo
 
 ``` r
 output[1:5,]
-#>           pVals      pAdj       log2FC
-#> [1,] 0.75009454 0.8766822  0.003179705
-#> [2,] 0.05000403 0.1732159 -1.882145352
-#> [3,] 0.08819975 0.2440436  0.043243212
-#> [4,] 0.56798417 0.7405707 -0.622076958
-#> [5,] 0.34364800 0.5498973  0.602577144
+#>             pVals        pAdj      log2FC
+#> [1,] 0.2912653242 0.571901046 -0.03545082
+#> [2,] 0.0003176301 0.006390721 -0.07956817
+#> [3,] 0.6497064020 0.831221721  0.03307939
+#> [4,] 0.0554763840 0.198719347 -0.08567317
+#> [5,] 0.0077068770 0.045497442 -0.05582549
 ```
