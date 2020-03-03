@@ -569,7 +569,7 @@ TMMnormalization <- function(countTable)
 {
   cname=colnames(countTable)
   rname=rownames(countTable)
-  nf=calcNormFactors(countTable ,method= "TMM")
+  nf=edgeR::calcNormFactors(countTable ,method= "TMM")
   nf= colSums(countTable)*nf
   scalingFactors = nf/mean(nf)
   countTableTMM <- t(t(countTable)/scalingFactors)
