@@ -4,14 +4,12 @@
 \alias{getdu1da}
 \title{Finds the first derivative of u1 with respect to a. This first derivative is evaluated at the optimal (a_hat, b_hat).}
 \usage{
-getdu1da(coefficients, r, nbits)
+getdu1da(coefficients, r)
 }
 \arguments{
 \item{coefficients}{the optimal values of a and b}
 
 \item{r}{the rank vector}
-
-\item{nbits}{number of bits for mpfr function}
 }
 \value{
 du1da

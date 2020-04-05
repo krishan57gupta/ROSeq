@@ -4,14 +4,12 @@
 \alias{computeDEG}
 \title{Computes differential expression for the gene in question, by comparing the optimal parameters for sub-populations one and two}
 \usage{
-computeDEG(results_1, results_2, nbits)
+computeDEG(results_1, results_2)
 }
 \arguments{
 \item{results_1}{A vector corresponding to sub-population one and containing 5 values (a, b, A, number of bins, R2)}
 
 \item{results_2}{A vector corresponding to sub-population two and containing 5 values (a, b, A, number of bins, R2)}
-
-\item{nbits}{number of bits for mpfr function}
 }
 \value{
 T  The Wald test statistic for testing the null hypothesis

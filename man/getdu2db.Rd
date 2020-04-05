@@ -4,14 +4,12 @@
 \alias{getdu2db}
 \title{Finds the first derivative of u2 with respect to b. This first derivative is evaluated at the optimal (a_hat, b_hat).}
 \usage{
-getdu2db(coefficients, r, nbits)
+getdu2db(coefficients, r)
 }
 \arguments{
 \item{coefficients}{the optimal values of a and b}
 
 \item{r}{the rank vector}
-
-\item{nbits}{number of bits for mpfr function}
 }
 \value{
 du2db

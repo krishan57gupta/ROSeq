@@ -4,7 +4,7 @@
 \alias{initiateAnalysis}
 \title{Computes differential analysis for a given gene}
 \usage{
-initiateAnalysis(gene, scdata, scgroups, classOne, classTwo, nbits)
+initiateAnalysis(gene, scdata, scgroups, classOne, classTwo)
 }
 \arguments{
 \item{gene}{The row index of the normalised and filtered, read count matrix}
@@ -16,8 +16,6 @@ initiateAnalysis(gene, scdata, scgroups, classOne, classTwo, nbits)
 \item{classOne}{The location of the first sub-population, for example, sample names as given as columns names}
 
 \item{classTwo}{The location of thesecond sub-population, for example, sample names as given as columns names}
-
-\item{nbits}{number of bits for mpfr function}
 }
 \value{
 combinedResults A vector containing 12 values (gr1: a, g1: b, gr1: A, gr1: number of bins, gr1: R2, gr2: a, gr2: b, gr2: A, gr2: number of bins, gr2: R2, T, p)

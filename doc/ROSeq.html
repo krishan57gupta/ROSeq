@@ -8,7 +8,7 @@
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 
 
@@ -115,9 +115,6 @@ padding-right: 2em;
 font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 font-size: 14px;
 line-height: 1.35;
-}
-#header {
-text-align: center;
 }
 #TOC {
 clear: both;
@@ -286,7 +283,8 @@ code > span.st { color: #d14; }
 code > span.co { color: #888888; font-style: italic; } 
 code > span.ot { color: #007020; } 
 code > span.al { color: #ff0000; font-weight: bold; } 
-code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
 </style>
 
 
@@ -355,7 +353,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <a class="sourceLine" id="cb5-2" data-line-number="2">gkeep &lt;-<span class="st"> </span><span class="kw">apply</span>(samples<span class="op">$</span>count,<span class="dv">1</span>,<span class="cf">function</span>(x) <span class="kw">sum</span>(x<span class="op">&gt;</span><span class="dv">0</span>)<span class="op">&gt;</span><span class="dv">5</span>)</a>
 <a class="sourceLine" id="cb5-3" data-line-number="3">samples<span class="op">$</span>count&lt;-samples<span class="op">$</span>count[gkeep,]</a>
 <a class="sourceLine" id="cb5-4" data-line-number="4">samples<span class="op">$</span>count&lt;-limma<span class="op">::</span><span class="kw">voom</span>(ROSeq<span class="op">::</span><span class="kw">TMMnormalization</span>(samples<span class="op">$</span>count))</a></code></pre></div>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">output&lt;-<span class="kw">ROSeq</span>(<span class="dt">countData=</span>samples<span class="op">$</span>count, <span class="dt">condition =</span> samples<span class="op">$</span>group, <span class="dt">nbits=</span><span class="dv">0</span>, <span class="dt">numCores=</span><span class="dv">1</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">output&lt;-<span class="kw">ROSeq</span>(<span class="dt">countData=</span>samples<span class="op">$</span>count, <span class="dt">condition =</span> samples<span class="op">$</span>group, <span class="dt">numCores=</span><span class="dv">1</span>)</a></code></pre></div>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">output[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>,]</a>
 <a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">#&gt;             pVals        pAdj      log2FC</span></a>
 <a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">#&gt; [1,] 0.2912653242 0.571901046 -0.03545082</span></a>

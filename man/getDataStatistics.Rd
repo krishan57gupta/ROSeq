@@ -4,7 +4,7 @@
 \alias{getDataStatistics}
 \title{Evaluates statistics of the read counts corresponding to the gene}
 \usage{
-getDataStatistics(sp, spOne, spTwo, nbits)
+getDataStatistics(sp, spOne, spTwo)
 }
 \arguments{
 \item{sp}{The complete (normalized and filtered) read count data corresponding to the gene in question}
@@ -12,8 +12,6 @@ getDataStatistics(sp, spOne, spTwo, nbits)
 \item{spOne}{The (normalized and filtered) read count data corresponding to the first sub-population}
 
 \item{spTwo}{The (normalized and filtered) read count data corresponding to the second sub-population}
-
-\item{nbits}{number of bits for mpfr function}
 }
 \value{
 geneStats A vector containing 7 values corresponding to the gene data (maximum, minimum, mean, standard deviation, upper multiple of standard deviation, lower multiple of standard deviation and log2(fold change))

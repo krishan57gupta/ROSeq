@@ -4,14 +4,12 @@
 \alias{getu1}
 \title{Computes u1}
 \usage{
-getu1(coefficients, r, nbits)
+getu1(coefficients, r)
 }
 \arguments{
 \item{coefficients}{the optimal values of a and b}
 
 \item{r}{the rank vector}
-
-\item{nbits}{number of bits for mpfr function}
 }
 \value{
 u1

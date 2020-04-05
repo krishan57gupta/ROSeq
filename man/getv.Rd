@@ -4,14 +4,12 @@
 \alias{getv}
 \title{Computes v}
 \usage{
-getv(coefficients, r, nbits)
+getv(coefficients, r)
 }
 \arguments{
 \item{coefficients}{the optimal values of a and b}
 
 \item{r}{the rank vector}
-
-\item{nbits}{number of bits for mpfr function}
 }
 \value{
 v

@@ -78,7 +78,7 @@ samples$count<-limma::voom(ROSeq::TMMnormalization(samples$count))
 ```
 
 ``` r
-output<-ROSeq(countData=samples$count, condition = samples$group, nbits=0, numCores=1)
+output<-ROSeq(countData=samples$count, condition = samples$group, numCores=1)
 ```
 
 ``` r

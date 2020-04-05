@@ -4,14 +4,12 @@
 \alias{findParams}
 \title{Finds the optimal values of parameters a and b that model the probability distribution of ranks, by Maximising the Log-Likelihood}
 \usage{
-findParams(ds, geneStats, nbits)
+findParams(ds, geneStats)
 }
 \arguments{
 \item{ds}{The (normalized and filtered) read count data corresponding to a sub-population}
 
 \item{geneStats}{A vector containing 7 values corresponding to the gene data (maximum, minimum, mean, standard deviation, upper multiple of standard deviation, lower multiple of standard deviation and log_{2}(fold change))}
-
-\item{nbits}{number of bits for mpfr function}
 }
 \value{
 results A vector containing 5 values (a, b, A, number of bins, R2)

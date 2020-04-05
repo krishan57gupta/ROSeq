@@ -4,7 +4,7 @@
 \alias{minimizeNLL}
 \title{Minimizes the Negative Log-Likelihood by iterating across values of parameters a and b}
 \usage{
-minimizeNLL(coefficients, r, readCount, nbits)
+minimizeNLL(coefficients, r, readCount)
 }
 \arguments{
 \item{coefficients}{A vector containing two values for a and b}
@@ -12,8 +12,6 @@ minimizeNLL(coefficients, r, readCount, nbits)
 \item{r}{The number of bins}
 
 \item{readCount}{A vector of (normalized) frequency of read counts that fall within each bin}
-
-\item{nbits}{number of bits for mpfr function}
 }
 \value{
 NLL Negative-Log Likelihood for the input coefficients

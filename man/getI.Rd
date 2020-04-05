@@ -4,12 +4,10 @@
 \alias{getI}
 \title{Computes the Fisher Information Matrix}
 \usage{
-getI(results, nbits)
+getI(results)
 }
 \arguments{
 \item{results}{A vector containing 5 values (a, b, A, number of bins, R2)}
-
-\item{nbits}{number of bits for mpfr function}
 }
 \value{
 I  The Fisher Information Matrix

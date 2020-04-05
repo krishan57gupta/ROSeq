@@ -4,14 +4,12 @@
 \alias{getdvdb}
 \title{Finds the first derivative of v with respect to b. This first derivative is evaluated at the optimal (a_hat, b_hat).}
 \usage{
-getdvdb(coefficients, r, nbits)
+getdvdb(coefficients, r)
 }
 \arguments{
 \item{coefficients}{the optimal values of a and b}
 
 \item{r}{the rank vector}
-
-\item{nbits}{number of bits for mpfr function}
 }
 \value{
 dvdb
