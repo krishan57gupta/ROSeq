@@ -18,6 +18,14 @@ The developer version of the R package can be installed with the
 following R commands:
 
 ``` r
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install('ROSeq')
+```
+
+or can be installed with the following R commands:
+
+``` r
 library(devtools)
 install_github('krishan57gupta/ROSeq')
 ```
@@ -37,12 +45,13 @@ Libraries need to be loaded before running.
 library(ROSeq)
 library(compcodeR)
 #> Loading required package: sm
-#> Warning in fun(libname, pkgname): couldn't connect to display ":0"
 #> Package 'sm', version 2.2-5.6: type help(sm) for summary information
 library(edgeR)
 #> Loading required package: limma
 library(limma)
 ```
+
+## Loading tung dataset
 
 ``` r
 samples<-list()
@@ -63,6 +72,8 @@ samples$count[1:5,1:5]
 #> ENSG00000187583              0
 ```
 
+## Data Preprocessing: cells and genes filtering then voom transformation after TMM normalization
+
 ``` r
 samples$count=apply(samples$count,2,function(x) as.numeric(x))
 gkeep <- apply(samples$count,1,function(x) sum(x>0)>5)
@@ -70,9 +81,13 @@ samples$count<-samples$count[gkeep,]
 samples$count<-limma::voom(ROSeq::TMMnormalization(samples$count))
 ```
 
+## ROSeq calling
+
 ``` r
 output<-ROSeq(countData=samples$count, condition = samples$group, numCores=1)
 ```
+
+## Showing results are in the form of pval, padj and log2FC
 
 ``` r
 output[1:5,]

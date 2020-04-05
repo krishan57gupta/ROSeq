@@ -320,7 +320,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 </div>
 <div id="vignette-tutorial" class="section level2">
 <h2>Vignette tutorial</h2>
-<p>This vignette uses a tung dataset already inbuilt in same package, to demonstrate a standard pipeline. This vignette can be used as a tutorial as well. Ref: Tung, P.-Y.et al.Batch effects and the effective design of single-cell geneexpression studies.Scientific reports7, 39921 (2017)</p>
+<p>This vignette uses a tung dataset already inbuilt in same package, to demonstrate a standard pipeline. This vignette can be used as a tutorial as well. Ref: Tung, P.-Y.et al.Batch effects and the effective design of single-cell geneexpression studies.Scientific reports7, 39921 (2017).</p>
 </div>
 <div id="example" class="section level2">
 <h2>Example</h2>
@@ -328,11 +328,13 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">library</span>(ROSeq)</a>
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">library</span>(compcodeR)</a>
 <a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt; Loading required package: sm</span></a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt; Warning in fun(libname, pkgname): couldn't connect to display &quot;:0&quot;</span></a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; Package 'sm', version 2.2-5.6: type help(sm) for summary information</span></a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="kw">library</span>(edgeR)</a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; Loading required package: limma</span></a>
-<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="kw">library</span>(limma)</a></code></pre></div>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt; Package 'sm', version 2.2-5.6: type help(sm) for summary information</span></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="kw">library</span>(edgeR)</a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; Loading required package: limma</span></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="kw">library</span>(limma)</a></code></pre></div>
+</div>
+<div id="loading-tung-dataset" class="section level2">
+<h2>Loading tung dataset</h2>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">samples&lt;-<span class="kw">list</span>()</a>
 <a class="sourceLine" id="cb4-2" data-line-number="2">samples<span class="op">$</span>count&lt;-ROSeq<span class="op">::</span>L_Tung_single<span class="op">$</span>NA19098_NA19101_count</a>
 <a class="sourceLine" id="cb4-3" data-line-number="3">samples<span class="op">$</span>group&lt;-ROSeq<span class="op">::</span>L_Tung_single<span class="op">$</span>NA19098_NA19101_group</a>
@@ -349,11 +351,20 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <a class="sourceLine" id="cb4-14" data-line-number="14"><span class="co">#&gt; ENSG00000188976              4</span></a>
 <a class="sourceLine" id="cb4-15" data-line-number="15"><span class="co">#&gt; ENSG00000187961              0</span></a>
 <a class="sourceLine" id="cb4-16" data-line-number="16"><span class="co">#&gt; ENSG00000187583              0</span></a></code></pre></div>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">samples<span class="op">$</span>count&lt;-<span class="kw">apply</span>(samples<span class="op">$</span>count,<span class="dv">2</span>,<span class="cf">function</span>(x) <span class="kw">as.numeric</span>(x))</a>
+</div>
+<div id="data-preprocessing-cells-and-genes-filtering-then-voom-transformation-after-tmm-normalization" class="section level2">
+<h2>Data Preprocessing: cells and genes filtering then voom transformation after TMM normalization</h2>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">samples<span class="op">$</span>count=<span class="kw">apply</span>(samples<span class="op">$</span>count,<span class="dv">2</span>,<span class="cf">function</span>(x) <span class="kw">as.numeric</span>(x))</a>
 <a class="sourceLine" id="cb5-2" data-line-number="2">gkeep &lt;-<span class="st"> </span><span class="kw">apply</span>(samples<span class="op">$</span>count,<span class="dv">1</span>,<span class="cf">function</span>(x) <span class="kw">sum</span>(x<span class="op">&gt;</span><span class="dv">0</span>)<span class="op">&gt;</span><span class="dv">5</span>)</a>
 <a class="sourceLine" id="cb5-3" data-line-number="3">samples<span class="op">$</span>count&lt;-samples<span class="op">$</span>count[gkeep,]</a>
 <a class="sourceLine" id="cb5-4" data-line-number="4">samples<span class="op">$</span>count&lt;-limma<span class="op">::</span><span class="kw">voom</span>(ROSeq<span class="op">::</span><span class="kw">TMMnormalization</span>(samples<span class="op">$</span>count))</a></code></pre></div>
+</div>
+<div id="roseq-calling" class="section level2">
+<h2>ROSeq calling</h2>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">output&lt;-<span class="kw">ROSeq</span>(<span class="dt">countData=</span>samples<span class="op">$</span>count, <span class="dt">condition =</span> samples<span class="op">$</span>group, <span class="dt">numCores=</span><span class="dv">1</span>)</a></code></pre></div>
+</div>
+<div id="showing-results-are-in-the-form-of-pval-padj-and-log2fc" class="section level2">
+<h2>Showing results are in the form of pval, padj and log2FC</h2>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">output[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>,]</a>
 <a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">#&gt;             pVals        pAdj      log2FC</span></a>
 <a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">#&gt; [1,] 0.2912653242 0.571901046 -0.03545082</span></a>
