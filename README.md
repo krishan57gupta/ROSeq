@@ -18,14 +18,6 @@ The developer version of the R package can be installed with the
 following R commands:
 
 ``` r
-if (!requireNamespace("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
-BiocManager::install('ROSeq')
-```
-
-or can be installed with the following R commands:
-
-``` r
 library(devtools)
 install_github('krishan57gupta/ROSeq')
 ```
@@ -36,7 +28,8 @@ This vignette uses a tung dataset already inbuilt in same package, to
 demonstrate a standard pipeline. This vignette can be used as a tutorial
 as well. Ref: Tung, P.-Y.et al.Batch effects and the effective design of
 single-cell geneexpression studies.Scientific reports7, 39921 (2017).
-\#\# Example
+
+## Example
 
 Libraries need to be loaded before running.
 
