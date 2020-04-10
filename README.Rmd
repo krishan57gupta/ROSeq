@@ -6,10 +6,10 @@ output: github_document
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  fig.path = "man/figures/README-",
-  out.width = "100%"
+    collapse = TRUE,
+    comment = "#>",
+    fig.path = "man/figures/README-",
+    out.width = "100%"
 )
 ```
 
@@ -20,11 +20,15 @@ Author: Krishan Gupta
 
 ## Introduction
 
-ROSeq - A rank based approach to modeling gene expression with filtered and normalized read count matrix. Takes in the complete filtered and normalized read count matrix, the location of the two sub-populations and the number of cores to be used.
+ROSeq - A rank based approach to modeling gene expression with filtered and 
+normalized read count matrix. Takes in the complete filtered and normalized 
+read count matrix, the location of the two sub-populations and 
+the number of cores to be used.
 
 ## Installation
 
-The developer version of the R package can be installed with the following R commands:
+The developer version of the R package can be installed with 
+the following R commands:
 ```r
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
@@ -37,8 +41,11 @@ install_github('krishan57gupta/ROSeq')
 ```
 ## Vignette tutorial
 
-This vignette uses a tung dataset already inbuilt in same package, to demonstrate a standard pipeline. This vignette can be used as a tutorial as well.
-Ref: Tung, P.-Y.et al.Batch effects and the effective design of single-cell geneexpression studies.Scientific reports7, 39921 (2017).
+This vignette uses a tung dataset already inbuilt in same package, 
+to demonstrate a standard pipeline. This vignette can be used 
+as a tutorial as well.
+Ref: Tung, P.-Y.et al.Batch effects and the effective design of 
+single-cell geneexpression studies.Scientific reports7, 39921 (2017).
 
 ## Example
 
@@ -47,7 +54,6 @@ Libraries need to be loaded before running.
 
 ```{r setup}
 library(ROSeq)
-library(compcodeR)
 library(edgeR)
 library(limma)
 ```
@@ -60,7 +66,8 @@ samples$group<-ROSeq::L_Tung_single$NA19098_NA19101_group
 samples$count[1:5,1:5]
 ```
 
-## Data Preprocessing: cells and genes filtering then voom transformation after TMM normalization
+## Data Preprocessing: cells and genes filtering then voom transformation 
+## after TMM normalization
 ```{r preprocesing, message=FALSE,warning = FALSE,include=TRUE, cache=FALSE}
 samples$count=apply(samples$count,2,function(x) as.numeric(x))
 gkeep <- apply(samples$count,1,function(x) sum(x>0)>5)

@@ -2,12 +2,14 @@
 % Please edit documentation in R/ROSeq.R
 \name{ROSeq}
 \alias{ROSeq}
-\title{A rank based approach to modeling gene expression with filtered and normalized read count matrix}
+\title{A rank based approach to modeling gene expression with filtered
+and normalized read count matrix}
 \usage{
-ROSeq(countData, condition, numCores)
+ROSeq(countData, condition, numCores = 1)
 }
 \arguments{
-\item{countData}{The normalised and filtered, read count matrix, with row names as genes name/ID and column names as sample id/name}
+\item{countData}{The normalised and filtered, read count matrix, with
+row names as genes name/ID and column names as sample id/name}
 
 \item{condition}{Labels for the two sub-populations}
 
@@ -17,11 +19,12 @@ ROSeq(countData, condition, numCores)
 pValues A vector containing FDR adjusted p significance values
 }
 \description{
-Takes in the complete filtered and normalized read count matrix, the location of the two sub-populations and the number of cores to be used
+Takes in the complete filtered and normalized read count
+matrix, the location of the two sub-populations and the number of cores
+to be used
 }
 \examples{
 countData<-list()
-library(ROSeq)
 countData$count<-ROSeq::L_Tung_single$NA19098_NA19101_count
 countData$group<-ROSeq::L_Tung_single$NA19098_NA19101_group
 head(countData$count)
@@ -29,6 +32,6 @@ countData$count<-apply(countData$count,2,function(x) as.numeric(x))
 g_keep <- apply(countData$count,1,function(x) sum(x>0)>5)
 countData$count<-countData$count[g_keep,]
 countData$count<-limma::voom(ROSeq::TMMnormalization(countData$count))
-output<-ROSeq(countData=countData$count, condition = countData$group, numCores=1)
+output<-ROSeq(countData=countData$count, condition = countData$group)
 output
 }

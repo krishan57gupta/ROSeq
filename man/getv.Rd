@@ -15,5 +15,7 @@ getv(coefficients, r)
 v
 }
 \description{
-u1, v and u2 constitute the equations required for evaluating the first and second order derivatives of A with respect to parameters a and b
+u1, v and u2 constitute the equations required for evaluating 
+the first and second order derivatives of A with respect to parameters 
+a and b
 }

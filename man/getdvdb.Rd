@@ -2,7 +2,8 @@
 % Please edit documentation in R/ROSeq.R
 \name{getdvdb}
 \alias{getdvdb}
-\title{Finds the first derivative of v with respect to b. This first derivative is evaluated at the optimal (a_hat, b_hat).}
+\title{Finds the first derivative of v with respect to b. 
+This first derivative is evaluated at the optimal (a_hat, b_hat).}
 \usage{
 getdvdb(coefficients, r)
 }
@@ -15,5 +16,7 @@ getdvdb(coefficients, r)
 dvdb
 }
 \description{
-u1, v and u2 constitute the equations required for evaluating the first and second order derivatives of A with respect to parameters a and b
+u1, v and u2 constitute the equations required for evaluating
+the first and second order derivatives of A with respect to parameters 
+a and b
 }

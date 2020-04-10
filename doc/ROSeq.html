@@ -326,12 +326,9 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <h2>Example</h2>
 <p>Libraries need to be loaded before running.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">library</span>(ROSeq)</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">library</span>(compcodeR)</a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt; Loading required package: sm</span></a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt; Package 'sm', version 2.2-5.6: type help(sm) for summary information</span></a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="kw">library</span>(edgeR)</a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; Loading required package: limma</span></a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="kw">library</span>(limma)</a></code></pre></div>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">library</span>(edgeR)</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt; Loading required package: limma</span></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="kw">library</span>(limma)</a></code></pre></div>
 </div>
 <div id="loading-tung-dataset" class="section level2">
 <h2>Loading tung dataset</h2>
@@ -352,8 +349,11 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <a class="sourceLine" id="cb4-15" data-line-number="15"><span class="co">#&gt; ENSG00000187961              0</span></a>
 <a class="sourceLine" id="cb4-16" data-line-number="16"><span class="co">#&gt; ENSG00000187583              0</span></a></code></pre></div>
 </div>
-<div id="data-preprocessing-cells-and-genes-filtering-then-voom-transformation-after-tmm-normalization" class="section level2">
-<h2>Data Preprocessing: cells and genes filtering then voom transformation after TMM normalization</h2>
+<div id="data-preprocessing-cells-and-genes-filtering-then-voom-transformation" class="section level2">
+<h2>Data Preprocessing: cells and genes filtering then voom transformation</h2>
+</div>
+<div id="after-tmm-normalization" class="section level2">
+<h2>after TMM normalization</h2>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">samples<span class="op">$</span>count=<span class="kw">apply</span>(samples<span class="op">$</span>count,<span class="dv">2</span>,<span class="cf">function</span>(x) <span class="kw">as.numeric</span>(x))</a>
 <a class="sourceLine" id="cb5-2" data-line-number="2">gkeep &lt;-<span class="st"> </span><span class="kw">apply</span>(samples<span class="op">$</span>count,<span class="dv">1</span>,<span class="cf">function</span>(x) <span class="kw">sum</span>(x<span class="op">&gt;</span><span class="dv">0</span>)<span class="op">&gt;</span><span class="dv">5</span>)</a>
 <a class="sourceLine" id="cb5-3" data-line-number="3">samples<span class="op">$</span>count&lt;-samples<span class="op">$</span>count[gkeep,]</a>

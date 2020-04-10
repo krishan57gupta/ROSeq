@@ -1,12 +1,15 @@
-##' @title A rank based approach to modeling gene expression with filtered and normalized read count matrix
-##' @description Takes in the complete filtered and normalized read count matrix, the location of the two sub-populations and the number of cores to be used
-##' @param countData The normalised and filtered, read count matrix, with row names as genes name/ID and column names as sample id/name
+##' @title A rank based approach to modeling gene expression with filtered
+##' and normalized read count matrix
+##' @description Takes in the complete filtered and normalized read count
+##' matrix, the location of the two sub-populations and the number of cores
+##' to be used
+##' @param countData The normalised and filtered, read count matrix, with
+##' row names as genes name/ID and column names as sample id/name
 ##' @param condition Labels for the two sub-populations
 ##' @param numCores The number of cores to be used
 ##' @return pValues A vector containing FDR adjusted p significance values
 ##' @examples 
 ##' countData<-list()
-##' library(ROSeq)
 ##' countData$count<-ROSeq::L_Tung_single$NA19098_NA19101_count
 ##' countData$group<-ROSeq::L_Tung_single$NA19098_NA19101_group
 ##' head(countData$count)
@@ -14,10 +17,10 @@
 ##' g_keep <- apply(countData$count,1,function(x) sum(x>0)>5)
 ##' countData$count<-countData$count[g_keep,]
 ##' countData$count<-limma::voom(ROSeq::TMMnormalization(countData$count))
-##' output<-ROSeq(countData=countData$count, condition = countData$group, numCores=1)
+##' output<-ROSeq(countData=countData$count, condition = countData$group)
 ##' output
 ##' @export ROSeq
-ROSeq<-function(countData, condition, numCores)
+ROSeq<-function(countData, condition, numCores = 1)
 {
     temp_data<-apply(countData, 2, function(x) as.numeric(x))
     colnames(temp_data)<-colnames(countData)
@@ -28,15 +31,9 @@ ROSeq<-function(countData, condition, numCores)
     cTwo<-colnames(countData)[which(condition %in% labels[2])]
     scgroups<-c(cOne,cTwo)
     geneIndex<-seq_len(nrow(countData))
-    # results<-list()
-    # for(gene in geneIndex)
-    # {
-    #     print(gene)
-    #     print(length(geneIndex))
-    #     results[[gene]]<-initiateAnalysis(gene=gene, scdata=countData, scgroups=scgroups, classOne=cOne, classTwo=cTwo)
-    #     print(results[[gene]])
-    # }
-    results <- pbmcapply::pbmclapply(geneIndex, initiateAnalysis, scdata=countData, scgroups=scgroups, classOne=cOne, classTwo=cTwo, mc.cores=numCores)
+    results <- pbmcapply::pbmclapply(geneIndex, initiateAnalysis, 
+        scdata=countData,scgroups=scgroups, classOne=cOne, classTwo=cTwo, 
+            mc.cores=numCores)
     pVals<-unlist(lapply(results,function(x) x[[12]]))
     log2FC<-unlist(lapply(results,function(x) x[[13]]))
     pAdj<-stats::p.adjust(pVals, method = "fdr")
@@ -47,13 +44,19 @@ ROSeq<-function(countData, condition, numCores)
 
 ##' @title Computes differential analysis for a given gene
 ##'
-##' @description Takes in the row index which corresponds to a gene and evaluates for differential expression across two cell types.
-##' @param gene The row index of the normalised and filtered, read count matrix
+##' @description Takes in the row index which corresponds to a gene and 
+##' evaluates for differential expression across two cell types.
+##' @param gene The row index of the normalised and filtered, 
+##' read count matrix
 ##' @param scdata The normalised and filtered, read count matrix
 ##' @param scgroups The location of the two sub-populations
-##' @param classOne The location of the first sub-population, for example, sample names as given as columns names
-##' @param classTwo The location of thesecond sub-population, for example, sample names as given as columns names
-##' @return combinedResults A vector containing 12 values (gr1: a, g1: b, gr1: A, gr1: number of bins, gr1: R2, gr2: a, gr2: b, gr2: A, gr2: number of bins, gr2: R2, T, p)
+##' @param classOne The location of the first sub-population, for example, 
+##' sample names as given as columns names
+##' @param classTwo The location of thesecond sub-population, for example, 
+##' sample names as given as columns names
+##' @return combinedResults A vector containing 12 values (gr1: a, g1: b, 
+##' gr1: A, gr1: number of bins, gr1: R2, gr2: a, gr2: b, gr2: A, 
+##' gr2: number of bins, gr2: R2, T, p)
 initiateAnalysis<-function(gene, scdata, scgroups, classOne, classTwo)
 {
     sp<-scdata[gene, ]
@@ -62,27 +65,42 @@ initiateAnalysis<-function(gene, scdata, scgroups, classOne, classTwo)
     geneStats<-getDataStatistics(sp, spOne, spTwo)
     results_groupOne <-findParams(spOne, geneStats)
     results_groupTwo <-findParams(spTwo, geneStats)
-    T<-tryCatch({computeDEG(results_groupOne, results_groupTwo)}, warning=function(w) {NA}, error=function(esp) {NA})
+    T<-tryCatch(
+    {
+        computeDEG(results_groupOne, results_groupTwo)
+    }, 
+    warning=function(w) {NA}, error=function(esp) {NA})
     pValues<-stats::pchisq(T, df=2, lower.tail=FALSE)
-    combinedResults<-c(results_groupOne[1], results_groupOne[2], results_groupOne[3], results_groupOne[4], results_groupOne[5], results_groupTwo[1], results_groupTwo[2], results_groupTwo[3], results_groupTwo[4], results_groupTwo[5], T, pValues, geneStats[7])
+    combinedResults<-c(results_groupOne[1], results_groupOne[2], 
+    results_groupOne[3], results_groupOne[4], results_groupOne[5], 
+    results_groupTwo[1], results_groupTwo[2], results_groupTwo[3], 
+    results_groupTwo[4], results_groupTwo[5], T, pValues, geneStats[7])
     return(combinedResults)
 }
 
 ##' @title Evaluates statistics of the read counts corresponding to the gene
 ##'
-##' @description Takes in the complete read count vector corresponding to the gene (sp) and also the data corresponding to the two sub-populations (sp1 and sp2)
+##' @description Takes in the complete read count vector corresponding to the
+##' gene (sp) and also the data corresponding to the two sub-populations 
+##' (sp1 and sp2)
 ##'
-##' @param sp The complete (normalized and filtered) read count data corresponding to the gene in question
-##' @param spOne The (normalized and filtered) read count data corresponding to the first sub-population
-##' @param spTwo The (normalized and filtered) read count data corresponding to the second sub-population
-##' @return geneStats A vector containing 7 values corresponding to the gene data (maximum, minimum, mean, standard deviation, upper multiple of standard deviation, lower multiple of standard deviation and log2(fold change))
+##' @param sp The complete (normalized and filtered) read count data 
+##' corresponding to the gene in question
+##' @param spOne The (normalized and filtered) read count data corresponding 
+##' to the first sub-population
+##' @param spTwo The (normalized and filtered) read count data corresponding 
+##' to the second sub-population
+##' @return geneStats A vector containing 7 values corresponding to the gene 
+##' data(maximum, minimum, mean, standard deviation, upper multiple of standard
+##' deviation, lower multiple of standard deviation and log2(fold change))
 getDataStatistics<-function(sp, spOne, spTwo)
 {
     maxds<-max(sp)
     minds<-min(sp)
     meands<-mean(sp)
     stdds<-stats::sd(sp)
-    if(minds==maxds){
+    if(minds==maxds)
+    {
         maxds<-minds+.001
         meands<-minds+.0005
         stdds<-.0001
@@ -93,29 +111,38 @@ getDataStatistics<-function(sp, spOne, spTwo)
     s_m=mean(spTwo)
     if(s_m==0)
     {
-      s_m=0.0000001
+        s_m=0.0000001
     }
     if(f_m==0)
     {
-      f_m=0.0000001
+        f_m=0.0000001
     }
     log2FC<-log2(f_m/s_m)
     geneStats<-c(maxds, minds, meands, stdds, ceilds, floords,log2FC)
     return (geneStats)
 }
 
-##' @title Finds the optimal values of parameters a and b that model the probability distribution of ranks, by Maximising the Log-Likelihood
+##' @title Finds the optimal values of parameters a and b that model 
+##' the probability distribution of ranks, by Maximising the Log-Likelihood
 ##'
-##' @description Takes in as input the read count data corresponding to one sub-population and the typical gene statistics. 
-##' Then it splits the entire range into equally sized bins of size \eqn{k * \sigma}, where k is a scalar with a default value of 0.05, and \eqn{\sigma} is the standard deviation of the pulled expression estimates across the cell-groups. 
-##' Each of these bins corresponds to a rank. Therefore, for each group, cell frequency for each bin maps to a rank.  These frequencies are normalized group-wise by dividing by the total cell count within a concerned group.
-##' @param ds The (normalized and filtered) read count data corresponding to a sub-population
-##' @param geneStats A vector containing 7 values corresponding to the gene data (maximum, minimum, mean, standard deviation, upper multiple of standard deviation, lower multiple of standard deviation and log_{2}(fold change))
+##' @description Takes in as input the read count data corresponding 
+##' to one sub-population and the typical gene statistics. 
+##' Then it splits the entire range into equally sized bins of 
+##' size \eqn{k * \sigma}, where k is a scalar with a default value 
+##' of 0.05, and \eqn{\sigma} is the standard deviation of the pulled 
+##' expression estimates across the cell-groups. 
+##' Each of these bins corresponds to a rank. Therefore, for each group, cell
+##' frequency for each bin maps to a rank.  These frequencies are normalized 
+##' group-wise by dividing by the total cell count within a concerned group.
+##' @param ds The (normalized and filtered) read count data corresponding to 
+##' a sub-population
+##' @param geneStats A vector containing 7 values corresponding to the gene 
+##' data (maximum, minimum, mean, standard deviation, upper multiple of 
+##' standard deviation, lower multiple of standard deviation and 
+##' log_{2}(fold change))
 ##' @return results A vector containing 5 values (a, b, A, number of bins, R2)
 findParams<-function(ds, geneStats)
 {
-    ############################################### most  imporetant factor if set very smaller then no error ###############################
-    ################################################### as it set tradeoff between optimize value a,b and rank, as a,b in power of rank #####
     step<-.05
     meands<-geneStats[3]
     stdds<-geneStats[4]
@@ -124,13 +151,15 @@ findParams<-function(ds, geneStats)
     binNumber<-length(seq(floords, ceilds-step, step))
     rs<-c(rep(NA), binNumber)
     count<-1
-    for(i in seq(floords, ceilds-step, step)){
+    for(i in seq(floords, ceilds-step, step))
+    {
         LL<- meands+i*stdds
         UL <-meands+(i+step)*stdds
         rs[count]<-length(intersect(which(ds<UL), which(ds>=LL)))
         count<-count+1
     }
-    if(sum(is.na(rs))>0){
+    if(sum(is.na(rs))>0)
+    {
         print("nul values found")
         print(rs)
         rs<-rs[!is.na(rs)]
@@ -140,28 +169,36 @@ findParams<-function(ds, geneStats)
     rank<-seq_len(number_of_bins)
     read_count_sorted<-sort(fds, decreasing=TRUE)
     normalized_read_count_sorted<-read_count_sorted/sum(read_count_sorted)
-    model<-stats::optim(par = c(0.25, 3), minimizeNLL, r=rank, readCount=normalized_read_count_sorted, method = "L-BFGS-B", lower=c(-50,-50), upper=c(50,50))
+    model<-stats::optim(par = c(0.25, 3), minimizeNLL, r=rank, 
+        readCount=normalized_read_count_sorted, method = "L-BFGS-B", 
+            lower=c(-50,-50), upper=c(50,50))
     a<-model$par[1]
     b<-model$par[2]
     A<-1/sum((number_of_bins+1-rank)^b/(rank^a))
     f<-A*((number_of_bins+1-rank)^b)/(rank^a)
-    if(sum(is.na(f))>0){
+    if(sum(is.na(f))>0)
+    {
         print("finding very high or low value")
-        print(f[seq_len(10)])}
+        print(f[seq_len(10)])
+    }
     SS_res<-sum((normalized_read_count_sorted-f)^2)
-    SS_tot<-sum((normalized_read_count_sorted-mean(normalized_read_count_sorted))^2)
+    SS_tot<-sum((normalized_read_count_sorted-
+    mean(normalized_read_count_sorted))^2)
     R2<-as.numeric(1-SS_res/SS_tot)
     A<-as.numeric(A)
     results<-c(a, b, A, number_of_bins, R2)
     return(results)
 }
 
-##' @title Minimizes the Negative Log-Likelihood by iterating across values of parameters a and b
+##' @title Minimizes the Negative Log-Likelihood by iterating across 
+##' values of parameters a and b
 ##'
-##' @description Takes in as input a vector of values (coefficients), the number of bins and the normalized probability dsitribution of ranks
+##' @description Takes in as input a vector of values (coefficients), 
+##' the number of bins and the normalized probability dsitribution of ranks
 ##' @param coefficients A vector containing two values for a and b
 ##' @param r The number of bins
-##' @param readCount A vector of (normalized) frequency of read counts that fall within each bin
+##' @param readCount A vector of (normalized) frequency of read counts that 
+##' fall within each bin
 ##' @return NLL Negative-Log Likelihood for the input coefficients
 ##' @seealso \code{\link{findParams}}
 minimizeNLL<-function(coefficients, r, readCount)
@@ -171,16 +208,21 @@ minimizeNLL<-function(coefficients, r, readCount)
     N<-length(r)
     sumReadCount<-sum(readCount)
     A <-1/sum(((N+1-r)^b)/(r^a))
-    NLL<-a*sum(readCount*log(r)) - b*sum(readCount*log(N+1-r)) - sumReadCount*log(A)
+    NLL<-a*sum(readCount*log(r)) - b*sum(readCount*log(N+1-r)) - 
+        sumReadCount*log(A)
     NLL<-as.numeric(NLL)
-    # print(NLL)
     return (NLL)
 }
 
-##' @title Computes differential expression for the gene in question, by comparing the optimal parameters for sub-populations one and two
-##' @description  Uses the (asymptotically) optimum two-sample Wald test  based on the MLE of the parameters and its asymptotic variances given by the inverse of the Fisher information matrix
-##' @param results_1 A vector corresponding to sub-population one and containing 5 values (a, b, A, number of bins, R2)
-##' @param results_2 A vector corresponding to sub-population two and containing 5 values (a, b, A, number of bins, R2)
+##' @title Computes differential expression for the gene in question, 
+##' by comparing the optimal parameters for sub-populations one and two
+##' @description  Uses the (asymptotically) optimum two-sample Wald test  
+##' based on the MLE of the parameters and its asymptotic variances given 
+##' by the inverse of the Fisher information matrix
+##' @param results_1 A vector corresponding to sub-population one and 
+##' containing 5 values (a, b, A, number of bins, R2)
+##' @param results_2 A vector corresponding to sub-population two and 
+##' containing 5 values (a, b, A, number of bins, R2)
 ##' @return T  The Wald test statistic for testing the null hypothesis
 ##' @seealso \code{\link{getI}}, \code{\link{findParams}}
 computeDEG<-function(results_1, results_2)
@@ -200,12 +242,15 @@ computeDEG<-function(results_1, results_2)
     a2<-results_2[1]
     b2<-results_2[2]
     w<-n/(m + n)
-    T<-(m*n/(m+n))* t(matrix(c(a1-a2,b1-b2), nrow=2, ncol=1)) %*% solve(w *V1 + (1-w)* V2, tol = 1e-20) %*% matrix(c(a1-a2,b1-b2), nrow=2, ncol=1)
+    T<-(m*n/(m+n))* t(matrix(c(a1-a2,b1-b2), nrow=2, ncol=1)) %*% 
+        solve(w *V1 + (1-w)* V2, tol = 1e-20) %*% matrix(c(a1-a2,b1-b2),
+            nrow=2, ncol=1)
     return(T)
 }
 
 ##' @title Computes the Fisher Information Matrix
-##' @description The Fisher Information Matrix and its derivatives are essential to evulate the minima of log likelihood
+##' @description The Fisher Information Matrix and its derivatives are 
+##' essential to evulate the minima of log likelihood
 ##' @param results A vector containing 5 values (a, b, A, number of bins, R2)
 ##' @return I  The Fisher Information Matrix
 getI<-function(results)
@@ -230,7 +275,9 @@ getI<-function(results)
 }
 
 ##' @title Computes u1
-##' @description u1, v and u2 constitute the equations required for evaluating the first and second order derivatives of A with respect to parameters a and b
+##' @description u1, v and u2 constitute the equations required for evaluating
+##' the first and second order derivatives of A with respect to parameters 
+##' a and b
 ##' @param coefficients the optimal values of a and b
 ##' @param r the rank vector
 ##' @return u1
@@ -247,7 +294,9 @@ getu1<-function(coefficients, r)
 }
 
 ##' @title Computes v
-##' @description u1, v and u2 constitute the equations required for evaluating the first and second order derivatives of A with respect to parameters a and b
+##' @description u1, v and u2 constitute the equations required for evaluating 
+##' the first and second order derivatives of A with respect to parameters 
+##' a and b
 ##' @param coefficients the optimal values of a and b
 ##' @param r the rank vector
 ##' @return v
@@ -263,7 +312,9 @@ getv<-function( coefficients, r)
 }
 
 ##' @title Computes u2
-##' @description u1, v and u2 constitute the equations required for evaluating the first and second order derivatives of A with respect to parameters a and b
+##' @description u1, v and u2 constitute the equations required for evaluating 
+##' the first and second order derivatives of A with respect to parameters 
+##' a and b
 ##' @param coefficients the optimal values of a and b
 ##' @param r the rank vector
 ##' @return u2
@@ -279,8 +330,11 @@ getu2<-function(coefficients, r)
     return(u2)
 }
 
-##' @title Finds the first derivative of u1 with respect to a. This first derivative is evaluated at the optimal (a_hat, b_hat).
-##' @description u1, v and u2 constitute the equations required for evaluating the first and second order derivatives of A with respect to parameters a and b
+##' @title Finds the first derivative of u1 with respect to a. 
+##' This first derivative is evaluated at the optimal (a_hat, b_hat).
+##' @description u1, v and u2 constitute the equations required for evaluating 
+##' the first and second order derivatives of A with respect to parameters 
+##' a and b
 ##' @param coefficients the optimal values of a and b
 ##' @param r the rank vector
 ##' @return du1da
@@ -296,8 +350,11 @@ getdu1da<-function(coefficients, r)
     return (du1da)
 }
 
-##' @title Finds the first derivative of u1 with respect to b. This first derivative is evaluated at the optimal (a_hat, b_hat).
-##' @description u1, v and u2 constitute the equations required for evaluating the first and second order derivatives of A with respect to parameters a and b
+##' @title Finds the first derivative of u1 with respect to b. 
+##' This first derivative is evaluated at the optimal (a_hat, b_hat).
+##' @description u1, v and u2 constitute the equations required for evaluating 
+##' the first and second order derivatives of A with respect to parameters 
+##' a and b
 ##' @param coefficients the optimal values of a and b
 ##' @param r the rank vector
 ##' @return du1db
@@ -314,8 +371,11 @@ getdu1db<-function(coefficients, r)
     return(du1db)
 }
 
-##' @title Finds the first derivative of u2 with respect to a. This first derivative is evaluated at the optimal (a_hat, b_hat).
-##' @description u1, v and u2 constitute the equations required for evaluating the first and second order derivatives of A with respect to parameters a and b
+##' @title Finds the first derivative of u2 with respect to a. 
+##' This first derivative is evaluated at the optimal (a_hat, b_hat).
+##' @description u1, v and u2 constitute the equations required for evaluating 
+##' the first and second order derivatives of A with respect to parameters 
+##' a and b
 ##' @param coefficients the optimal values of a and b
 ##' @param r the rank vector
 ##' @return du2da
@@ -332,8 +392,11 @@ getdu2da<-function(coefficients, r)
     return(du2da)
 }
 
-##' @title Finds the first derivative of u2 with respect to b. This first derivative is evaluated at the optimal (a_hat, b_hat).
-##' @description u1, v and u2 constitute the equations required for evaluating the first and second order derivatives of A with respect to parameters a and b
+##' @title Finds the first derivative of u2 with respect to b. 
+##' This first derivative is evaluated at the optimal (a_hat, b_hat).
+##' @description u1, v and u2 constitute the equations required for evaluating 
+##' the first and second order derivatives of A with respect to parameters 
+##' a and b
 ##' @param coefficients the optimal values of a and b
 ##' @param r the rank vector
 ##' @return du2db
@@ -349,8 +412,11 @@ getdu2db<-function( coefficients, r)
     return(du2db)
 }
 
-##' @title Finds the first derivative of v with respect to a. This first derivative is evaluated at the optimal (a_hat, b_hat).
-##' @description u1, v and u2 constitute the equations required for evaluating the first and second order derivatives of A with respect to parameters a and b
+##' @title Finds the first derivative of v with respect to a. 
+##' This first derivative is evaluated at the optimal (a_hat, b_hat).
+##' @description u1, v and u2 constitute the equations required for evaluating 
+##' the first and second order derivatives of A with respect to parameters 
+##' a and b
 ##' @param coefficients the optimal values of a and b
 ##' @param r the rank vector
 ##' @return dvda
@@ -366,8 +432,11 @@ getdvda<-function(coefficients, r)
     return(dvda)
 }
 
-##' @title Finds the first derivative of v with respect to b. This first derivative is evaluated at the optimal (a_hat, b_hat).
-##' @description u1, v and u2 constitute the equations required for evaluating the first and second order derivatives of A with respect to parameters a and b
+##' @title Finds the first derivative of v with respect to b. 
+##' This first derivative is evaluated at the optimal (a_hat, b_hat).
+##' @description u1, v and u2 constitute the equations required for evaluating
+##' the first and second order derivatives of A with respect to parameters 
+##' a and b
 ##' @param coefficients the optimal values of a and b
 ##' @param r the rank vector
 ##' @return dvdb
@@ -383,8 +452,11 @@ getdvdb<-function( coefficients, r)
     return(dvdb)
 }
 
-##' @title Finds the double derivative of A with with respect to a. This first derivative is evaluated at the optimal (a_hat, b_hat).
-##' @description u1, v and u2 constitute the equations required for evaluating the first and second order derivatives of A with respect to parameters a and b
+##' @title Finds the double derivative of A with with respect to a. 
+##' This first derivative is evaluated at the optimal (a_hat, b_hat).
+##' @description u1, v and u2 constitute the equations required for evaluating 
+##' the first and second order derivatives of A with respect to parameters 
+##' a and b
 ##' @param u1 u1
 ##' @param v v
 ##' @param du1da First derivative of u1 with respect to parameter a
@@ -399,8 +471,11 @@ getd2logAda2<-function(u1, v, du1da, dvda)
     return(d2logAda2)
 }
 
-##' @title Finds the double derivative of A with with respect to a and b. This first derivative is evaluated at the optimal (a_hat, b_hat).
-##' @description u1, v and u2 constitute the equations required for evaluating the first and second order derivatives of A with respect to parameters a and b
+##' @title Finds the double derivative of A with with respect to a and b.
+##' This first derivative is evaluated at the optimal (a_hat, b_hat).
+##' @description u1, v and u2 constitute the equations required for evaluating
+##' the first and second order derivatives of A with respect to parameters 
+##' a and b
 ##' @param u2 u2
 ##' @param v v
 ##' @param du2da First derivative of u2 with respect to a
@@ -415,8 +490,11 @@ getd2logAdadb<-function( u2, v, du2da, dvda)
     return(d2logAdadb)
 }
 
-##' @title Finds the double derivative of A with with respect to b. This first derivative is evaluated at the optimal (a_hat, b_hat).
-##' @description u1, v and u2 constitute the equations required for evaluating the first and second order derivatives of A with respect to parameters a and b
+##' @title Finds the double derivative of A with with respect to b. 
+##' This first derivative is evaluated at the optimal (a_hat, b_hat).
+##' @description u1, v and u2 constitute the equations required for evaluating 
+##' the first and second order derivatives of A with respect to parameters 
+##' a and b
 ##' @param u2 u2
 ##' @param v v
 ##' @param du2db First derivative of u2 with respect to b
@@ -431,8 +509,11 @@ getd2logAdb2<-function( u2, v, du2db, dvdb)
     return(d2logAdb2)
 }
 
-##' @title Finds the double derivative of A with with respect to a and b. This first derivative is evaluated at the optimal (a_hat, b_hat).
-##' @description u1, v and u2 constitute the equations required for evaluating the first and second order derivatives of A with respect to parameters a and b
+##' @title Finds the double derivative of A with with respect to a and b.
+##' This first derivative is evaluated at the optimal (a_hat, b_hat).
+##' @description u1, v and u2 constitute the equations required for evaluating
+##' the first and second order derivatives of A with respect to parameters 
+##' a and b
 ##' @param u1 u1
 ##' @param v v
 ##' @param du1db First derivative of u1 with respect to b
@@ -448,19 +529,31 @@ getd2logAdbda<-function( u1, v, du1db, dvdb)
 }
 
 ##' @title TMM Normalization.
-##' @description Trimmed Means of M values (TMM) normalization (on the basis of edgeR package)
-##' @param countTable The filtered, read count matrix, with row names as genes name/ID and column names as sample id/name
+##' @description Trimmed Means of M values (TMM) normalization 
+##' (on the basis of edgeR package)
+##' @param countTable The filtered, read count matrix, with row names
+##' as genes name/ID and column names as sample id/name
 ##' @return countTableTMM
+##' @examples 
+##' countData<-list()
+##' countData$count<-ROSeq::L_Tung_single$NA19098_NA19101_count
+##' countData$group<-ROSeq::L_Tung_single$NA19098_NA19101_group
+##' head(countData$count)
+##' countData$count<-apply(countData$count,2,function(x) as.numeric(x))
+##' g_keep <- apply(countData$count,1,function(x) sum(x>0)>5)
+##' countData$count<-countData$count[g_keep,]
+##' countTableTMM<-ROSeq::TMMnormalization(countData$count)
+##' countTableTMM
 ##' @export TMMnormalization
 TMMnormalization <- function(countTable)
 {
-  cname=colnames(countTable)
-  rname=rownames(countTable)
-  nf=edgeR::calcNormFactors(countTable ,method= "TMM")
-  nf= colSums(countTable)*nf
-  scalingFactors = nf/mean(nf)
-  countTableTMM <- t(t(countTable)/scalingFactors)
-  colnames(countTableTMM)=cname
-  rownames(countTableTMM)=rname
-  return(countTableTMM)
+    cname=colnames(countTable)
+    rname=rownames(countTable)
+    nf=edgeR::calcNormFactors(countTable ,method= "TMM")
+    nf= colSums(countTable)*nf
+    scalingFactors = nf/mean(nf)
+    countTableTMM <- t(t(countTable)/scalingFactors)
+    colnames(countTableTMM)=cname
+    rownames(countTableTMM)=rname
+    return(countTableTMM)
 }

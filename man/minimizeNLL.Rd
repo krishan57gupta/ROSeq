@@ -2,7 +2,8 @@
 % Please edit documentation in R/ROSeq.R
 \name{minimizeNLL}
 \alias{minimizeNLL}
-\title{Minimizes the Negative Log-Likelihood by iterating across values of parameters a and b}
+\title{Minimizes the Negative Log-Likelihood by iterating across 
+values of parameters a and b}
 \usage{
 minimizeNLL(coefficients, r, readCount)
 }
@@ -11,13 +12,15 @@ minimizeNLL(coefficients, r, readCount)
 
 \item{r}{The number of bins}
 
-\item{readCount}{A vector of (normalized) frequency of read counts that fall within each bin}
+\item{readCount}{A vector of (normalized) frequency of read counts that 
+fall within each bin}
 }
 \value{
 NLL Negative-Log Likelihood for the input coefficients
 }
 \description{
-Takes in as input a vector of values (coefficients), the number of bins and the normalized probability dsitribution of ranks
+Takes in as input a vector of values (coefficients), 
+the number of bins and the normalized probability dsitribution of ranks
 }
 \seealso{
 \code{\link{findParams}}

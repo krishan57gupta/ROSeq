@@ -7,11 +7,24 @@
 TMMnormalization(countTable)
 }
 \arguments{
-\item{countTable}{The filtered, read count matrix, with row names as genes name/ID and column names as sample id/name}
+\item{countTable}{The filtered, read count matrix, with row names
+as genes name/ID and column names as sample id/name}
 }
 \value{
 countTableTMM
 }
 \description{
-Trimmed Means of M values (TMM) normalization (on the basis of edgeR package)
+Trimmed Means of M values (TMM) normalization 
+(on the basis of edgeR package)
+}
+\examples{
+countData<-list()
+countData$count<-ROSeq::L_Tung_single$NA19098_NA19101_count
+countData$group<-ROSeq::L_Tung_single$NA19098_NA19101_group
+head(countData$count)
+countData$count<-apply(countData$count,2,function(x) as.numeric(x))
+g_keep <- apply(countData$count,1,function(x) sum(x>0)>5)
+countData$count<-countData$count[g_keep,]
+countTableTMM<-ROSeq::TMMnormalization(countData$count)
+countTableTMM
 }

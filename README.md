@@ -43,9 +43,6 @@ Libraries need to be loaded before running.
 
 ``` r
 library(ROSeq)
-library(compcodeR)
-#> Loading required package: sm
-#> Package 'sm', version 2.2-5.6: type help(sm) for summary information
 library(edgeR)
 #> Loading required package: limma
 library(limma)
@@ -72,7 +69,9 @@ samples$count[1:5,1:5]
 #> ENSG00000187583              0
 ```
 
-## Data Preprocessing: cells and genes filtering then voom transformation after TMM normalization
+## Data Preprocessing: cells and genes filtering then voom transformation
+
+## after TMM normalization
 
 ``` r
 samples$count=apply(samples$count,2,function(x) as.numeric(x))

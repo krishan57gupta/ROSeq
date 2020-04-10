@@ -2,20 +2,31 @@
 % Please edit documentation in R/ROSeq.R
 \name{findParams}
 \alias{findParams}
-\title{Finds the optimal values of parameters a and b that model the probability distribution of ranks, by Maximising the Log-Likelihood}
+\title{Finds the optimal values of parameters a and b that model 
+the probability distribution of ranks, by Maximising the Log-Likelihood}
 \usage{
 findParams(ds, geneStats)
 }
 \arguments{
-\item{ds}{The (normalized and filtered) read count data corresponding to a sub-population}
+\item{ds}{The (normalized and filtered) read count data corresponding to 
+a sub-population}
 
-\item{geneStats}{A vector containing 7 values corresponding to the gene data (maximum, minimum, mean, standard deviation, upper multiple of standard deviation, lower multiple of standard deviation and log_{2}(fold change))}
+\item{geneStats}{A vector containing 7 values corresponding to the gene 
+data (maximum, minimum, mean, standard deviation, upper multiple of 
+standard deviation, lower multiple of standard deviation and 
+log_{2}(fold change))}
 }
 \value{
 results A vector containing 5 values (a, b, A, number of bins, R2)
 }
 \description{
-Takes in as input the read count data corresponding to one sub-population and the typical gene statistics. 
-Then it splits the entire range into equally sized bins of size \eqn{k * \sigma}, where k is a scalar with a default value of 0.05, and \eqn{\sigma} is the standard deviation of the pulled expression estimates across the cell-groups. 
-Each of these bins corresponds to a rank. Therefore, for each group, cell frequency for each bin maps to a rank.  These frequencies are normalized group-wise by dividing by the total cell count within a concerned group.
+Takes in as input the read count data corresponding 
+to one sub-population and the typical gene statistics. 
+Then it splits the entire range into equally sized bins of 
+size \eqn{k * \sigma}, where k is a scalar with a default value 
+of 0.05, and \eqn{\sigma} is the standard deviation of the pulled 
+expression estimates across the cell-groups. 
+Each of these bins corresponds to a rank. Therefore, for each group, cell
+frequency for each bin maps to a rank.  These frequencies are normalized 
+group-wise by dividing by the total cell count within a concerned group.
 }

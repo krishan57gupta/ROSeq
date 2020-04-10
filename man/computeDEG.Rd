@@ -2,20 +2,25 @@
 % Please edit documentation in R/ROSeq.R
 \name{computeDEG}
 \alias{computeDEG}
-\title{Computes differential expression for the gene in question, by comparing the optimal parameters for sub-populations one and two}
+\title{Computes differential expression for the gene in question, 
+by comparing the optimal parameters for sub-populations one and two}
 \usage{
 computeDEG(results_1, results_2)
 }
 \arguments{
-\item{results_1}{A vector corresponding to sub-population one and containing 5 values (a, b, A, number of bins, R2)}
+\item{results_1}{A vector corresponding to sub-population one and 
+containing 5 values (a, b, A, number of bins, R2)}
 
-\item{results_2}{A vector corresponding to sub-population two and containing 5 values (a, b, A, number of bins, R2)}
+\item{results_2}{A vector corresponding to sub-population two and 
+containing 5 values (a, b, A, number of bins, R2)}
 }
 \value{
 T  The Wald test statistic for testing the null hypothesis
 }
 \description{
-Uses the (asymptotically) optimum two-sample Wald test  based on the MLE of the parameters and its asymptotic variances given by the inverse of the Fisher information matrix
+Uses the (asymptotically) optimum two-sample Wald test  
+based on the MLE of the parameters and its asymptotic variances given 
+by the inverse of the Fisher information matrix
 }
 \seealso{
 \code{\link{getI}}, \code{\link{findParams}}

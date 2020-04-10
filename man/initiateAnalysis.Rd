@@ -7,19 +7,25 @@
 initiateAnalysis(gene, scdata, scgroups, classOne, classTwo)
 }
 \arguments{
-\item{gene}{The row index of the normalised and filtered, read count matrix}
+\item{gene}{The row index of the normalised and filtered, 
+read count matrix}
 
 \item{scdata}{The normalised and filtered, read count matrix}
 
 \item{scgroups}{The location of the two sub-populations}
 
-\item{classOne}{The location of the first sub-population, for example, sample names as given as columns names}
+\item{classOne}{The location of the first sub-population, for example, 
+sample names as given as columns names}
 
-\item{classTwo}{The location of thesecond sub-population, for example, sample names as given as columns names}
+\item{classTwo}{The location of thesecond sub-population, for example, 
+sample names as given as columns names}
 }
 \value{
-combinedResults A vector containing 12 values (gr1: a, g1: b, gr1: A, gr1: number of bins, gr1: R2, gr2: a, gr2: b, gr2: A, gr2: number of bins, gr2: R2, T, p)
+combinedResults A vector containing 12 values (gr1: a, g1: b, 
+gr1: A, gr1: number of bins, gr1: R2, gr2: a, gr2: b, gr2: A, 
+gr2: number of bins, gr2: R2, T, p)
 }
 \description{
-Takes in the row index which corresponds to a gene and evaluates for differential expression across two cell types.
+Takes in the row index which corresponds to a gene and 
+evaluates for differential expression across two cell types.
 }

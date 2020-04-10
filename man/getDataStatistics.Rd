@@ -7,15 +7,22 @@
 getDataStatistics(sp, spOne, spTwo)
 }
 \arguments{
-\item{sp}{The complete (normalized and filtered) read count data corresponding to the gene in question}
+\item{sp}{The complete (normalized and filtered) read count data 
+corresponding to the gene in question}
 
-\item{spOne}{The (normalized and filtered) read count data corresponding to the first sub-population}
+\item{spOne}{The (normalized and filtered) read count data corresponding 
+to the first sub-population}
 
-\item{spTwo}{The (normalized and filtered) read count data corresponding to the second sub-population}
+\item{spTwo}{The (normalized and filtered) read count data corresponding 
+to the second sub-population}
 }
 \value{
-geneStats A vector containing 7 values corresponding to the gene data (maximum, minimum, mean, standard deviation, upper multiple of standard deviation, lower multiple of standard deviation and log2(fold change))
+geneStats A vector containing 7 values corresponding to the gene 
+data(maximum, minimum, mean, standard deviation, upper multiple of standard
+deviation, lower multiple of standard deviation and log2(fold change))
 }
 \description{
-Takes in the complete read count vector corresponding to the gene (sp) and also the data corresponding to the two sub-populations (sp1 and sp2)
+Takes in the complete read count vector corresponding to the
+gene (sp) and also the data corresponding to the two sub-populations 
+(sp1 and sp2)
 }

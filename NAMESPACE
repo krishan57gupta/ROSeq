@@ -2,3 +2,4 @@
 
 export(ROSeq)
 export(TMMnormalization)
+import(limma)

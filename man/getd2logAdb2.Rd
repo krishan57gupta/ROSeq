@@ -2,7 +2,8 @@
 % Please edit documentation in R/ROSeq.R
 \name{getd2logAdb2}
 \alias{getd2logAdb2}
-\title{Finds the double derivative of A with with respect to b. This first derivative is evaluated at the optimal (a_hat, b_hat).}
+\title{Finds the double derivative of A with with respect to b. 
+This first derivative is evaluated at the optimal (a_hat, b_hat).}
 \usage{
 getd2logAdb2(u2, v, du2db, dvdb)
 }
@@ -19,5 +20,7 @@ getd2logAdb2(u2, v, du2db, dvdb)
 d2logAdb2
 }
 \description{
-u1, v and u2 constitute the equations required for evaluating the first and second order derivatives of A with respect to parameters a and b
+u1, v and u2 constitute the equations required for evaluating 
+the first and second order derivatives of A with respect to parameters 
+a and b
 }

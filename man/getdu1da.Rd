@@ -2,7 +2,8 @@
 % Please edit documentation in R/ROSeq.R
 \name{getdu1da}
 \alias{getdu1da}
-\title{Finds the first derivative of u1 with respect to a. This first derivative is evaluated at the optimal (a_hat, b_hat).}
+\title{Finds the first derivative of u1 with respect to a. 
+This first derivative is evaluated at the optimal (a_hat, b_hat).}
 \usage{
 getdu1da(coefficients, r)
 }
@@ -15,5 +16,7 @@ getdu1da(coefficients, r)
 du1da
 }
 \description{
-u1, v and u2 constitute the equations required for evaluating the first and second order derivatives of A with respect to parameters a and b
+u1, v and u2 constitute the equations required for evaluating 
+the first and second order derivatives of A with respect to parameters 
+a and b
 }

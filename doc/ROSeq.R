@@ -6,7 +6,6 @@ knitr::opts_chunk$set(
 
 ## ----setup--------------------------------------------------------------------
 library(ROSeq)
-library(compcodeR)
 library(edgeR)
 library(limma)
 

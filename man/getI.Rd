@@ -13,5 +13,6 @@ getI(results)
 I  The Fisher Information Matrix
 }
 \description{
-The Fisher Information Matrix and its derivatives are essential to evulate the minima of log likelihood
+The Fisher Information Matrix and its derivatives are 
+essential to evulate the minima of log likelihood
 }
