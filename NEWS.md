@@ -1,3 +1,11 @@
+## version 0.99.6
+
+---
+
+
+### Bugfixes
+
+- no bug, but changed R dependency 3.6 to 4.0 to solve warning issue
 ## version 0.99.5
 
 ---
