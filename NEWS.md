@@ -1,3 +1,15 @@
+## version 0.99.3
+
+---
+
+
+### Bugfixes
+
+- no bug, but It would be avialbele for R 3.5 or more so i change dependency
+
+
+
+
 ## version 0.99.2
 
 ---
