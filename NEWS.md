@@ -5,7 +5,7 @@
 
 ### Bugfixes
 
-- no bug, but removed Meta folder that was no longer needed
+- no bug, but removed Meta folder that was no longer needed and change hange dependency to 4.0
 
 ## version 0.99.4
 
