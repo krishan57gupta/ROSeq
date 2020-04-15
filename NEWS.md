@@ -1,11 +1,11 @@
-## version 0.99.3
+## version 0.99.4
 
 ---
 
 
 ### Bugfixes
 
-- no bug, but It would be avialbele for R 3.5 or more so i change dependency
+- no bug, but It would be avialbele for R 3.6 or more so i change dependency
 
 
 
