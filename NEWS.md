@@ -1,3 +1,11 @@
+## version 0.99.4
+
+---
+
+### Bugfixes
+
+- no bug, but i changed dependency from 3.6 to 4.0
+
 ## version 0.99.3
 
 ---
