@@ -7,7 +7,7 @@
 - no bug, but i corrected all previous issues of 11 dec as shown below
 - corrected i have listed all praram in documentation
 - changed according <- or =
-- used roxygen2 this time
+- used importFrom methods of package instead of whole package.
 - print removed from code
 - used seq_len() this time istead of :
 - no need of message required 
