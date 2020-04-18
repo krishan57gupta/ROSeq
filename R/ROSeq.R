@@ -265,10 +265,10 @@ getI<-function(results)
     du2db<-getdu2db(coefficients, rank)
     dvda<-getdvda(coefficients, rank)
     dvdb<-getdvdb(coefficients, rank)
-    d2logAda2<-getd2logAda2( u1, v, du1da, dvda)
-    d2logAdb2<-getd2logAdb2( u2, v, du2db, dvdb)
-    d2logAdbda<-getd2logAdbda( u1, v, du1db, dvdb)
-    d2logAdadb<-getd2logAdadb( u2, v, du2da, dvda)
+    d2logAda2<-getd2logAda2( u1, v=v, du1da=du1da, dvda=dvda)
+    d2logAdb2<-getd2logAdb2( u1=u2, v=v, du1da=du2db, dvda=dvdb)
+    d2logAdbda<-getd2logAdbda( u1=u1, v=v, du1da=du1db, dvda=dvdb)
+    d2logAdadb<-getd2logAdadb( u1=u2, v=v, du1da=du2da, dvda=dvda)
     I<-c(-d2logAda2, -d2logAdadb, -d2logAdbda, -d2logAdb2)
     return(I)
 }
@@ -463,7 +463,7 @@ getdvdb<-function( coefficients, r)
 ##' @param du1da First derivative of u1 with respect to parameter a
 ##' @param dvda First derivative of v with respect to parameter a
 ##' @return d2logAda2
-getd2logAda2<-function(u1, v, du1da, dvda)
+getd<-function(u1, v, du1da, dvda)
 {
     num1<-v*du1da
     num2<-u1*dvda
@@ -471,7 +471,7 @@ getd2logAda2<-function(u1, v, du1da, dvda)
     d2logAda2<-(num1-num2)/den1
     return(d2logAda2)
 }
-getd2logAdbda<-getd2logAdb2<-getd2logAdadb<-getd2logAda2
+getd2logAdbda<-getd2logAdb2<-getd2logAdadb<-getd2logAda2<-getd2logAda2<-getd
 
 ##' @title TMM Normalization.
 ##' @description Trimmed Means of M values (TMM) normalization 
