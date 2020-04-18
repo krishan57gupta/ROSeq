@@ -2,7 +2,8 @@
 % Please edit documentation in R/ROSeq.R
 \name{getd2logAda2}
 \alias{getd2logAda2}
-\title{Finds the double derivative of A with with respect to a. 
+\title{Finds the double derivative of A with with respect to
+ a, (a, b), b , (a, b) in respective templates from right to left. 
 This first derivative is evaluated at the optimal (a_hat, b_hat).}
 \usage{
 getd2logAda2(u1, v, du1da, dvda)

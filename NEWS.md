@@ -1,31 +1,19 @@
-## version 0.99.6
+## version 0.99.3
 
 ---
 
-
 ### Bugfixes
 
-- no bug, but changed R dependency 3.6 to 4.0 to solve warning issue
-## version 0.99.5
-
----
-
-
-### Bugfixes
-
-- no bug, but removed Meta folder that was no longer needed
-
-## version 0.99.4
-
----
-
-
-### Bugfixes
-
-- no bug, but It would be avialbele for R 3.6 or more so i change dependency
-
-
-
+- no bug, but i corrected all previous issues of 11 dec as shown below
+- corrected i have listed all praram in documentation
+- changed according <- or =
+- used roxygen2 this time
+- print removed from code
+- used seq_len() this time istead of :
+- no need of message required 
+- used vapply function this time
+- getd2logAdbda<-getd2logAdb2<-getd2logAdadb<-getd2logAda2 issue solved
+- last issue of BiocManager::install('ROSeq') solved
 
 ## version 0.99.2
 

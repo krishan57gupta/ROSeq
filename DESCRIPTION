@@ -1,7 +1,7 @@
 Type: Package
 Package: ROSeq
 Title: A Rank Based Approach to Modeling Gene Expression
-Version: 0.99.6
+Version: 0.99.2
 Authors@R: c(person("Krishan", "Gupta", email = "krishang@iiitd.ac.in", 
     role = c("aut","cre")), person("Debarka", "Sengupta", 
     email = "debarka@gmail.com", role = c("aut")))
@@ -15,7 +15,7 @@ License: GPL-3
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.0
-Depends: R (>= 4.0)
+Depends: R (>= 3.6)
 biocViews: 
     GeneExpression,
     DifferentialExpression
@@ -29,3 +29,4 @@ Suggests:
     testthat
 VignetteBuilder: 
     knitr
+Roxygen2: list(markdown = TRUE)

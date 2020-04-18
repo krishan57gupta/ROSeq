@@ -107,15 +107,15 @@ getDataStatistics<-function(sp, spOne, spTwo)
     }
     ceilds<-ceiling((maxds-meands)/stdds)
     floords<-floor((minds-meands)/stdds)
-    f_m=mean(spOne)
-    s_m=mean(spTwo)
+    f_m<-mean(spOne)
+    s_m<-mean(spTwo)
     if(s_m==0)
     {
-        s_m=0.0000001
+        s_m<-0.0000001
     }
     if(f_m==0)
     {
-        f_m=0.0000001
+        f_m<-0.0000001
     }
     log2FC<-log2(f_m/s_m)
     geneStats<-c(maxds, minds, meands, stdds, ceilds, floords,log2FC)
@@ -149,19 +149,16 @@ findParams<-function(ds, geneStats)
     ceilds<-geneStats[5]
     floords<-geneStats[6]
     binNumber<-length(seq(floords, ceilds-step, step))
-    rs<-c(rep(NA), binNumber)
-    count<-1
-    for(i in seq(floords, ceilds-step, step))
-    {
-        LL<- meands+i*stdds
-        UL <-meands+(i+step)*stdds
-        rs[count]<-length(intersect(which(ds<UL), which(ds>=LL)))
-        count<-count+1
-    }
+    rs<-vapply(seq(floords, ceilds-step, step),function(i){
+      LL<- meands+i*stdds
+      UL <-meands+(i+step)*stdds
+      length(intersect(which(ds<UL), which(ds>=LL)))
+    }, numeric(1))
     if(sum(is.na(rs))>0)
     {
-        print("nul values found")
-        print(rs)
+        error<-"nul values found"
+        error
+        rs
         rs<-rs[!is.na(rs)]
     }
     fds<-rs
@@ -178,8 +175,9 @@ findParams<-function(ds, geneStats)
     f<-A*((number_of_bins+1-rank)^b)/(rank^a)
     if(sum(is.na(f))>0)
     {
-        print("finding very high or low value")
-        print(f[seq_len(10)])
+        error<-"finding very high or low value"
+        error
+        f[seq_len(10)]
     }
     SS_res<-sum((normalized_read_count_sorted-f)^2)
     SS_tot<-sum((normalized_read_count_sorted-
@@ -452,7 +450,8 @@ getdvdb<-function( coefficients, r)
     return(dvdb)
 }
 
-##' @title Finds the double derivative of A with with respect to a. 
+##' @title Finds the double derivative of A with with respect to
+##'  a, (a, b), b , (a, b) in respective templates from right to left. 
 ##' This first derivative is evaluated at the optimal (a_hat, b_hat).
 ##' @description u1, v and u2 constitute the equations required for evaluating 
 ##' the first and second order derivatives of A with respect to parameters 
@@ -470,63 +469,7 @@ getd2logAda2<-function(u1, v, du1da, dvda)
     d2logAda2<-(num1-num2)/den1
     return(d2logAda2)
 }
-
-##' @title Finds the double derivative of A with with respect to a and b.
-##' This first derivative is evaluated at the optimal (a_hat, b_hat).
-##' @description u1, v and u2 constitute the equations required for evaluating
-##' the first and second order derivatives of A with respect to parameters 
-##' a and b
-##' @param u2 u2
-##' @param v v
-##' @param du2da First derivative of u2 with respect to a
-##' @param dvda First derivative of v with respect to a
-##' @return d2logAdadb
-getd2logAdadb<-function( u2, v, du2da, dvda)
-{
-    num1<-v*du2da
-    num2<-u2*dvda
-    den1<-v^2
-    d2logAdadb<-(num1-num2)/den1
-    return(d2logAdadb)
-}
-
-##' @title Finds the double derivative of A with with respect to b. 
-##' This first derivative is evaluated at the optimal (a_hat, b_hat).
-##' @description u1, v and u2 constitute the equations required for evaluating 
-##' the first and second order derivatives of A with respect to parameters 
-##' a and b
-##' @param u2 u2
-##' @param v v
-##' @param du2db First derivative of u2 with respect to b
-##' @param dvdb First derivative of v with respect to
-##' @return d2logAdb2
-getd2logAdb2<-function( u2, v, du2db, dvdb)
-{
-    num1<-v*du2db
-    num2<-u2*dvdb
-    den1<-v^2
-    d2logAdb2<-(num1-num2)/den1
-    return(d2logAdb2)
-}
-
-##' @title Finds the double derivative of A with with respect to a and b.
-##' This first derivative is evaluated at the optimal (a_hat, b_hat).
-##' @description u1, v and u2 constitute the equations required for evaluating
-##' the first and second order derivatives of A with respect to parameters 
-##' a and b
-##' @param u1 u1
-##' @param v v
-##' @param du1db First derivative of u1 with respect to b
-##' @param dvdb First derivative of v with respect to b
-##' @return d2logAdbda
-getd2logAdbda<-function( u1, v, du1db, dvdb)
-{
-    num1<-v*du1db
-    num2<-u1*dvdb
-    den1<-v^2
-    d2logAdbda<-(num1-num2)/den1
-    return(d2logAdbda)
-}
+getd2logAdbda<-getd2logAdb2<-getd2logAdadb<-getd2logAda2
 
 ##' @title TMM Normalization.
 ##' @description Trimmed Means of M values (TMM) normalization 
@@ -547,13 +490,13 @@ getd2logAdbda<-function( u1, v, du1db, dvdb)
 ##' @export TMMnormalization
 TMMnormalization <- function(countTable)
 {
-    cname=colnames(countTable)
-    rname=rownames(countTable)
-    nf=edgeR::calcNormFactors(countTable ,method= "TMM")
-    nf= colSums(countTable)*nf
-    scalingFactors = nf/mean(nf)
+    cname<-colnames(countTable)
+    rname<-rownames(countTable)
+    nf<-edgeR::calcNormFactors(countTable ,method= "TMM")
+    nf<- colSums(countTable)*nf
+    scalingFactors <- nf/mean(nf)
     countTableTMM <- t(t(countTable)/scalingFactors)
-    colnames(countTableTMM)=cname
-    rownames(countTableTMM)=rname
+    colnames(countTableTMM)<-cname
+    rownames(countTableTMM)<-rname
     return(countTableTMM)
 }

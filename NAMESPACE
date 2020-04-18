@@ -2,4 +2,5 @@
 
 export(ROSeq)
 export(TMMnormalization)
-import(limma)
+importFrom("limma","voom")
+importFrom("pbmcapply","pbmclapply")
