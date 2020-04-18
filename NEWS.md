@@ -1,7 +1,3 @@
-## version 0.99.8
-
---- no bug overall
-
 ## version 0.99.7
 
 --- no bug, but version dependancy changed 3.6 to 4.0
