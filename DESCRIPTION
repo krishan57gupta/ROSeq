@@ -26,8 +26,6 @@ Imports:
 Suggests: 
     knitr,
     rmarkdown,
-    testthat,
-    RUnit, 
-    BiocGenerics
+    testthat
 VignetteBuilder: 
     knitr

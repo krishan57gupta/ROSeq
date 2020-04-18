@@ -455,7 +455,7 @@ getdvdb<-function( coefficients, r)
 ##' @description Finds the double derivative of A with with respect to 
 ##' a, (a, b), b , (a, b) in respective templates from right to left. 
 ##' This first derivative is evaluated at the optimal (a_hat, b_hat).
-##'  u1, v and u2 constitute the equations required for evaluating 
+##' u1, v and u2 constitute the equations required for evaluating 
 ##' the first and second order derivatives of A with respect to parameters 
 ##' a and b
 ##' @param u1 u1
