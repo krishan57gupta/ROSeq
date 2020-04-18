@@ -1,3 +1,7 @@
+## version 1.99.01
+
+--- no bug, but removed extra files from man folder
+
 ## version 0.99.9
 
 --- no bug
