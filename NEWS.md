@@ -1,3 +1,8 @@
+## version 0.99.6
+
+--- got one error, now is removed 
+
+
 ## version 0.99.5
 
 --- no bug, but removed notes 
