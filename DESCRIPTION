@@ -29,4 +29,3 @@ Suggests:
     testthat
 VignetteBuilder: 
     knitr
-Roxygen2: list(markdown = TRUE)
