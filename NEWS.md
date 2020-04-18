@@ -1,3 +1,8 @@
+## version 0.99.7
+
+--- no bug, but version dependancy changed 3.6 to 4.0
+
+
 ## version 0.99.6
 
 --- got one error, now is removed 
