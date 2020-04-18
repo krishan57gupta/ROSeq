@@ -149,10 +149,11 @@ findParams<-function(ds, geneStats)
     ceilds<-geneStats[5]
     floords<-geneStats[6]
     binNumber<-length(seq(floords, ceilds-step, step))
-    rs<-vapply(seq(floords, ceilds-step, step),function(i){
-      LL<- meands+i*stdds
-      UL <-meands+(i+step)*stdds
-      length(intersect(which(ds<UL), which(ds>=LL)))
+    rs<-vapply(seq(floords, ceilds-step, step),function(i)
+    {
+        LL<- meands+i*stdds
+        UL <-meands+(i+step)*stdds
+        length(intersect(which(ds<UL), which(ds>=LL)))
     }, numeric(1))
     if(sum(is.na(rs))>0)
     {
@@ -450,10 +451,11 @@ getdvdb<-function( coefficients, r)
     return(dvdb)
 }
 
-##' @title Finds the double derivative of A with with respect to
-##'  a, (a, b), b , (a, b) in respective templates from right to left. 
+##' @title Finds the double derivative of A
+##' @description Finds the double derivative of A with with respect to 
+##' a, (a, b), b , (a, b) in respective templates from right to left. 
 ##' This first derivative is evaluated at the optimal (a_hat, b_hat).
-##' @description u1, v and u2 constitute the equations required for evaluating 
+##'  u1, v and u2 constitute the equations required for evaluating 
 ##' the first and second order derivatives of A with respect to parameters 
 ##' a and b
 ##' @param u1 u1
