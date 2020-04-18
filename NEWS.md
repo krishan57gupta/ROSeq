@@ -1,7 +1,7 @@
 
 ## version 0.99.91
 
---- no bug, but removed extra files from man folder
+--- no bug, but corrected package version format
 
 ## version 1.99.01
 
