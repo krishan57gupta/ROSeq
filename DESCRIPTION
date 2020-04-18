@@ -23,9 +23,11 @@ Imports:
     pbmcapply,
     edgeR,
     limma
-Suggests: 
+Suggests:
     knitr,
     rmarkdown,
-    testthat
+    testthat,
+    RUnit, 
+    BiocGenerics
 VignetteBuilder: 
     knitr
