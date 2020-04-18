@@ -4,13 +4,13 @@
 
 ### Bugfixes
 
-- no bug, but i corrected all previous issues of 11 dec as shown below
-- corrected i have listed all praram in documentation
-- changed according <- or =
-- used importFrom methods of package instead of whole package.
+- no bug, but i corrected all previous issues of 11 Dec as shown below
+- corrected i have listed all program in documentation
+- changed according to <- or =
+- used importFrom methods of the package instead of the whole package.
 - print removed from code
-- used seq_len() this time istead of :
-- no need of message required 
+- used seq_len() this time instead of :
+- no need for message required 
 - used vapply function this time
 - getd2logAdbda<-getd2logAdb2<-getd2logAdadb<-getd2logAda2 issue solved
 - last issue of BiocManager::install('ROSeq') solved
