@@ -1,7 +1,7 @@
 Type: Package
 Package: ROSeq
 Title: A Rank Based Approach to Modeling Gene Expression
-Version: 0.99.7
+Version: 0.99.5
 Authors@R: c(person("Krishan", "Gupta", email = "krishang@iiitd.ac.in", 
     role = c("aut","cre")), person("Debarka", "Sengupta", 
     email = "debarka@gmail.com", role = c("aut")))
@@ -26,6 +26,8 @@ Imports:
 Suggests: 
     knitr,
     rmarkdown,
-    testthat
+    testthat,
+    RUnit, 
+    BiocGenerics
 VignetteBuilder: 
     knitr
