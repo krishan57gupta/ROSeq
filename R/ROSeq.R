@@ -155,13 +155,6 @@ findParams<-function(ds, geneStats)
         UL <-meands+(i+step)*stdds
         length(intersect(which(ds<UL), which(ds>=LL)))
     }, numeric(1))
-    if(sum(is.na(rs))>0)
-    {
-        error<-"nul values found"
-        error
-        rs
-        rs<-rs[!is.na(rs)]
-    }
     fds<-rs
     number_of_bins<-length(fds)
     rank<-seq_len(number_of_bins)
@@ -174,12 +167,6 @@ findParams<-function(ds, geneStats)
     b<-model$par[2]
     A<-1/sum((number_of_bins+1-rank)^b/(rank^a))
     f<-A*((number_of_bins+1-rank)^b)/(rank^a)
-    if(sum(is.na(f))>0)
-    {
-        error<-"finding very high or low value"
-        error
-        f[seq_len(10)]
-    }
     SS_res<-sum((normalized_read_count_sorted-f)^2)
     SS_tot<-sum((normalized_read_count_sorted-
     mean(normalized_read_count_sorted))^2)
