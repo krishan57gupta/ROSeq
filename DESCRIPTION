@@ -2,8 +2,11 @@ Type: Package
 Package: ROSeq
 Title: A Rank Based Approach to Modeling Gene Expression
 Version: 0.99.22
-Authors@R: c(person("Krishan", "Gupta", email = "krishang@iiitd.ac.in", 
-    role = c("aut","cre")), person("Debarka", "Sengupta", 
+Authors@R: c(person("Krishan", "Gupta", 
+    email = "krishang@iiitd.ac.in", role = c("aut","cre")), 
+    person("Abhik", "Ghosh", 
+    email = "abhianik@gmail.com", role = c("aut")),
+    person("Debarka", "Sengupta", 
     email = "debarka@gmail.com", role = c("aut")))
 Description: A rank based approach to modeling gene expression with 
     filtered and normalized read count matrix. Takes in the complete filtered 
@@ -15,7 +18,7 @@ License: GPL-3
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.0
-Depends: R (>= 4.0)
+Depends: R (>= 3.6)
 biocViews: 
     GeneExpression,
     DifferentialExpression
