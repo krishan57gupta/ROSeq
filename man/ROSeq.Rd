@@ -35,6 +35,6 @@ countData$count<-countData$count[,colSums(countData$count> 0) > 2000]
 g_keep <- apply(countData$count,1,function(x) sum(x>2)>=3)
 countData$count<-countData$count[g_keep,]
 countData$count<-limma::voom(ROSeq::TMMnormalization(countData$count))
-output<-ROSeq(countData=countData$count, condition = countData$group)
+output<-ROSeq(countData=countData$count$E, condition = countData$group)
 output
 }
