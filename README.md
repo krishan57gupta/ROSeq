@@ -124,3 +124,9 @@ output[1:5,]
 #> ENSG00000188157 0.5138812 0.9082800 -0.06789033
 #> ENSG00000131591 0.1235577 0.7438811 -0.07333149
 ```
+
+## Publication:
+
+Gupta, K., Lalit, M., Biswas, A., Ahuja, G., Ghosh, A. and Sengupta, D.,
+2020. ROSeq: Noise-tolerant differential expression analysis of
+scRNA-Seq data. DOI: <https://doi.org/10.1101/374025>
