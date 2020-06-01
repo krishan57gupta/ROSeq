@@ -60,7 +60,7 @@ library(edgeR)
 library(limma)
 ```
 
-## Loading tung dataset
+### Loading tung dataset
 ```{r data, message=FALSE,warning = FALSE,include=TRUE, cache=FALSE}
 samples<-list()
 samples$count<-ROSeq::L_Tung_single$NA19098_NA19101_count
@@ -68,7 +68,7 @@ samples$group<-ROSeq::L_Tung_single$NA19098_NA19101_group
 samples$count[1:5,1:5]
 ```
 
-## Data Preprocessing: 
+### Data Preprocessing: 
 #### Cells and genes filtering then voom transformation after TMM normalization
 First convert matrix to numeric values, then cell filtering, gene filtering. 
 After all finally normalization and then tranformation. 
@@ -85,7 +85,7 @@ samples$count<-samples$count[gkeep,]
 samples$count<-limma::voom(ROSeq::TMMnormalization(samples$count))
 ```
 
-## ROSeq calling: 
+### ROSeq calling: 
 Requires a matrix with row as genes and columns and cells, 
 and also condition of cells, means lables for each cell. 
 numCores can be set as per number of core/cpu avaialble.
@@ -94,7 +94,7 @@ numCores can be set as per number of core/cpu avaialble.
 output<-ROSeq(countData=samples$count, condition = samples$group, numCores=1)
 ```
 
-## Showing results are in the form of pVals, pAdj and log2FC
+### Showing results are in the form of pVals, pAdj and log2FC
 ##### p_Vals : p_value (unadjusted)
 ##### p_Adj : Adjusted p-value, based on FDR method
 ##### log2FC : log fold-chage of the average expression between the two groups,
