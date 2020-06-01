@@ -83,6 +83,7 @@ samples$count<-samples$count[,colSums(samples$count> 0) > 2000]
 gkeep<-apply(samples$count,1,function(x) sum(x>2)>=3)
 samples$count<-samples$count[gkeep,]
 samples$count<-limma::voom(ROSeq::TMMnormalization(samples$count))
+samples$count[1:5,1:5]
 ```
 
 ### ROSeq calling: 
