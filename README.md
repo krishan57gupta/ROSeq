@@ -78,9 +78,9 @@ samples$count[1:5,1:5]
 #### Cells and genes filtering then voom transformation after TMM normalization
 
 First convert matrix to numeric values, then cell filtering, gene
-filtering. After all finally normalization and then tranformation.
-\#\#\#\# Note: For filtering, normalization and tranfromation other
-methods can be used, but recomended as shown in example.
+filtering. After all finally normalization and then tranformation. Note:
+For filtering, normalization and tranfromation other methods can be
+used, but recomended as shown in example.
 
 ``` r
 gene_names<-rownames(samples$count)

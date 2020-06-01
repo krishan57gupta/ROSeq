@@ -71,9 +71,8 @@ samples$count[1:5,1:5]
 ## Data Preprocessing: 
 #### Cells and genes filtering then voom transformation after TMM normalization
 First convert matrix to numeric values, then cell filtering, gene filtering. 
-After all finally normalization and then tranformation.
-#### Note: 
-For filtering, normalization and tranfromation other methods can be 
+After all finally normalization and then tranformation. 
+Note: For filtering, normalization and tranfromation other methods can be 
 used, but recomended as shown in example.
 
 ```{r preprocesing, message=FALSE,warning = FALSE,include=TRUE, cache=FALSE}
