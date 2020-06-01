@@ -52,7 +52,7 @@ library(edgeR)
 library(limma)
 ```
 
-## Loading tung dataset
+### Loading tung dataset
 
 ``` r
 samples<-list()
@@ -73,7 +73,7 @@ samples$count[1:5,1:5]
 #> ENSG00000187583              0
 ```
 
-## Data Preprocessing:
+### Data Preprocessing:
 
 #### Cells and genes filtering then voom transformation after TMM normalization
 
@@ -92,7 +92,7 @@ samples$count<-samples$count[gkeep,]
 samples$count<-limma::voom(ROSeq::TMMnormalization(samples$count))
 ```
 
-## ROSeq calling:
+### ROSeq calling:
 
 Requires a matrix with row as genes and columns and cells, and also
 condition of cells, means lables for each cell. numCores can be set as
@@ -103,7 +103,7 @@ avaialble.
 output<-ROSeq(countData=samples$count, condition = samples$group, numCores=1)
 ```
 
-## Showing results are in the form of pVals, pAdj and log2FC
+### Showing results are in the form of pVals, pAdj and log2FC
 
 ##### p\_Vals : p\_value (unadjusted)
 
