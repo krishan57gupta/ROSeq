@@ -83,7 +83,6 @@ samples$count<-samples$count[,colSums(samples$count> 0) > 2000]
 gkeep<-apply(samples$count,1,function(x) sum(x>2)>=3)
 samples$count<-samples$count[gkeep,]
 samples$count<-limma::voom(ROSeq::TMMnormalization(samples$count))
-samples$count[1:5,1:5]
 ```
 
 ### ROSeq calling: 
@@ -92,7 +91,7 @@ and also condition of cells, means lables for each cell.
 numCores can be set as per number of core/cpu avaialble.
 
 ```{r main, message=FALSE,warning = FALSE, include=TRUE, cache=FALSE}
-output<-ROSeq(countData=samples$count, condition = samples$group, numCores=1)
+output<-ROSeq(countData=samples$count$E, condition = samples$group, numCores=1)
 ```
 
 ### Showing results are in the form of pVals, pAdj and log2FC

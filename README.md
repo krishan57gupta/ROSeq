@@ -90,45 +90,6 @@ samples$count<-samples$count[,colSums(samples$count> 0) > 2000]
 gkeep<-apply(samples$count,1,function(x) sum(x>2)>=3)
 samples$count<-samples$count[gkeep,]
 samples$count<-limma::voom(ROSeq::TMMnormalization(samples$count))
-samples$count[1:5,1:5]
-#> An object of class "EList"
-#> $E
-#>                 NA19098.r1.A01 NA19098.r1.A02 NA19098.r1.A03 NA19098.r1.A04
-#> ENSG00000237683       2.802291       2.804566       2.987419       4.682717
-#> ENSG00000188976       5.770647       6.661535       4.952184       5.976300
-#> ENSG00000187608       4.513997       6.869633       2.987419       5.976300
-#> ENSG00000188157       5.275028       5.757815       5.754434       5.976300
-#> ENSG00000131591       2.802291       2.804566       2.987419       2.816648
-#>                 NA19098.r1.A05
-#> ENSG00000237683       2.794454
-#> ENSG00000188976       5.992024
-#> ENSG00000187608       4.400199
-#> ENSG00000188157       5.992024
-#> ENSG00000131591       2.794454
-#> 
-#> $weights
-#>           [,1]      [,2]      [,3]      [,4]      [,5]
-#> [1,] 1.4184242 1.4212757 1.6846335 1.4366229 1.4086566
-#> [2,] 0.8795169 0.8790830 0.8483360 0.8767836 0.8810134
-#> [3,] 0.8243028 0.8242226 0.8277478 0.8238892 0.8245789
-#> [4,] 1.0883898 1.0873328 1.0108909 1.0818630 1.0920407
-#> [5,] 1.5595010 1.5627832 1.8683414 1.5805018 1.5482612
-#> 
-#> $design
-#>                GrandMean
-#> NA19098.r1.A01         1
-#> NA19098.r1.A02         1
-#> NA19098.r1.A03         1
-#> NA19098.r1.A04         1
-#> NA19098.r1.A05         1
-#> 
-#> $targets
-#>                lib.size
-#> NA19098.r1.A01 71678.74
-#> NA19098.r1.A02 71565.78
-#> NA19098.r1.A03 63046.42
-#> NA19098.r1.A04 70968.94
-#> NA19098.r1.A05 72069.19
 ```
 
 ### ROSeq calling:
@@ -139,7 +100,7 @@ per number of core/cpu
 avaialble.
 
 ``` r
-output<-ROSeq(countData=samples$count, condition = samples$group, numCores=1)
+output<-ROSeq(countData=samples$count$E, condition = samples$group, numCores=1)
 ```
 
 ### Showing results are in the form of pVals, pAdj and log2FC
