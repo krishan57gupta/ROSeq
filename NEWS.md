@@ -1,3 +1,7 @@
+## version 0.99.25
+
+--- updated example in main file
+
 ## version 0.99.24
 
 --- updated vignettes and readme files

@@ -34,8 +34,12 @@ install_github('krishan57gupta/ROSeq')
 
 This vignette uses a tung dataset already inbuilt in same package, to
 demonstrate a standard pipeline. This vignette can be used as a tutorial
-as well. Ref: Tung, P.-Y.et al.Batch effects and the effective design of
-single-cell geneexpression studies.Scientific reports7, 39921 (2017).
+as well.
+
+#### Reference of Tung data:
+
+Tung, P.-Y.et al.Batch effects and the effective design of single-cell
+geneexpression studies.Scientific reports7, 39921 (2017).
 
 ## Example
 
@@ -69,19 +73,14 @@ samples$count[1:5,1:5]
 #> ENSG00000187583              0
 ```
 
-## Data Preprocessing: cells and genes filtering then voom transformation
+## Data Preprocessing:
 
-## after TMM normalization
+#### Cells and genes filtering then voom transformation after TMM normalization
 
-#### First convert matrix to numeric values
-
-#### Then cell filtering, gene filtering
-
-#### Finally normalization and then tranformation
-
-#### Note: For filtering, normalization and tranfromation other methods can be
-
-#### used, but recomended as shown in example
+First convert matrix to numeric values, then cell filtering, gene
+filtering. After all finally normalization and then tranformation.
+\#\#\#\# Note: For filtering, normalization and tranfromation other
+methods can be used, but recomended as shown in example.
 
 ``` r
 gene_names<-rownames(samples$count)
@@ -93,13 +92,12 @@ samples$count<-samples$count[gkeep,]
 samples$count<-limma::voom(ROSeq::TMMnormalization(samples$count))
 ```
 
-## ROSeq calling
+## ROSeq calling:
 
-#### Requires a matrix with row as genes and columns and cells
-
-#### condition of cells, means lables for each cell
-
-#### numCores can be set as per number of core/cpu avaialble
+Requires a matrix with row as genes and columns and cells, and also
+condition of cells, means lables for each cell. numCores can be set as
+per number of core/cpu
+avaialble.
 
 ``` r
 output<-ROSeq(countData=samples$count, condition = samples$group, numCores=1)
@@ -107,13 +105,15 @@ output<-ROSeq(countData=samples$count, condition = samples$group, numCores=1)
 
 ## Showing results are in the form of pVals, pAdj and log2FC
 
-#### p\_Vals : p\_value (unadjusted)
+##### p\_Vals : p\_value (unadjusted)
 
-#### p\_Adj : Adjusted p-value, based on FDR method
+##### p\_Adj : Adjusted p-value, based on FDR method
 
-#### log2FC : log fold-chage of the average expression between the two groups,
+##### log2FC : log fold-chage of the average expression between the two groups,
 
-#### Positive values show feature is highly enriched in the first group.
+#### Note:
+
+Positive values show feature is highly enriched in the first group.
 
 ``` r
 output[1:5,]
