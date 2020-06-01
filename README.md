@@ -73,27 +73,54 @@ samples$count[1:5,1:5]
 
 ## after TMM normalization
 
+### First convert matrix to numeric values
+
+### Then cell filtering, gene filtering
+
+### Finally normalization and then tranformation
+
+### Note: For filtering, normalization and tranfromation other methods can be
+
+### used, but recomended as shown in example
+
 ``` r
-samples$count=apply(samples$count,2,function(x) as.numeric(x))
-gkeep <- apply(samples$count,1,function(x) sum(x>0)>5)
+gene_name<-rownames(samples$count)
+samples$count<-apply(samples$count,2,function(x) as.numeric(x))
+rownames(samples$count)<-rownames(samples$count)
+samples$count<-samples$count[,colSums(samples$count> 0) > 2000]
+gkeep<-apply(samples$count,1,function(x) sum(x>2)>=3)
 samples$count<-samples$count[gkeep,]
 samples$count<-limma::voom(ROSeq::TMMnormalization(samples$count))
 ```
 
 ## ROSeq calling
 
+### Requires a matrix with row as genes and columns and cells
+
+### condition of cells, means lables for each cell
+
+### numCores can be set as per number of core/cpu avaialble
+
 ``` r
 output<-ROSeq(countData=samples$count, condition = samples$group, numCores=1)
 ```
 
-## Showing results are in the form of pval, padj and log2FC
+## Showing results are in the form of pVals, pAdj and log2FC
+
+### p\_Vals : p\_value (unadjusted)
+
+### p\_Adj : Adjusted p-value, based on FDR method
+
+### log2FC : log fold-chage of the average expression between the two groups,
+
+### Positive values show feature is highly enriched in the first group.
 
 ``` r
 output[1:5,]
-#>             pVals        pAdj      log2FC
-#> [1,] 0.2912653242 0.571901046 -0.03545082
-#> [2,] 0.0003176301 0.006390721 -0.07956817
-#> [3,] 0.6497064020 0.831221721  0.03307939
-#> [4,] 0.0554763840 0.198719347 -0.08567317
-#> [5,] 0.0077068770 0.045497442 -0.05582549
+#>          pVals      pAdj      log2FC
+#> [1,] 0.6741425 0.9321651 -0.02240619
+#> [2,] 0.7484244 0.9426495  0.03652966
+#> [3,] 0.2282451 0.8481636  0.15428280
+#> [4,] 0.5138812 0.9082800 -0.06789033
+#> [5,] 0.1235577 0.7438811 -0.07333149
 ```

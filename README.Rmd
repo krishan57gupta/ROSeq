@@ -68,19 +68,35 @@ samples$count[1:5,1:5]
 
 ## Data Preprocessing: cells and genes filtering then voom transformation 
 ## after TMM normalization
+### First convert matrix to numeric values
+### Then cell filtering, gene filtering
+### Finally normalization and then tranformation
+### Note: For filtering, normalization and tranfromation other methods can be
+### used, but recomended as shown in example
+
 ```{r preprocesing, message=FALSE,warning = FALSE,include=TRUE, cache=FALSE}
-samples$count=apply(samples$count,2,function(x) as.numeric(x))
-gkeep <- apply(samples$count,1,function(x) sum(x>0)>5)
+gene_name<-rownames(samples$count)
+samples$count<-apply(samples$count,2,function(x) as.numeric(x))
+rownames(samples$count)<-rownames(samples$count)
+samples$count<-samples$count[,colSums(samples$count> 0) > 2000]
+gkeep<-apply(samples$count,1,function(x) sum(x>2)>=3)
 samples$count<-samples$count[gkeep,]
 samples$count<-limma::voom(ROSeq::TMMnormalization(samples$count))
 ```
 
 ## ROSeq calling
+### Requires a matrix with row as genes and columns  and cells
+### condition of cells, means lables for each cell
+### numCores can be set as per number of core/cpu avaialble
 ```{r main, message=FALSE,warning = FALSE, include=TRUE, cache=FALSE}
 output<-ROSeq(countData=samples$count, condition = samples$group, numCores=1)
 ```
 
-## Showing results are in the form of pval, padj and log2FC
+## Showing results are in the form of pVals, pAdj and log2FC
+### p_Vals : p_value (unadjusted)
+### p_Adj : Adjusted p-value, based on FDR method
+### log2FC : log fold-chage of the average expression between the two groups,
+### Positive values show feature is highly enriched in the first group.
 ```{r output, message=FALSE,warning = FALSE,include=TRUE, cache=FALSE}
 output[1:5,]
 ```

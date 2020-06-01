@@ -13,8 +13,11 @@
 ##' countData$count<-ROSeq::L_Tung_single$NA19098_NA19101_count
 ##' countData$group<-ROSeq::L_Tung_single$NA19098_NA19101_group
 ##' head(countData$count)
+##' gene_name<-rownames(countData$count)
 ##' countData$count<-apply(countData$count,2,function(x) as.numeric(x))
-##' g_keep <- apply(countData$count,1,function(x) sum(x>0)>5)
+##' rownames(countData$count)<-rownames(countData$count)
+##' countData$count<-countData$count[,colSums(countData$count> 0) > 2000]
+##' g_keep <- apply(countData$count,1,function(x) sum(x>2)>=3)
 ##' countData$count<-countData$count[g_keep,]
 ##' countData$count<-limma::voom(ROSeq::TMMnormalization(countData$count))
 ##' output<-ROSeq(countData=countData$count, condition = countData$group)

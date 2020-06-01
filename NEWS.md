@@ -1,3 +1,7 @@
+## version 0.99.24
+
+--- updated vignettes and readme files
+
 ## version 0.99.23
 
 --- updated authors names
