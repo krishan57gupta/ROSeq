@@ -27,6 +27,6 @@ size \eqn{k * \sigma}, where k is a scalar with a default value
 of 0.05, and \eqn{\sigma} is the standard deviation of the pulled 
 expression estimates across the cell-groups. 
 Each of these bins corresponds to a rank. Therefore, for each group, cell
-frequency for each bin maps to a rank.  These frequencies are normalized 
+frequency for each bin maps to a rank. These frequencies are normalized 
 group-wise by dividing by the total cell count within a concerned group.
 }
