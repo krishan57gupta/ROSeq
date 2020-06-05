@@ -105,5 +105,6 @@ output[1:5,]
 ```
 
 ## Publication:
-Gupta, K., Lalit, M., Biswas, A., Ahuja, G., Ghosh, A. and Sengupta, D., 2020. ROSeq: Noise-tolerant differential expression analysis of scRNA-Seq data.
+Gupta, K., Lalit, M., Biswas, A., Ahuja, G., Ghosh, A. and Sengupta, D., 2020. 
+ROSeq: Noise-tolerant differential expression analysis of scRNA-Seq data.
 DOI: https://doi.org/10.1101/374025

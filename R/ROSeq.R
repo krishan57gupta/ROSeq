@@ -135,7 +135,7 @@ getDataStatistics<-function(sp, spOne, spTwo)
 ##' of 0.05, and \eqn{\sigma} is the standard deviation of the pulled 
 ##' expression estimates across the cell-groups. 
 ##' Each of these bins corresponds to a rank. Therefore, for each group, cell
-##' frequency for each bin maps to a rank.  These frequencies are normalized 
+##' frequency for each bin maps to a rank. These frequencies are normalized 
 ##' group-wise by dividing by the total cell count within a concerned group.
 ##' @param ds The (normalized and filtered) read count data corresponding to 
 ##' a sub-population
@@ -146,11 +146,13 @@ getDataStatistics<-function(sp, spOne, spTwo)
 ##' @return results A vector containing 5 values (a, b, A, number of bins, R2)
 findParams<-function(ds, geneStats)
 {
-    step<-.05
     meands<-geneStats[3]
     stdds<-geneStats[4]
     ceilds<-geneStats[5]
     floords<-geneStats[6]
+    step<-.05
+    if((ceilds-floords)/1000>.05)
+        step=(ceilds-floords)/1000
     binNumber<-length(seq(floords, ceilds-step, step))
     rs<-vapply(seq(floords, ceilds-step, step),function(i)
     {
@@ -264,7 +266,7 @@ getI<-function(results)
 }
 
 ##' @title Computes u1
-##' @description u1, v and u2 constitute the equations required for evaluating
+##' @description u1, v and u2 constitute the equations required for evaluating 
 ##' the first and second order derivatives of A with respect to parameters 
 ##' a and b
 ##' @param coefficients the optimal values of a and b
