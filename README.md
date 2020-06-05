@@ -125,7 +125,7 @@ output[1:5,]
 #> ENSG00000131591 0.1235577 0.7438811 -0.07333149
 ```
 
-## Publication:
+## Publication (Preprint available at BioRxiv):
 
 Gupta, K., Lalit, M., Biswas, A., Ahuja, G., Ghosh, A. and Sengupta, D.,
 2020. ROSeq: Noise-tolerant differential expression analysis of
