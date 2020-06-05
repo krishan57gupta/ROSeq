@@ -1,7 +1,7 @@
 Type: Package
 Package: ROSeq
 Title: A Rank Based Approach to Modeling Gene Expression
-Version: 0.99.26
+Version: 0.99.27
 Authors@R: c(person("Krishan", "Gupta", 
     email = "krishang@iiitd.ac.in", role = c("aut","cre")), 
     person("Abhik", "Ghosh", 
