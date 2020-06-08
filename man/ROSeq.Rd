@@ -2,8 +2,8 @@
 % Please edit documentation in R/ROSeq.R
 \name{ROSeq}
 \alias{ROSeq}
-\title{A rank based approach to modeling gene expression with filtered
-and normalized read count matrix}
+\title{Modeling expression ranks for noise-tolerant differential 
+expression analysis of scRNA-Seq data}
 \usage{
 ROSeq(countData, condition, numCores = 1)
 }
