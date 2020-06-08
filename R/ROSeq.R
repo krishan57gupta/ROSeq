@@ -151,7 +151,7 @@ findParams<-function(ds, geneStats)
     ceilds<-geneStats[5]
     floords<-geneStats[6]
     step<-.05
-    if((ceilds-floords)/1000>.05)
+    if((ceilds-floords)/1000>step)
         step=(ceilds-floords)/1000
     binNumber<-length(seq(floords, ceilds-step, step))
     rs<-vapply(seq(floords, ceilds-step, step),function(i)
