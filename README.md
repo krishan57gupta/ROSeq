@@ -1,9 +1,10 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# ROSeq - A rank based approach to modeling gene expression
+# ROSeq
 
-Author: Krishan Gupta
+Modeling expression ranks for noise-tolerant differential expression
+analysis of scRNA-Seq data
 
 ## Introduction
 

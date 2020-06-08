@@ -1,5 +1,5 @@
-##' @title A rank based approach to modeling gene expression with filtered
-##' and normalized read count matrix
+##' @title Modeling expression ranks for noise-tolerant differential 
+##' expression analysis of scRNA-Seq data
 ##' @description Takes in the complete filtered and normalized read count
 ##' matrix, the location of the two sub-populations and the number of cores
 ##' to be used
