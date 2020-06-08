@@ -4,7 +4,7 @@
 # ROSeq
 
 Modeling expression ranks for noise-tolerant differential expression
-analysis of scRNA-Seq data
+analysis of scRNA-Seq data.
 
 ## Introduction
 
@@ -128,7 +128,7 @@ output[1:5,]
 
 ## Publication (preprint available at bioRxiv):
 
-Gupta, K., Lalit, M., Biswas, A., Maulik, U., Bandyopadhyay, S. Ahuja,
-G., Ghosh, A. and Sengupta, D., 2020. ROSeq: Noise-tolerant differential
-expression analysis of scRNA-Seq data. DOI:
+Gupta, K., Lalit, M., Biswas, A., Maulik, U., Bandyopadhyay, S., Ahuja,
+G., Ghosh, A., and Sengupta, D., 2020. ROSeq: Noise-tolerant
+differential expression analysis of scRNA-Seq data. DOI:
 <https://doi.org/10.1101/374025>
