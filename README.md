@@ -132,3 +132,7 @@ Gupta, K., Lalit, M., Biswas, A., Maulik, U., Bandyopadhyay, S., Ahuja,
 G., Ghosh, A., and Sengupta, D., 2020. ROSeq: Noise-tolerant
 differential expression analysis of scRNA-Seq data. DOI:
 <https://doi.org/10.1101/374025>
+
+## All the coding files related to the analysis done in the paper:
+
+Available at github, the link for the same: https://github.com/krishan57gupta/ROSeq/tree/master/doc/paper_analysis_code
