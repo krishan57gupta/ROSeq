@@ -2,7 +2,7 @@ Type: Package
 Package: ROSeq
 Title:  Modeling expression ranks for noise-tolerant differential expression 
     analysis of scRNA-Seq data
-Version: 1.1.7
+Version: 1.1.8
 Authors@R: c(person("Krishan", "Gupta", 
     email = "krishang@iiitd.ac.in", role = c("aut","cre")), 
     person("Abhik", "Ghosh", 
