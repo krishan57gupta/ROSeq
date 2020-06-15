@@ -12,7 +12,7 @@ findParams(ds, geneStats)
 a sub-population}
 
 \item{geneStats}{A vector containing 7 values corresponding to the gene 
-data (maximum, minimum, mean, standard deviation, upper multiple of 
+data (maximum, minimum, mean, standard deviation, upper multiple of the
 standard deviation, lower multiple of standard deviation and 
 log_{2}(fold change))}
 }
