@@ -140,7 +140,7 @@ getDataStatistics<-function(sp, spOne, spTwo)
 ##' @param ds The (normalized and filtered) read count data corresponding to 
 ##' a sub-population
 ##' @param geneStats A vector containing 7 values corresponding to the gene 
-##' data (maximum, minimum, mean, standard deviation, upper multiple of 
+##' data (maximum, minimum, mean, standard deviation, upper multiple of the
 ##' standard deviation, lower multiple of standard deviation and 
 ##' log_{2}(fold change))
 ##' @return results A vector containing 5 values (a, b, A, number of bins, R2)
@@ -151,9 +151,13 @@ findParams<-function(ds, geneStats)
     ceilds<-geneStats[5]
     floords<-geneStats[6]
     step<-.05
-    if((ceilds-floords)/1000>step)
-        step=(ceilds-floords)/1000
+    # if((ceilds-floords)/1000>step)
+    #     step<-(ceilds-floords)/1000
+    
     binNumber<-length(seq(floords, ceilds-step, step))
+    opt_limit=50
+    opt_limit<-as.integer(log(1.7e300,binNumber)/2)
+    
     rs<-vapply(seq(floords, ceilds-step, step),function(i)
     {
         LL<- meands+i*stdds
@@ -167,7 +171,7 @@ findParams<-function(ds, geneStats)
     normalized_read_count_sorted<-read_count_sorted/sum(read_count_sorted)
     model<-stats::optim(par = c(0.25, 3), minimizeNLL, r=rank, 
         readCount=normalized_read_count_sorted, method = "L-BFGS-B", 
-            lower=c(-50,-50), upper=c(50,50))
+            lower=c(-opt_limit,-opt_limit), upper=c(opt_limit,opt_limit))
     a<-model$par[1]
     b<-model$par[2]
     A<-1/sum((number_of_bins+1-rank)^b/(rank^a))
