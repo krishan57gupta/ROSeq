@@ -4,27 +4,33 @@
 # ROSeq
 
 Modeling expression ranks for noise-tolerant differential expression
-analysis of scRNA-Seq data.
+analysis of scRNA-Seq data
 
 ## Introduction
 
 ROSeq - A rank based approach to modeling gene expression with filtered
-and normalized read count matrix. Takes in the complete filtered and
-normalized read count matrix, the location of the two sub-populations
-and the number of cores to be used.
+and normalized read count matrix. ROSeq takes filtered and normalized
+read matrix and cell-annotation/condition as input and determines the
+differentially expressed genes between the contrasting groups of single
+cells. One of the input parameters is the number of cores to be used.
 
 ## Installation
 
-The developer version of the R package can be installed with the
+The developer’s version of the R package can be installed with the
 following R commands:
 
 ``` r
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
-BiocManager::install('ROSeq')
+
+# The following initializes usage of Bioc devel
+BiocManager::install(version='devel')
+
+BiocManager::install("ROSeq")
 ```
 
-or can be installed with the following R commands:
+The github’s version of the R package can be installed with the
+following R commands:
 
 ``` r
 library(devtools)
@@ -33,14 +39,8 @@ install_github('krishan57gupta/ROSeq')
 
 ## Vignette tutorial
 
-This vignette uses a tung dataset already inbuilt in same package, to
-demonstrate a standard pipeline. This vignette can be used as a tutorial
-as well.
-
-#### Reference of Tung data:
-
-Tung, P.-Y.et al.Batch effects and the effective design of single-cell
-geneexpression studies.Scientific reports7, 39921 (2017).
+This vignette uses the Tung dataset, which is already inbuilt in the
+package, to demonstrate a standard pipeline.
 
 ## Example
 
@@ -78,10 +78,10 @@ samples$count[1:5,1:5]
 
 #### Cells and genes filtering then voom transformation after TMM normalization
 
-First convert matrix to numeric values, then cell filtering, gene
-filtering. After all finally normalization and then tranformation. Note:
-For filtering, normalization and tranfromation other methods can be
-used, but recomended as shown in example.
+Below commands can be used for Cell/gene filtering, TMM normalization
+and voom transformation. The user is free to use an alternative
+preprocessing strategy while using different filtering/normalization
+methods.
 
 ``` r
 gene_names<-rownames(samples$count)
@@ -93,12 +93,12 @@ samples$count<-samples$count[gkeep,]
 samples$count<-limma::voom(ROSeq::TMMnormalization(samples$count))
 ```
 
-### ROSeq calling:
+### ROSeq analysis.
 
-Requires a matrix with row as genes and columns and cells, and also
-condition of cells, means lables for each cell. numCores can be set as
-per number of core/cpu
-avaialble.
+Input: gene expression matrix with genes in rows and cells in columns.
+Condition/group annotation of cells also need to be supplied. User can
+set numCores based the hardware specifications in her
+computer.
 
 ``` r
 output<-ROSeq(countData=samples$count$E, condition = samples$group, numCores=1)
