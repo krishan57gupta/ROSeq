@@ -110,11 +110,9 @@ output<-ROSeq(countData=samples$count$E, condition = samples$group, numCores=1)
 
 ##### p\_Adj : Adjusted p-value, based on FDR method
 
-##### log2FC : log fold-chage of the average expression between the two groups,
+##### log2FC : log fold change of the average expression between the two groups,
 
-#### Note:
-
-Positive values show feature is highly enriched in the first group.
+positive log fold change indicates upregulation in group 1.
 
 ``` r
 output[1:5,]
