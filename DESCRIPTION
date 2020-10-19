@@ -4,7 +4,9 @@ Title: Modeling expression ranks for noise-tolerant differential expression
     analysis of scRNA-Seq data
 Version: 1.1.11
 Authors@R: c(person("Krishan", "Gupta", 
-    email = "krishang@iiitd.ac.in", role = c("aut","cre")), 
+    email = "krishang@iiitd.ac.in", role = c("aut","cre")),
+    person("Manan", "Lalit", 
+    email = "manan.lalit@gmail.com", role = c("aut")),
     person("Abhik", "Ghosh", 
     email = "abhianik@gmail.com", role = c("aut")),
     person("Debarka", "Sengupta", 
