@@ -2,20 +2,23 @@ Type: Package
 Package: ROSeq
 Title: Modeling expression ranks for noise-tolerant differential expression 
     analysis of scRNA-Seq data
-Version: 1.1.13
+Version: 1.3.01
 Authors@R: c(person("Krishan", "Gupta", 
     email = "krishang@iiitd.ac.in", role = c("aut","cre")),
     person("Manan", "Lalit", 
     email = "manan.lalit@gmail.com", role = c("aut")),
+    person("Aditya", "Biswas", 
+    email = "Adbiswa@microsoft.com", role = c("aut")),
     person("Abhik", "Ghosh", 
     email = "abhianik@gmail.com", role = c("aut")),
     person("Debarka", "Sengupta", 
     email = "debarka@gmail.com", role = c("aut")))
-Description: ROSeq - A rank based approach to modeling gene expression with filtered and
-    normalized read count matrix. ROSeq takes filtered and normalized read matrix 
-    and cell-annotation/condition as input and determines the differentially
-    expressed genes between the contrasting groups of single cells. One of the 
-    input parameters is the number of cores to be used.
+Description: ROSeq - A rank based approach to modeling gene expression
+    with filtered and normalized read count matrix. ROSeq takes
+    filtered and normalized read matrix and cell-annotation/condition
+    as input and determines the differentially expressed genes between 
+    the contrasting groups of single cells. One of the input parameters
+    is the number of cores to be used.
 URL: https://github.com/krishan57gupta/ROSeq
 BugReports: https://github.com/krishan57gupta/ROSeq/issues
 License: GPL-3
@@ -25,7 +28,8 @@ RoxygenNote: 7.1.1
 Depends: R (>= 4.0)
 biocViews: 
     GeneExpression,
-    DifferentialExpression
+    DifferentialExpression,
+    SingleCell
 Imports: 
     pbmcapply,
     edgeR,
