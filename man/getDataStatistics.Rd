@@ -17,9 +17,9 @@ to the first sub-population}
 to the second sub-population}
 }
 \value{
-geneStats A vector containing 7 values corresponding to the gene 
+geneStats A vector containing 6 values corresponding to the gene 
 data(maximum, minimum, mean, standard deviation, upper multiple of standard
-deviation, lower multiple of standard deviation and log2(fold change))
+deviation and lower multiple of standard deviation)
 }
 \description{
 Takes in the complete read count vector corresponding to the

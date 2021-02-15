@@ -99,15 +99,7 @@ output<-ROSeq(countData=samples$count$E, condition = samples$group, numCores=1)
 ### Showing results are in the form of pVals, pAdj and log2FC
 ##### p_Vals : p_value (unadjusted)
 ##### p_Adj : Adjusted p-value, based on FDR method
-##### log2FC : log fold change of the average expression between the two groups,
-positive log fold change indicates upregulation in group 1.
 
 ```{r output, message=FALSE,warning = FALSE,include=TRUE, cache=FALSE}
 output[1:5,]
 ```
-
-## Publication (preprint available at bioRxiv):
-Gupta, K., Lalit, M., Biswas, A., Maulik, U., Bandyopadhyay, S., Ahuja, G., 
-Ghosh, A., and Sengupta, D., 2020. 
-ROSeq: Noise-tolerant differential expression analysis of scRNA-Seq data. 
-DOI: https://doi.org/10.1101/374025

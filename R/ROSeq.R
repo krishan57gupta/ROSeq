@@ -7,7 +7,7 @@
 ##' row names as genes name/ID and column names as sample id/name
 ##' @param condition Labels for the two sub-populations
 ##' @param numCores The number of cores to be used
-##' @return pValues A vector containing FDR adjusted p significance values
+##' @return pValues and FDR adjusted p significance values
 ##' @examples 
 ##' countData<-list()
 ##' countData$count<-ROSeq::L_Tung_single$NA19098_NA19101_count
@@ -38,9 +38,8 @@ ROSeq<-function(countData, condition, numCores = 1)
         scdata=countData,scgroups=scgroups, classOne=cOne, classTwo=cTwo, 
             mc.cores=numCores)
     pVals<-unlist(lapply(results,function(x) x[[12]]))
-    log2FC<-unlist(lapply(results,function(x) x[[13]]))
     pAdj<-stats::p.adjust(pVals, method = "fdr")
-    results<-cbind("pVals"=pVals,"pAdj"=pAdj,"log2FC"=log2FC)
+    results<-cbind("pVals"=pVals,"pAdj"=pAdj)
     rownames(results)<-rownames(countData)
     return(results)
 }
@@ -77,7 +76,7 @@ initiateAnalysis<-function(gene, scdata, scgroups, classOne, classTwo)
     combinedResults<-c(results_groupOne[1], results_groupOne[2], 
     results_groupOne[3], results_groupOne[4], results_groupOne[5], 
     results_groupTwo[1], results_groupTwo[2], results_groupTwo[3], 
-    results_groupTwo[4], results_groupTwo[5], T, pValues, geneStats[7])
+    results_groupTwo[4], results_groupTwo[5], T, pValues)
     return(combinedResults)
 }
 
@@ -93,9 +92,9 @@ initiateAnalysis<-function(gene, scdata, scgroups, classOne, classTwo)
 ##' to the first sub-population
 ##' @param spTwo The (normalized and filtered) read count data corresponding 
 ##' to the second sub-population
-##' @return geneStats A vector containing 7 values corresponding to the gene 
+##' @return geneStats A vector containing 6 values corresponding to the gene 
 ##' data(maximum, minimum, mean, standard deviation, upper multiple of standard
-##' deviation, lower multiple of standard deviation and log2(fold change))
+##' deviation and lower multiple of standard deviation)
 getDataStatistics<-function(sp, spOne, spTwo)
 {
     maxds<-max(sp)
@@ -104,24 +103,11 @@ getDataStatistics<-function(sp, spOne, spTwo)
     stdds<-stats::sd(sp)
     if(minds==maxds)
     {
-        maxds<-minds+.001
-        meands<-minds+.0005
-        stdds<-.0001
+        print("Please remove genes with constant expression across the cells.")
     }
     ceilds<-ceiling((maxds-meands)/stdds)
     floords<-floor((minds-meands)/stdds)
-    f_m<-mean(spOne)
-    s_m<-mean(spTwo)
-    if(s_m==0)
-    {
-        s_m<-0.0000001
-    }
-    if(f_m==0)
-    {
-        f_m<-0.0000001
-    }
-    log2FC<-log2(f_m/s_m)
-    geneStats<-c(maxds, minds, meands, stdds, ceilds, floords,log2FC)
+    geneStats<-c(maxds, minds, meands, stdds, ceilds, floords)
     return (geneStats)
 }
 
@@ -151,13 +137,8 @@ findParams<-function(ds, geneStats)
     ceilds<-geneStats[5]
     floords<-geneStats[6]
     step<-.05
-    # if((ceilds-floords)/1000>step)
-    #     step<-(ceilds-floords)/1000
-    
     binNumber<-length(seq(floords, ceilds-step, step))
-    opt_limit=50
     opt_limit<-as.integer(log(1.7e300,binNumber)/2)
-    
     rs<-vapply(seq(floords, ceilds-step, step),function(i)
     {
         LL<- meands+i*stdds

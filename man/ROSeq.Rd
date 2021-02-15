@@ -16,7 +16,7 @@ row names as genes name/ID and column names as sample id/name}
 \item{numCores}{The number of cores to be used}
 }
 \value{
-pValues A vector containing FDR adjusted p significance values
+pValues and FDR adjusted p significance values
 }
 \description{
 Takes in the complete filtered and normalized read count
