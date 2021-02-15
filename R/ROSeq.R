@@ -103,7 +103,7 @@ getDataStatistics<-function(sp, spOne, spTwo)
     stdds<-stats::sd(sp)
     if(minds==maxds)
     {
-        print("Please remove genes with constant expression across the cells.")
+        stop("Please remove genes with constant expression across the cells.")
     }
     ceilds<-ceiling((maxds-meands)/stdds)
     floords<-floor((minds-meands)/stdds)
