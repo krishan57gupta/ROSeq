@@ -104,7 +104,7 @@ computer.
 output<-ROSeq(countData=samples$count$E, condition = samples$group, numCores=1)
 ```
 
-### Showing results are in the form of pVals, pAdj and log2FC
+### Showing results are in the form of pVals and pAdj
 
 ##### p\_Vals : p\_value (unadjusted)
 
